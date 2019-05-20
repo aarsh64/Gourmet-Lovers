@@ -1,0 +1,63 @@
+
+    <div >
+      <nav>
+         <a routerLink="/restaurantDetails" routerLinkActive="active"></a>
+       </nav>
+       <router-outlet></router-outlet>
+     </div>
+    
+    
+     <div #login>
+
+    <div class="container">
+        <form [formGroup]="userForm" class="text-center border border-light p-5" autocomplete="on">
+          <h2 style="background-color:#FF6347;color: white; border-radius: 25px;
+          padding: 20px; 
+          width: 400px;
+          height: 10px; text-align: center; "   class="card text-white bg-info mb-2">Login Board</h2>
+       
+          <div class="form-group">
+              <label>Username: &nbsp;</label> 
+               <input type="text" class="fontSet" placeholder="your prefered name" formControlName="email"  required />
+            </div>
+            <br>
+          <div class="form-group">
+            <label>Email address: &nbsp; </label> 
+             <input type="email" class="fontSet" placeholder="eg: email@email.com" formControlName="email" class="form-control" required />
+          </div>
+          <br>
+          <div class="form-group">
+            <label>Password: &nbsp;</label>
+            <input type="password" class="fontSet" formControlName="password" required />
+          </div>
+          <br>
+          <button type="signup" class="buttonSet" style='padding: 10px;
+          text-align: center;
+          text-decoration: none;
+          
+          border-radius: 12px;
+          color:black;
+          margin-right:16px' (click)="signUp()" [disabled]="
+            !(
+              this.userForm.controls.email.valid &&
+              this.userForm.controls.password.valid
+            )
+          ">
+            SignUp
+          </button>
+    
+          <button  class="buttonSet" style='padding: 10px;
+          text-align: center;
+          text-decoration: none;
+          border-radius: 12px;
+          color:black;
+          margin-right:16px' (click)="Login()" [disabled]="
+            !( 
+              this.userForm.controls.email.valid &&
+              this.userForm.controls.password.valid
+            )" >
+            Login
+        </button>   
+        </form>
+    </div> 
+  </div>

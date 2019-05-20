@@ -1,0 +1,160 @@
+<div>
+  <a routerLink="/restaurantDetails" routerLinkActive="active"></a>
+</div>
+
+
+
+<div class="activityContainer" *ngIf="afAuth.user | async as user">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-danger">
+  <div class="navbar-header">
+    <h4
+      style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+      class="navbar-brand-header" >
+      <b>Dashboard</b>
+    </h4>
+  </div>
+  <div>
+    <a
+      style="font-size: 15px"
+      class="navbar-brand"
+      data-toggle="tooltip"
+      data-placement="bottom"
+      title="will lead you to your activities"
+      routerLink="/userdata"
+      routerLinkActive="active"
+      ><b>Profile</b></a>
+    <a
+      style="font-size: 15px"
+      class="navbar-brand"
+      data-toggle="tooltip"
+      data-placement="bottom"
+      title="Just a click away from logout."
+      routerLink="#"
+      routerLinkActive="active"
+      (click)="logout()"
+      ><b>Logout</b></a
+    >
+  </div>
+</nav>
+
+<!--..................... Print stored restaurants................... -->
+
+
+<div class="card">
+  <nav class="navbar navbar-expand-lg navbar bg-light ">
+    <div class="almostleft">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div>
+      <h2>List:</h2>
+    </div>
+              <ul class="navbar-nav mr-auto">
+              </ul>
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-info" *ngFor="let x of restaurantDetails; let i = index"
+                  >
+                  <span>Name:&nbsp;{{x.name}}</span>
+                 <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
+                 <br><span>Ratings:</span>
+                 <ngb-rating  [(rate)]="x.ratings">
+                  <ng-template let-fill="fill" let-index="index">
+                    <span class="star" [class.filled]="fill === 100" >&#9733;</span>
+                  </ng-template>
+                </ngb-rating><br>
+                <span>Location:</span>{{x.location}}
+                <br>
+                <!-- <span>Image:&nbsp;</span> <img [src]="profileUrl | async" /> -->
+                </li>
+              </ul>
+            </div>
+        </div>
+        </nav>
+        </div>
+
+
+<!--                    To Add new Restaurant                 -->
+<div class="container">
+  <div class="submitCard">
+    <form [formGroup]="myForm" >
+      <div class="form-group">
+        <div class="card-header">
+          <h4 style="background-color:#FF6347;color: white; border-radius: 25px;
+          padding: 20px; 
+          width: 400px;
+          height: 10px; text-align: center; ">Add Restaurant :</h4>
+        </div>
+        <div>
+          <label style="background-color:#FF6347;color: white; border-radius: 25px;
+          padding: 2px; 
+          width: 4px;
+          height: 10px; text-align: center; ">Restaurant Name:</label>&nbsp;
+          <input
+          class="form-control mb-4"
+            formControlName="name"
+            type="text"
+            placeholder="Enter the Restaurant name:"
+            required
+          />
+        </div>
+        <br />
+        <!-- <div>
+          <label style="background-color:#FF6347;color: white; border-radius: 25px;
+          padding: 2px; 
+          width: 4px;
+          height: 10px; text-align: center; " >Location:</label>&nbsp;
+        <input   placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+        <agm-map formControlName="location" [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+            <agm-marker  [latitude]="latitude" [longitude]="longitude"></agm-marker>
+          </agm-map>
+        </div> -->
+        <br />
+        <div class="form-group">
+          <label style="background-color:#FF6347;color: white; border-radius: 25px;
+          padding: 2px; 
+          width: 4px;
+          height: 10px; text-align: center; ">Ratings:</label>&nbsp;
+          <ngb-rating formControlName="ratings" [(rate)]="currentRate">
+              <ng-template let-fill="fill" let-index="index">
+                <span class="star" [class.filled]="fill === 100" >&#9733;</span>
+              </ng-template>
+            </ngb-rating>
+        </div>
+        <br />
+        <div class="form-group">
+          <label style="background-color:#FF6347;color: white; border-radius: 25px;
+          padding: 2px; 
+          width: 4px;
+          height: 10px; text-align: center; ">Date:</label>&nbsp;
+         
+          <input class="form-control" placeholder="yyyy-mm-dd"
+          name="dp" formControlName='date' ngbDatepicker #d="ngbDatepicker">
+   <div class="input-group-append">
+     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+   </div>
+   </div>
+        <br>
+        <div class="form-group">
+          <label>Images:</label>&nbsp;
+          <input  type="file" (change)="uploadFile($event)">
+        </div>
+      </div>
+      <br>
+      <button class="buttonSet" style='padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      
+      border-radius: 12px;
+      color:black;
+      margin-right:16px'
+        
+        type="submit"
+        (click)="submitRestaurant()"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+</div>
+
+

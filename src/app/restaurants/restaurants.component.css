@@ -1,0 +1,44 @@
+.submitCard{
+    left:50px;
+    bottom: 0px;
+  }
+
+  .star {
+    font-size: 1.5rem;
+    color: #b0c4de;
+  }
+  .filled {
+    color: goldenrod;
+  }
+  .bad {
+    color: #deb0b0;
+  }
+  .filled.bad {
+    color: #ff1e1e;
+  }
+.submitCard{
+    left:50px;
+    bottom: 0px;
+
+}
+.container{
+margin-top:25px;               
+    width:500px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.buttonSet{
+  background-color:#FF6347;
+        border: none;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+}
+.agm-map{
+  height: 40px;
+}
