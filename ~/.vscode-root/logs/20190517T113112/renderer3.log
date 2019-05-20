@@ -1,0 +1,7 @@
+[2019-05-17 12:07:42.444] [renderer3] [error] Failed to watch /home/pk/foodplaces/~/.vscode-root/User for changes (Error: ENOSPC: no space left on device, watch '/home/pk/foodplaces/~/.vscode-root/User')
+[2019-05-17 12:07:42.509] [renderer3] [error] Failed to watch /home/pk/foodplaces/~/.vscode-root/logs/20190517T113112/output_3_20190517T120742 for changes (Error: ENOSPC: no space left on device, watch '/home/pk/foodplaces/~/.vscode-root/logs/20190517T113112/output_3_20190517T120742')
+[2019-05-17 12:07:52.584] [renderer3] [error] Failed to watch /home/pk/foodplaces/~/.vscode-root/User for changes (Error: ENOSPC: no space left on device, watch '/home/pk/foodplaces/~/.vscode-root/User')
+[2019-05-17 12:07:52.734] [renderer3] [error] Failed to watch /home/pk/foodplaces/~/.vscode-root/logs/20190517T113112/output_3_20190517T120752 for changes (Error: ENOSPC: no space left on device, watch '/home/pk/foodplaces/~/.vscode-root/logs/20190517T113112/output_3_20190517T120752')
+[2019-05-17 12:07:53.012] [renderer3] [error] Inotify limit reached (ENOSPC)
+[2019-05-17 12:08:05.418] [renderer3] [error] Failed to watch /home/pk/foodplaces/~/.vscode-root/User/snippets for changes (Error: ENOSPC: no space left on device, watch '/home/pk/foodplaces/~/.vscode-root/User/snippets')
+[2019-05-17 12:08:05.432] [renderer3] [error] Failed to watch /home/pk/ToDo-App-master/.vscode for changes (Error: ENOSPC: no space left on device, watch '/home/pk/ToDo-App-master/.vscode')

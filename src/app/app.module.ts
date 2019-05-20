@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import{google} from '@google/maps';
 
+
 @NgModule({
   declarations: [
     AppComponent,

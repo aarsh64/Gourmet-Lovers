@@ -23,6 +23,7 @@ import { AgmCoreModule, MapsAPILoader } from "@agm/core"; //For Google Maps
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 //import { google } from '@google/maps';
 
+var google:any;
 
 @Component({
   selector: "app-restaurants",
@@ -39,7 +40,6 @@ export class RestaurantsComponent implements OnInit {
   public longitude: number= 7.809007;
   public searchControl: FormControl;
   public zoom: number;
-  google: any;
   uploadPercent: Observable<number>;
   fileRef:any;
   Location:any;

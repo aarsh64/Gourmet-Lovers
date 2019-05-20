@@ -65,7 +65,7 @@
                  </ng-template>
                </ngb-rating>
                 <br>
-                <span><b>Location:</b></span> {{x.location}}
+                <!-- <span><b>Location:</b></span> {{x.location}} -->
                 </li>
               </ul>
             </div>
@@ -89,14 +89,8 @@
           <label style="background-color:#FF6347;color: white; border-radius: 25px;
           padding: 2px; 
           width: 4px;
-          height: 10px; text-align: center; ">Restaurant Name:</label>&nbsp;
-          <input
-          class="form-control mb-4"
-            formControlName="name"
-            type="text"
-            placeholder="Enter the Restaurant name:"
-            required
-          />
+          height: 10px;">Restaurant Name:</label>
+          <input formControlName="name" type="text" placeholder="Enter the Restaurant name:" required/>
         </div>
         <br />
         <div>
@@ -137,8 +131,7 @@
         <br>
         <div class="form-group">
           <label>Images:</label>&nbsp;
-          <input  type="file"  [disabled]="
-          !(this.myForm.controls.name.valid)" (change)="uploadFile($event)">
+          <input  type="file"   (change)="uploadFile($event)">
           <div>{{ uploadPercent | async }}</div>
           <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
 
