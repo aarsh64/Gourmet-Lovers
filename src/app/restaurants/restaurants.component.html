@@ -56,7 +56,8 @@
                   <span><b>Name:</b>&nbsp;{{x.name}}</span>
                  <!-- <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }} -->
                 <br>
-                <span><b>Image:</b>&nbsp;</span> <img [src]="profileUrl | async" />
+                <span><b>Image:</b>&nbsp;</span> <br>
+                <img [src]="x.image"height="60" width="60" />
                 <br><span><b>Ratings:&nbsp;</b></span>
                 <ngb-rating  [(rate)]="x.ratings">
                  <ng-template let-fill="fill" let-index="index">

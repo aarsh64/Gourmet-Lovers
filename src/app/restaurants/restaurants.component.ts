@@ -43,7 +43,7 @@ export class RestaurantsComponent implements OnInit {
   uploadPercent: Observable<number>;
   fileRef:any;
   Location:any;
-  imageName:any;
+  imageName:any; //........To store the downloadURL...
 
   restaurantDetails = []; //to store the all the restaurant details
   
@@ -166,7 +166,7 @@ export class RestaurantsComponent implements OnInit {
             // this.profileUrl = ref.child(this.imageName).getDownloadURL();  
            
             // const ref = this.storage.ref(this.imageURL);
-            // this.profileUrl = ref.getDownloadURL();
+            // this.profileUrl = this.storage.ref(result.data().image).getDownloadURL();
             
           console.log('Detail is:',this.restaurantDetails);
         });
@@ -189,6 +189,7 @@ export class RestaurantsComponent implements OnInit {
    
     const filePath = this.fileRef.name;
     const fileRef = this.storage.ref(filePath);
+    console.log('filePAth',filePath,fileRef)
     const task = this.storage.upload(filePath,this.fileRef);
 
       // observe percentage changes
@@ -222,10 +223,11 @@ export class RestaurantsComponent implements OnInit {
    //...........To Upload the picture to FireBase-Storage.......
 
     uploadFile(event) {
-    
+    console.log('kdjfjdsf');
          const file = event.target.files[0];
           this.fileRef=file;
           this.imageName=file.name;
+        
     
   }
 
