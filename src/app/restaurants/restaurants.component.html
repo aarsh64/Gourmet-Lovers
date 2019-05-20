@@ -21,7 +21,7 @@
       data-toggle="tooltip"
       data-placement="bottom"
       title="will lead you to your activities"
-      routerLink="/userdata"
+      routerLink="/restaurantDetails"
       routerLinkActive="active"
       ><b>Profile</b></a>
     <a
@@ -53,17 +53,18 @@
               <ul class="list-group">
                 <li class="list-group-item list-group-item-info" *ngFor="let x of restaurantDetails; let i = index"
                   >
-                  <span>Name:&nbsp;{{x.name}}</span>
-                 <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
-                 <br><span>Ratings:</span>
-                 <ngb-rating  [(rate)]="x.ratings">
-                  <ng-template let-fill="fill" let-index="index">
-                    <span class="star" [class.filled]="fill === 100" >&#9733;</span>
-                  </ng-template>
-                </ngb-rating><br>
-                <span>Location:</span>{{x.location}}
+                  <span><b>Name:</b>&nbsp;{{x.name}}</span>
+                 <!-- <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }} -->
                 <br>
-                <!-- <span>Image:&nbsp;</span> <img [src]="profileUrl | async" /> -->
+                <span><b>Image:</b>&nbsp;</span> <img [src]="profileUrl | async" />
+                <br><span><b>Ratings:&nbsp;</b></span>
+                <ngb-rating  [(rate)]="x.ratings">
+                 <ng-template let-fill="fill" let-index="index">
+                   <span class="star" [class.filled]="fill === 100" >&#9733;</span>
+                 </ng-template>
+               </ngb-rating>
+                <br>
+                <span><b>Location:</b></span> {{x.location}}
                 </li>
               </ul>
             </div>
@@ -97,16 +98,16 @@
           />
         </div>
         <br />
-        <!-- <div>
+        <div>
           <label style="background-color:#FF6347;color: white; border-radius: 25px;
           padding: 2px; 
           width: 4px;
           height: 10px; text-align: center; " >Location:</label>&nbsp;
-        <input   placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
-        <agm-map formControlName="location" [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+        <input  placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+        <!-- <agm-map formControlName="location" [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="latitude" [longitude]="longitude"></agm-marker>
-          </agm-map>
-        </div> -->
+          </agm-map> -->
+        </div>
         <br />
         <div class="form-group">
           <label style="background-color:#FF6347;color: white; border-radius: 25px;
@@ -135,7 +136,12 @@
         <br>
         <div class="form-group">
           <label>Images:</label>&nbsp;
-          <input  type="file" (change)="uploadFile($event)">
+          <input  type="file"  [disabled]="
+          !(this.myForm.controls.name.valid)" (change)="uploadFile($event)">
+          <div>{{ uploadPercent | async }}</div>
+          <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
+
+
         </div>
       </div>
       <br>
@@ -146,7 +152,7 @@
       border-radius: 12px;
       color:black;
       margin-right:16px'
-        
+       
         type="submit"
         (click)="submitRestaurant()"
       >

@@ -37,7 +37,7 @@ import{google} from '@google/maps';
     AngularFireStorageModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
-    //GooglePlaceModule,
+    GooglePlaceModule,
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyCEqAIFrdKSkWDM3BOkgQ8vgODNp8G2Oig",
       libraries: ["places"]

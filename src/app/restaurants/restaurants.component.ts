@@ -20,6 +20,7 @@ import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AgmCoreModule, MapsAPILoader } from "@agm/core"; //For Google Maps
+import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 //import { google } from '@google/maps';
 
 
@@ -40,6 +41,9 @@ export class RestaurantsComponent implements OnInit {
   public zoom: number;
   google: any;
   uploadPercent: Observable<number>;
+  fileRef:any;
+  Location:any;
+  imageName:any;
 
   restaurantDetails = []; //to store the all the restaurant details
   
@@ -49,6 +53,7 @@ export class RestaurantsComponent implements OnInit {
   lng: any;
   lat: any;
   imageURL: any;
+  restaurantsName: any;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -87,27 +92,29 @@ export class RestaurantsComponent implements OnInit {
     this.setCurrentPosition();
 
     //load Places Autocomplete
-    // this.mapsAPILoader.load().then(() => {
-    //   let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-    //     types: ["address"]
-    //   });
-    //   autocomplete.addListener("place_changed", () => {
-    //     this.ngZone.run(() => {
-    //       //get the place result
-    //       let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+    this.mapsAPILoader.load().then(() => {
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          console.log('place name is:',place.formatted_address);
+            this.Location=place.formatted_address;
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
 
-    //       //verify result
-    //       if (place.geometry === undefined || place.geometry === null) {
-    //         return;
-    //       }
-
-    //       //set latitude, longitude and zoom
-    //       this.latitude = place.geometry.location.lat();
-    //       this.longitude = place.geometry.location.lng();
-    //       this.zoom = 12;
-    //     });
-    //   });
-    // });
+          //set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          console.log('cords:',this.latitude,this.longitude)
+          this.zoom = 12;
+        });
+      });
+    });
   }
 
   private setCurrentPosition() {
@@ -126,7 +133,7 @@ export class RestaurantsComponent implements OnInit {
       location: new FormControl("", Validators.required),
       ratings: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
-      image:new FormControl('',Validators.required)
+      image:new FormControl('',Validators.required),
     });
     
 
@@ -141,31 +148,29 @@ export class RestaurantsComponent implements OnInit {
             result.data()
           );
           
-
-        
           this.restaurantDetails.push({
             name: result.data().name,
             date: {
                 day:result.data().date.day,
                 month:result.data().date.month,
-                year:result.data().date.year
+                year:result.data().date.year,
               },
-              // location:{
-              //   latitude:result.data().lat,
-              //   longitude:result.data().lng
-              // },
+              location:result.data().location,
               ratings:result.data().rating,
               image:result.data().image
+              
                });
-               console.log('downloadUrl',result.data().image);
-         
-         
+                    
 //...............For Downloading the image from the angular firestorage..............
-           // const ref = this.storage.ref(result.data().image);
-          // this.profileUrl = ref.getDownloadURL();      
+            // const ref = this.storage.ref(this.imageURL);
+            // this.profileUrl = ref.child(this.imageName).getDownloadURL();  
            
+            // const ref = this.storage.ref(this.imageURL);
+            // this.profileUrl = ref.getDownloadURL();
+            
           console.log('Detail is:',this.restaurantDetails);
         });
+           
       });
      
 
@@ -176,65 +181,51 @@ export class RestaurantsComponent implements OnInit {
   
   submitRestaurant() {
     //To submit the data into the restaurant collection
+    this.restaurantsName=this.myForm.value.name;
+    this.date2 = this.myForm.value.date;
+    this.lat=this.myForm.value.location.latitude;
+    this.lng=this.myForm.value.location.longitude;
+    console.log("Date", this.date2);
+   
+    const filePath = this.fileRef.name;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath,this.fileRef);
 
-    // this.date2 = this.myForm.value.date;
-    // this.lat=this.myForm.value.location.latitude;
-    // this.lng=this.myForm.value.location.longitude;
-    // console.log("Date", this.date2);
-    // this.db
-    //   .collection("restaurants")
-    //   .add({
-    //     name: this.myForm.value.name,
-    //     date: this.date2,
-    //     rating: this.myForm.value.ratings,
-    //     // location:{
-    //     //   Latitude:this.lat,
-    //     //   Longitude:this.lng
-    //     // },
-    //    //image:this.imageURL
-    //   })
-    //   .then(res => {
-    //     console.log("added", res);
-    //   });
-    console.log("Date Format",this.myForm.value);
-    this.myForm.reset();
+      // observe percentage changes
+      this.uploadPercent = task.percentageChanges();
+    fileRef.put(this.fileRef)
+   .then(snapshot => {
+       return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
+   }).then(downloadURL => {
+    console.log(`Successfully uploaded file and got download link - ${downloadURL}`);
+    this.db.collection('restaurants').add({
+      name: this.restaurantsName,
+      image:downloadURL,
+      imageName:this.imageName,
+      date: this.date2,
+      rating: this.myForm.value.ratings,
+      location:this.Location
+      
+    })
+    console.log('stored',this.Location);
+    this.imageURL=downloadURL;
+    return downloadURL;
+ })
+  .catch(error => {
+      // Use to signal error if something goes wrong.
+      console.log(`Failed to upload file and get link - ${error}`);
+   });
+   console.log("Date Format",this.myForm.value);
+   //this.myForm.reset();
   }
 
    //...........To Upload the picture to FireBase-Storage.......
 
     uploadFile(event) {
     
-      
-      this.date2 = this.myForm.value.date;
-      this.lat=this.myForm.value.location.latitude;
-      this.lng=this.myForm.value.location.longitude;
-      console.log("Date", this.date2);  
-    const file = event.target.files[0];
-    const filePath = file.name;
-    const fileRef = this.storage.ref(filePath);
-    const task = this.storage.upload(filePath, file);
-      // observe percentage changes
-      this.uploadPercent = task.percentageChanges();
-    fileRef.put(file)
-   .then(snapshot => {
-       return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
-   })
-
-   .then(downloadURL => {
-      console.log(`Successfully uploaded file and got download link - ${downloadURL}`);
-      this.db.collection('restaurants').add({
-        image:downloadURL,
-        name: this.myForm.value.name,
-        date: this.date2,
-        rating: this.myForm.value.ratings,
-        
-      })
-      return downloadURL;
-   }).then(() => console.log("Successfully added")).catch(error => {
-      // Use to signal error if something goes wrong.
-      console.log(`Failed to upload file and get link - ${error}`);
-   });
-    
+         const file = event.target.files[0];
+          this.fileRef=file;
+          this.imageName=file.name;
     
   }
 
