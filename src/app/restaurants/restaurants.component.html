@@ -15,7 +15,7 @@
     </h4>
   </div>
   <div>
-    <a
+    <a class="nav-link"
       style="font-size: 15px"
       class="navbar-brand"
       data-toggle="tooltip"
@@ -24,7 +24,7 @@
       routerLink="/restaurantDetails"
       routerLinkActive="active"
       ><b>Profile</b></a>
-    <a
+    <a class="nav-link"
       style="font-size: 15px"
       class="navbar-brand"
       data-toggle="tooltip"
@@ -40,7 +40,7 @@
 
 <!--..................... Print stored restaurants................... -->
 
-
+<div *ngIf="loadingData; else loadingLoop">   
 <div class="card">
   <nav class="navbar navbar-expand-lg navbar bg-light ">
     <div class="almostleft">
@@ -56,7 +56,7 @@
                   <span><b>Name:</b>&nbsp;{{x.name}}</span>
                 <br>
                 <span><b>Image:</b>&nbsp;</span>&nbsp;
-                <img [src]="x.image"height="60" width="60" />
+                <img class="imageBig" [src]="x.image"height="60" width="60" />
                 <br><span><b>Ratings:&nbsp;</b></span>
                 <ngb-rating  [(rate)]="x.ratings">
                  <ng-template let-fill="fill" let-index="index">
@@ -77,7 +77,7 @@
                   <li class="list-group-item list-group-item-danger" *ngFor="let y of sortRestaurantResult;">
                       <span><b>Name:</b>&nbsp;{{y.name}}</span>
                       <br><span><b>Image:</b>&nbsp;</span><br>
-                      <img [src]="y.image" height="60" width="60"/>
+                      <img class="imageBig" [src]="y.image" height="60" width="60"/>
                       <br><span><b>Ratings</b></span>
                       <ngb-rating  [(rate)]="y.ratings">
                       <ng-template let-fill="fill" let-index="index">
@@ -96,10 +96,16 @@
       
      
       </div>
-    </div>      
-<!--                    To Add new Restaurant                 -->
+    </div>  
+   </div>
+
+
+
+   <!--                    To Add new Restaurant                 -->
+
+
+
 <div class="containerRight">
-  
     <form [formGroup]="myForm" >
       <div class="form-group">
         <div class="card-header">
@@ -167,4 +173,8 @@
   </div>
 
 
+<!-- ---------------------- Loader Component ----------------------------- -->
 
+<ng-template #loadingLoop>
+    <div class="loader"></div>
+</ng-template>

@@ -49,7 +49,10 @@ export class RestaurantsComponent implements OnInit {
   restaurantDetails = []; //to store the all the restaurant details
   restaurantsName: any;
   imageURL: any;
-  sortRestaurantResult=[];
+  sortRestaurantResult=[]; //to store data based on Rating(descending order)
+  loadingData: boolean = false;
+  dateBasedRestaurant=[]
+  loactionBasedRestaurant=[];
   
   @ViewChild("search")
   public searchElementRef: ElementRef;
@@ -69,17 +72,15 @@ export class RestaurantsComponent implements OnInit {
   ) {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
-    
-      
-    
-  
-
-  }
+    }
   
   public handleAddressChange(address: any) {
     // Do some stuff
 }
   ngOnInit() {
+
+    this.loadingData = false;
+
     
   //   //...........................Google-Maps-API..........................................
   //      //set google maps defaults
@@ -138,6 +139,7 @@ export class RestaurantsComponent implements OnInit {
       image:new FormControl('',Validators.required),
     });
     
+//.......................Fetching data randomly................................
 
     this.db
       .collection("restaurants")
@@ -165,7 +167,10 @@ export class RestaurantsComponent implements OnInit {
           console.log('Detail is:',this.restaurantDetails);
         });   
       });
-      this.db
+
+//....................Fetching data based on Rating(from higher to lower)................... 
+      
+this.db
       .collection("restaurants",ref => ref.orderBy("rating","desc"))
       .get()
       .subscribe(querySnapshot => {
@@ -188,22 +193,72 @@ export class RestaurantsComponent implements OnInit {
               image:result.data().image
               
                });
-          
-           
-                                
+           this.loadingData=true;                        
           console.log('Detail is:',this.restaurantDetails);
         });
            
       });
 
+//........................Fetching data based on Time........................................
 
-
-     
-
-  }
-
-  //.........................For submiting the restaurant details...........................
+      this.db
+      .collection("restaurants",ref =>ref.orderBy('date.year'))
+      .get()
+      .subscribe(querySnapshot => {
+        querySnapshot.forEach(result => {
+          console.log(
+            "restaurant data is:",
+            `${result.id} => ${result.data()}`,
+            result.data()
+          );
+          
+          this.dateBasedRestaurant.push({
+            name: result.data().name,
+            date: {
+                day:result.data().date.day,
+                month:result.data().date.month,
+                year:result.data().date.year,
+              },
+              location:result.data().location,
+              ratings:result.data().rating,
+              image:result.data().image
+              
+               });
+          console.log('Detail is:',this.dateBasedRestaurant);
+        });   
+      });
   
+//........................Fetching data based on Location(City).................................
+
+this.db
+.collection("restaurants",ref =>ref.orderBy('location'))
+.get()
+.subscribe(querySnapshot => {
+  querySnapshot.forEach(result => {
+    console.log(
+      "restaurant data is:",
+      `${result.id} => ${result.data()}`,
+      result.data()
+    );
+    
+    this.loactionBasedRestaurant.push({
+      name: result.data().name,
+      date: {
+          day:result.data().date.day,
+          month:result.data().date.month,
+          year:result.data().date.year,
+        },
+        location:result.data().location,
+        ratings:result.data().rating,
+        image:result.data().image
+        
+         });
+    console.log('Detail is:',this.loactionBasedRestaurant);
+  });   
+});
+    }
+
+//.........................For submiting the restaurant details...........................
   
   submitRestaurant() {
     //To submit the data into the restaurant collection
@@ -247,19 +302,17 @@ export class RestaurantsComponent implements OnInit {
    this.myForm.reset();
   }
 
-   //...........To Upload the picture to FireBase-Storage.......
+  //...........To Upload the picture to FireBase-Storage.......
 
     uploadFile(event) {
     console.log('kdjfjdsf');
          const file = event.target.files[0];
           this.fileRef=file;
           this.imageName=file.name;
-        
-    
-  }
-
+   }
 
   //.................................Just to do logout.....................................
+  
   logout() {
     this.afAuth.auth.signOut();
     this.toastr.success("LoggedOut Succesfullly");
