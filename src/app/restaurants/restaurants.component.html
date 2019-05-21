@@ -45,18 +45,17 @@
   <nav class="navbar navbar-expand-lg navbar bg-light ">
     <div class="almostleft">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <div>
-      <h2>List:</h2>
-    </div>
-              <ul class="navbar-nav mr-auto">
+    <ngb-tabset>
+        <ngb-tab title="All The Restaurants">
+            <ng-template ngbTabContent>
+             <ul class="navbar-nav mr-auto">
               </ul>
               <ul class="list-group">
-                <li class="list-group-item list-group-item-info" *ngFor="let x of restaurantDetails; let i = index"
+                <li class="list-group-item list-group-item-danger" *ngFor="let x of restaurantDetails; let i = index"
                   >
                   <span><b>Name:</b>&nbsp;{{x.name}}</span>
-                 <!-- <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }} -->
                 <br>
-                <span><b>Image:</b>&nbsp;</span> <br>
+                <span><b>Image:</b>&nbsp;</span>&nbsp;
                 <img [src]="x.image"height="60" width="60" />
                 <br><span><b>Ratings:&nbsp;</b></span>
                 <ngb-rating  [(rate)]="x.ratings">
@@ -64,63 +63,72 @@
                    <span class="star" [class.filled]="fill === 100" >&#9733;</span>
                  </ng-template>
                </ngb-rating>
+               <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
+
                 <br>
                 <!-- <span><b>Location:</b></span> {{x.location}} -->
                 </li>
               </ul>
+        </ng-template>      
+      </ngb-tab>
+      <ngb-tab title="Top Rated ★">
+          <ng-template ngbTabContent>
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-danger" *ngFor="let y of sortRestaurantResult;">
+                      <span><b>Name:</b>&nbsp;{{y.name}}</span>
+                      <br><span><b>Image:</b>&nbsp;</span><br>
+                      <img [src]="y.image" height="60" width="60"/>
+                      <br><span><b>Ratings</b></span>
+                      <ngb-rating  [(rate)]="y.ratings">
+                      <ng-template let-fill="fill" let-index="index">
+                          <span class="star" [class.filled]="fill === 100" >&#9733;</span>
+                        </ng-template>
+                      </ngb-rating><br>
+                  </li>
+                </ul>
+              </ng-template>  
+            </ngb-tab>  
+            </ngb-tabset>     
+        
             </div>
         </div>
         </nav>
-        </div>
-
-
+      
+     
+      </div>
+    </div>      
 <!--                    To Add new Restaurant                 -->
-<div class="container">
-  <div class="submitCard">
+<div class="containerRight">
+  
     <form [formGroup]="myForm" >
       <div class="form-group">
         <div class="card-header">
-          <h4 style="background-color:#FF6347;color: white; border-radius: 25px;
-          padding: 20px; 
-          width: 400px;
-          height: 10px; text-align: center; ">Add Restaurant :</h4>
+          <h4 >Add Restaurant :</h4>
         </div>
         <div>
-          <label style="background-color:#FF6347;color: white; border-radius: 25px;
-          padding: 2px; 
-          width: 4px;
-          height: 10px;">Restaurant Name:</label>
-          <input formControlName="name" type="text" placeholder="Enter the Restaurant name:" required/>
+          <label>Restaurant Name:</label>
+          <input  class="form-control" formControlName="name"  type="text" placeholder="Enter the Restaurant name:" required/>
         </div>
         <br />
         <div>
-          <label style="background-color:#FF6347;color: white; border-radius: 25px;
-          padding: 2px; 
-          width: 4px;
-          height: 10px; text-align: center; " >Location:</label>&nbsp;
-        <input  placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+          <label>Location:</label>&nbsp;
+        <!-- <input  placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl"> -->
         <!-- <agm-map formControlName="location" [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="latitude" [longitude]="longitude"></agm-marker>
           </agm-map> -->
         </div>
-        <br />
+        <br>
         <div class="form-group">
-          <label style="background-color:#FF6347;color: white; border-radius: 25px;
-          padding: 2px; 
-          width: 4px;
-          height: 10px; text-align: center; ">Ratings:</label>&nbsp;
+          <label>Ratings:</label>
           <ngb-rating formControlName="ratings" [(rate)]="currentRate">
               <ng-template let-fill="fill" let-index="index">
                 <span class="star" [class.filled]="fill === 100" >&#9733;</span>
               </ng-template>
             </ngb-rating>
         </div>
-        <br />
+        <br>
         <div class="form-group">
-          <label style="background-color:#FF6347;color: white; border-radius: 25px;
-          padding: 2px; 
-          width: 4px;
-          height: 10px; text-align: center; ">Date:</label>&nbsp;
+          <label>Date:</label>&nbsp;
          
           <input class="form-control" placeholder="yyyy-mm-dd"
           name="dp" formControlName='date' ngbDatepicker #d="ngbDatepicker">
@@ -132,7 +140,10 @@
         <div class="form-group">
           <label>Images:</label>&nbsp;
           <input  type="file"   (change)="uploadFile($event)">
-          <div>{{ uploadPercent | async }}</div>
+          
+          <div><p><ngb-progressbar showValue="true" type="success" [value]="uploadPercent | async"></ngb-progressbar></p>
+           <!-- {{ uploadPercent | async }} -->
+            </div> 
           <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
 
 
@@ -154,7 +165,6 @@
       </button>
     </form>
   </div>
-</div>
-</div>
+
 
 

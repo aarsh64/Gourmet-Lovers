@@ -28,6 +28,7 @@
     "core-js": "^2.5.4",
     "firebase": "^6.0.2",
     "google": "^2.1.0",
+    "googlemaps": "^1.12.0",
     "google-maps": "^3.3.0",
     "ng-bootstrap": "^1.6.3",
     "ngx-bootstrap": "^4.1.1",

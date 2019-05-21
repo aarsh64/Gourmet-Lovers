@@ -16,11 +16,12 @@ import { ConstantPool } from "@angular/compiler";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { ToastrService } from "ngx-toastr";
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AgmCoreModule, MapsAPILoader } from "@agm/core"; //For Google Maps
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 //import { google } from '@google/maps';
 
 var google:any;
@@ -41,20 +42,20 @@ export class RestaurantsComponent implements OnInit {
   public searchControl: FormControl;
   public zoom: number;
   uploadPercent: Observable<number>;
-  fileRef:any;
-  Location:any;
+  fileRef:any; //...........to get the uploaded file.....
+  Location:any; //..........to get the loacation.......
   imageName:any; //........To store the downloadURL...
-
+  temp:any;
   restaurantDetails = []; //to store the all the restaurant details
-  
+  restaurantsName: any;
+  imageURL: any;
+  sortRestaurantResult=[];
   
   @ViewChild("search")
   public searchElementRef: ElementRef;
   lng: any;
   lat: any;
-  imageURL: any;
-  restaurantsName: any;
-
+ 
   constructor(
     public afAuth: AngularFireAuth,
     config: NgbRatingConfig,
@@ -63,7 +64,8 @@ export class RestaurantsComponent implements OnInit {
     private toastr: ToastrService,
     public router:Router,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+   // private google:GooglePlaceModule
   ) {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
@@ -79,52 +81,52 @@ export class RestaurantsComponent implements OnInit {
 }
   ngOnInit() {
     
-    //...........................Google-Maps-API..........................................
-       //set google maps defaults
-    this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
+  //   //...........................Google-Maps-API..........................................
+  //      //set google maps defaults
+  //   this.zoom = 4;
+  //   this.latitude = 39.8282;
+  //   this.longitude = -98.5795;
 
-    //create search FormControl
-    this.searchControl = new FormControl();
+  //   //create search FormControl
+  //   this.searchControl = new FormControl();
 
-    //set current position
-    this.setCurrentPosition();
+  //   //set current position
+  //   this.setCurrentPosition();
 
-    //load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          console.log('place name is:',place.formatted_address);
-            this.Location=place.formatted_address;
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
+  //   //load Places Autocomplete
+  //   this.mapsAPILoader.load().then(() => {
+  //     let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+  //       types: ["address"]
+  //     });
+  //     autocomplete.addListener("place_changed", () => {
+  //       this.ngZone.run(() => {
+  //         //get the place result
+  //         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  //         console.log('place name is:',place.formatted_address);
+  //           this.Location=place.formatted_address;
+  //         //verify result
+  //         if (place.geometry === undefined || place.geometry === null) {
+  //           return;
+  //         }
 
-          //set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          console.log('cords:',this.latitude,this.longitude)
-          this.zoom = 12;
-        });
-      });
-    });
-  }
+  //         //set latitude, longitude and zoom
+  //         this.latitude = place.geometry.location.lat();
+  //         this.longitude = place.geometry.location.lng();
+  //         console.log('cords:',this.latitude,this.longitude)
+  //         this.zoom = 12;
+  //       });
+  //     });
+  //   });
+  // }
 
-  private setCurrentPosition() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 12;
-      });
-    }
+  // private setCurrentPosition() {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       this.latitude = position.coords.latitude;
+  //       this.longitude = position.coords.longitude;
+  //       this.zoom = 12;
+  //     });
+  //   }
   //.............................................................................
 
     //.................Form Validation........................
@@ -160,18 +162,42 @@ export class RestaurantsComponent implements OnInit {
               image:result.data().image
               
                });
-                    
-//...............For Downloading the image from the angular firestorage..............
-            // const ref = this.storage.ref(this.imageURL);
-            // this.profileUrl = ref.child(this.imageName).getDownloadURL();  
+          console.log('Detail is:',this.restaurantDetails);
+        });   
+      });
+      this.db
+      .collection("restaurants",ref => ref.orderBy("rating","desc"))
+      .get()
+      .subscribe(querySnapshot => {
+        querySnapshot.forEach(result => {
+          console.log(
+            "restaurant data is:",
+            `${result.id} => ${result.data()}`,
+            result.data()
+          );
+          
+          this.sortRestaurantResult.push({
+            name: result.data().name,
+            date: {
+                day:result.data().date.day,
+                month:result.data().date.month,
+                year:result.data().date.year,
+              },
+              location:result.data().location,
+              ratings:result.data().rating,
+              image:result.data().image
+              
+               });
+          
            
-            // const ref = this.storage.ref(this.imageURL);
-            // this.profileUrl = this.storage.ref(result.data().image).getDownloadURL();
-            
+                                
           console.log('Detail is:',this.restaurantDetails);
         });
            
       });
+
+
+
      
 
   }
@@ -181,6 +207,7 @@ export class RestaurantsComponent implements OnInit {
   
   submitRestaurant() {
     //To submit the data into the restaurant collection
+    console.log('restaurant name:',this.myForm.value.name);
     this.restaurantsName=this.myForm.value.name;
     this.date2 = this.myForm.value.date;
     this.lat=this.myForm.value.location.latitude;
@@ -205,10 +232,10 @@ export class RestaurantsComponent implements OnInit {
       imageName:this.imageName,
       date: this.date2,
       rating: this.myForm.value.ratings,
-      location:this.Location
-      
+     // location:this.Location 
     })
     console.log('stored',this.Location);
+    this.toastr.info("Data has been recorded!");
     this.imageURL=downloadURL;
     return downloadURL;
  })
@@ -217,7 +244,7 @@ export class RestaurantsComponent implements OnInit {
       console.log(`Failed to upload file and get link - ${error}`);
    });
    console.log("Date Format",this.myForm.value);
-   //this.myForm.reset();
+   this.myForm.reset();
   }
 
    //...........To Upload the picture to FireBase-Storage.......
@@ -239,9 +266,21 @@ export class RestaurantsComponent implements OnInit {
     this.router.navigate(["/login"]);
   }
 
-  
-
-
-
+//.......................................Extras............................................
 
 }
+ //  console.log('Sortin result:', this.restaurantDetails.sort());
+              // for(let b=0;b<this.restaurantDetails.length;b++){
+              //   for(let c=0;c<(this.restaurantDetails.length-1);c++){
+              //    // console.log('inside the loop');
+              //     if(this.restaurantDetails[c].ratings < this.restaurantDetails[c+1].ratings){
+              //         this.temp=this.restaurantDetails[c];
+              //         this.restaurantDetails[c]=this.restaurantDetails[c+1];
+              //         this.restaurantDetails[c+1]=this.temp;
+              //     }
+              //     this.sortRestaurantResult.push({
+              //       //name:this.restaurantDetails[c].name,
+
+              //     });
+              //   }
+              // }

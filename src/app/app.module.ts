@@ -14,9 +14,10 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "src/environments/environment";
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterModule,Routes } from '@angular/router';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import{google} from '@google/maps';
+import { AuthGuard } from './auth.guard';
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import{google} from '@google/maps';
       libraries: ["places"]
     })
   ],
-  providers: [{provide: StorageBucket, useValue: 'restaurantapp-dde4e.appspot.com'}],
+  providers: [{provide: StorageBucket, useValue: 'restaurantapp-dde4e.appspot.com'},AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
