@@ -12,7 +12,7 @@
         <b>Dashboard</b></h4>
     </div>
     <div class="navbar-header">
-      <h3>FoodBusters!</h3>
+      <h3 style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"><b>🍔FoodBusters🍔</b></h3>
 
     </div>
 
@@ -44,12 +44,12 @@
                 </ul>
                 <ul class="list-group">
                   <li class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
-                    [class.selected]="x===selectedX" >
+                    [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
                     <span><b>Name:</b>&nbsp;<span>{{x.name}}</span></span>
                     &nbsp; &nbsp;&nbsp; &nbsp;
 
-                    <span styel="margin-right=100px;"><button class="btn btn-sm btn-outline-danger"
-                        (click)="favourites(selectedX,objectIndex)">💙</button></span>
+                    <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger"
+                        (click)="addToFavourites(selectedRestaurant)">💙</button></span>
                     <br>
                     <span><b>Image:</b>&nbsp;</span>&nbsp;
                     <img class="imageBig" [src]="x.image" height="60" width="60" />
@@ -136,13 +136,7 @@
         <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
       </div>
     </div>
-    <button class="btn btn-danger" style='padding: 10px;
-      text-align: center;
-      text-decoration: none;
-      
-      border-radius: 12px;
-      color:white;
-      margin-right:16px' type="submit" (click)="submitRestaurant()">
+    <button class="btn btn-danger"  type="submit" (click)="submitRestaurant()">
       Submit
     </button>
   </form>

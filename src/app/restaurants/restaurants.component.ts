@@ -57,12 +57,13 @@ export class RestaurantsComponent implements OnInit {
   dateBasedRestaurant = []
   loactionBasedRestaurant = [];
   closeResult: string;
+  selectedRestaurant: any;
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
   lng: any;
   lat: any;
-  favouriteRestaurants: any;
+  favouriteRestaurants=[];
   ranking: any;
 
   constructor(
@@ -105,58 +106,58 @@ export class RestaurantsComponent implements OnInit {
     this.loadingData = false;
 
 
-  //   //...........................Google-Maps-API..........................................
-  //   //set google maps defaults
-  //   this.zoom = 4;
-  //   this.latitude = 39.8282;
-  //   this.longitude = -98.5795;
+    //   //...........................Google-Maps-API..........................................
+    //   //set google maps defaults
+    //   this.zoom = 4;
+    //   this.latitude = 39.8282;
+    //   this.longitude = -98.5795;
 
-  //   //create search FormControl
-  //   this.searchControl = new FormControl();
+    //   //create search FormControl
+    //   this.searchControl = new FormControl();
 
-  //   //set current position
-  //   this.setCurrentPosition();
+    //   //set current position
+    //   this.setCurrentPosition();
 
-  //   //load Places Autocomplete
-  //   this.mapsAPILoader.load().then(() => {
-  //     let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-  //       types: ["address"]
-  //     });
-  //     autocomplete.addListener("place_changed", () => {
-  //       this.ngZone.run(() => {
-  //         //get the place result
-  //         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-  //         console.log('place is:', place);
-  //         console.log('place name is:', place.formatted_address);
-  //         this.Location = place.formatted_address;
-  //         //verify result
-  //         if (place.geometry === undefined || place.geometry === null) {
-  //           return;
-  //         }
+    //   //load Places Autocomplete
+    //   this.mapsAPILoader.load().then(() => {
+    //     let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+    //       types: ["address"]
+    //     });
+    //     autocomplete.addListener("place_changed", () => {
+    //       this.ngZone.run(() => {
+    //         //get the place result
+    //         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+    //         console.log('place is:', place);
+    //         console.log('place name is:', place.formatted_address);
+    //         this.Location = place.formatted_address;
+    //         //verify result
+    //         if (place.geometry === undefined || place.geometry === null) {
+    //           return;
+    //         }
 
-  //         //set latitude, longitude and zoom
-  //         this.latitude = place.geometry.location.lat();
-  //         this.longitude = place.geometry.location.lng();
-  //         console.log('cords:', this.latitude, this.longitude)
-  //         this.zoom = 12;
-  //       });
-  //     });
-  //   });
-  // }
+    //         //set latitude, longitude and zoom
+    //         this.latitude = place.geometry.location.lat();
+    //         this.longitude = place.geometry.location.lng();
+    //         console.log('cords:', this.latitude, this.longitude)
+    //         this.zoom = 12;
+    //       });
+    //     });
+    //   });
+    // }
 
-  // private setCurrentPosition() {
-  //   if ("geolocation" in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       this.latitude = position.coords.latitude;
-  //       this.longitude = position.coords.longitude;
-  //       this.zoom = 12;
-  //     });
-  //   }
-  //   //.............................................................................
+    // private setCurrentPosition() {
+    //   if ("geolocation" in navigator) {
+    //     navigator.geolocation.getCurrentPosition((position) => {
+    //       this.latitude = position.coords.latitude;
+    //       this.longitude = position.coords.longitude;
+    //       this.zoom = 12;
+    //     });
+    //   }
+    //   //.............................................................................
 
 
 
-  //   //.............................................................................
+    //   //.............................................................................
 
     //.................Form Validation........................
     this.myForm = new FormGroup({
@@ -240,7 +241,7 @@ export class RestaurantsComponent implements OnInit {
     //To submit the data into the restaurant collection
     console.log('restaurant name:', this.myForm.value.name);
     this.restaurantsName = this.myForm.value.name;
-    this.ranking=this.myForm.value.rating;
+    this.ranking = this.myForm.value.rating;
     this.date2 = this.myForm.value.date;
     this.lat = this.myForm.value.location.latitude;
     this.lng = this.myForm.value.location.longitude;
@@ -263,7 +264,7 @@ export class RestaurantsComponent implements OnInit {
           image: downloadURL,
           date: this.date2,
           rating: this.ranking,
-         // location: this.Location
+          // location: this.Location
         })
         console.log('stored', this.Location);
         this.toastr.info("Data has been recorded!");
@@ -295,33 +296,68 @@ export class RestaurantsComponent implements OnInit {
     this.router.navigate(["/login"]);
   }
 
-  open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+ 
+  onTap(x: any) {
+    console.log('initialize:',x);
+    this.selectedRestaurant = x;
   }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    }
-  }
+  addToFavourites(w:any){
 
+    this.db.collection('favourites').add({
+      name:w.name,
+      date:{
+        day:w.date.day,
+        month:w.date.month,
+        year:w.date.year
+      },
+      rating:w.rating,
+      image:w.image
+    });
+
+    this.selectedRestaurant=w;
+    this.favouriteRestaurants.push({
+      name:w.name,
+      date:{
+        day:w.date.day,
+        month:w.date.month,
+        year:w.date.year
+      },
+      rating:w.rating
+    });
+    this.toastr.success("Added to favourites");
+ 
+  }
   favourites(w: any) {
-    console.log('passed X:', w)
+    
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
-    this.restaurantDetails.push({
-      name: w.name,
-      // loacation:x.loacation,
-      date: {
-        day: w.date.day,
-        month: w.date.month,
-        year: w.date.year
-      },
-      rating: w.rating
-    });
+    this.db
+      .collection("favourites")
+      .get()
+      .subscribe(querySnapshot => {
+        querySnapshot.forEach(result => {
+          console.log(
+            "fetched restaurant data is:",
+            `${result.id} => ${result.data()}`,
+            result.data()
+          );
+          this.restaurantDetails.push({
+            name: result.data().name,
+            // loacation:x.loacation,
+            date: {
+              day: result.data().date.day,
+              month: result.data().date.month,
+              year: result.data().date.year
+            },
+            rating: result.data().rating,
+            image:result.data().image
+          });})
+        
+        });
+
+    
+    this.toastr.success("Favourites Loaded Succesfullly");
+
     console.log('Fav Details:', this.restaurantDetails);
   }
 
@@ -348,15 +384,12 @@ export class RestaurantsComponent implements OnInit {
               year: result.data().date.year,
             },
             location: result.data().location,
-            rating:result.data().rating,
+            rating: result.data().rating,
             image: result.data().image
 
           });
-          // this.router.navigate(['/restaurantDetails']);
-          // this.loadingData = true;
-
         });
-
+        this.toastr.success("Top Rated Restaurants Loaded!");
       });
     console.log('Top Rated Restaurants:', this.restaurantDetails)
   }
@@ -367,7 +400,7 @@ export class RestaurantsComponent implements OnInit {
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
-      .collection("restaurants", ref => ref.orderBy(('date.year'),'desc'))
+      .collection("restaurants", ref => ref.orderBy(('date.year'), 'desc'))
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
@@ -389,9 +422,11 @@ export class RestaurantsComponent implements OnInit {
             image: result.data().image
 
           });
+          //this.toastr.success("Recenly Added");
 
         });
       });
+      this.toastr.success("Recently Added Loaded Succesfullly");
 
     console.log('Recently added restaurants:', this.restaurantDetails);
 
