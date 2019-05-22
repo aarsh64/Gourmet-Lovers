@@ -55,7 +55,7 @@
                                         "scheme": "file"
                                     },
                                     "enabled": true,
-                                    "label": "~/foodplaces"
+                                    "label": "/home/pk/foodplaces"
                                 },
                                 {
                                     "id": "openRecentFolder",
@@ -66,7 +66,7 @@
                                         "scheme": "file"
                                     },
                                     "enabled": true,
-                                    "label": "~/ToDo-App-master"
+                                    "label": "/home/pk/ToDo-App-master"
                                 },
                                 {
                                     "id": "vscode.menubar.separator"

@@ -13,11 +13,14 @@ import { UsersComponent } from "./users/users.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "src/environments/environment";
 import { ToastrModule } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule,Routes } from '@angular/router';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
-import{google} from '@google/maps';
+//import{google} from '@google/maps';
 import { AuthGuard } from './auth.guard';
+//import {} from '/googlemaps';
+
 
 
 @NgModule({
@@ -33,6 +36,7 @@ import { AuthGuard } from './auth.guard';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    //google,
     ToastrModule.forRoot(), // ToastrModule added
     BrowserAnimationsModule, // required animations module
     AngularFireModule.initializeApp(environment.firebase),

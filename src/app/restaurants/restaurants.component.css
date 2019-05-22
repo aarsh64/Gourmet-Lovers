@@ -1,7 +1,26 @@
-.submitCard{
-    left:50px;
+.restaurantDetails{
+    margin-left:auto;
+    margin-right: auto;
     bottom: 0px;
+    width: 500px;
   }
+
+.addRest{
+    position: absolute;
+    top: 60px;
+    right: 05px;
+    width: 320px;
+    font-size: 15px;
+    text-align:left
+  }
+
+.sideBar{
+  position:absolute;
+  top:60px;
+  left:05px;
+  width:200px;
+
+}
 .navbar{
   color:white;
 }
@@ -18,39 +37,19 @@
   .filled.bad {
     color: #ff1e1e;
   }
-.submitCard{
-    left:50px;
-    bottom: 0px;
-}
+
 .imageBig:hover {
   position:relative;
-  top:-25px;
-  left:-35px;
-  width:500px;
+  top:-20px;
+  left:55px;
+  width:200px;
   height:auto;
   display:block;
   z-index:999;
 }
-.containerRight{ 
-    margin-top:25px;         
-    width:500px;
-    margin-right: 20px;
-    /* margin-top: auto; */
-}
 
-.buttonSet{
-  background-color:#FF6347;
-        border: none;
-        color: white;
-        padding: 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-}
 .agm-map{
-  height: 40px;
+  height: 400px;
 }
 
 .loader {
