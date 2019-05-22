@@ -6,169 +6,162 @@
 
 <div class="activityContainer" *ngIf="afAuth.user | async as user">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-danger">
-  <div class="navbar-header">
-    <h4 style=" text-align:center"
-      class="navbar-brand-header" >
-      <b>Dashboard</b>
-    </h4>
-  </div>
-  <div class="topRight">
-    <a class="navbar-brand"
-      style="font-size: 15px;color:white"
-      class="navbar-brand"
-      data-toggle="tooltip"
-      data-placement="bottom"
-      title="will lead you to List"
-      routerLink="/restaurantDetails"
-      routerLinkActive="active"
-      ><b>Profile</b></a>
-    <a class="navbar-brand"
-      style="font-size: 15px;color:white"
-      class="navbar-brand"
-      data-toggle="tooltip"
-      data-placement="bottom"
-      title="Just a click away from logout."
-      routerLink="#"
-      routerLinkActive="active"
-      (click)="logout()"
-      ><b>Logout</b></a
-    >
-  </div>
-</nav>
+  <nav class="navbar sticky-top navbar-dark bg-danger">
+    <div class="navbar-header">
+      <h4 style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif" class="navbar-brand-header">
+        <b>Dashboard</b></h4>
+    </div>
+    <div class="navbar-header">
+      <h3>FoodBusters!</h3>
+
+    </div>
+
+    <div>
+      <a style="font-size: 15px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
+        title="will lead you to your activities" routerLink="/restaurantDetails"
+        routerLinkActive="active"><b>Profile</b></a>
+
+      <a style="font-size: 15px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
+        title="Just a click away from logout." routerLink="#" routerLinkActive="active"
+        (click)="logout()"><b>Logout</b></a>
+
+    </div>
+  </nav>
 </div>
 
 
 <!--..................... Print stored restaurants................... -->
 <div class="restaurantDetails">
-<div *ngIf="loadingData; else loadingLoop">   
-<div class="card">
-  <nav class="navbar navbar-expand-lg navbar bg-light ">
-    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div *ngIf="loadingData; else loadingLoop">
+    <div class="card">
+      <nav class="navbar navbar-expand-lg navbar bg-light ">
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ngb-tabset>
-              <ngb-tab title="Home">
-                  <ng-template ngbTabContent>
-             <ul class="navbar-nav mr-auto">
-              </ul>
-              <ul  class="list-group">
-                <li class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
-                [class.selected]="x===selectedX">
-                  <span><b>Name:</b>&nbsp;<span>{{x.name}}</span></span>
-                  &nbsp; &nbsp;&nbsp; &nbsp;
-                  
-                    <span styel="margin-right=100px;"><button class="btn btn-sm btn-outline-danger" 
-                      (click)="favourites(selectedX)">💙</button></span>
-                                    <br>
-                <span><b>Image:</b>&nbsp;</span>&nbsp;
-                <img class="imageBig" [src]="x.image"height="60" width="60" />
-                <br><span><b>Ratings:&nbsp;</b></span>
-                <ngb-rating  [(rate)]="x.ratings">
-                 <ng-template let-fill="fill" let-index="index">
-                   <span class="star" [class.filled]="fill === 100" >&#9733;</span>
-                 </ng-template>
-               </ngb-rating>
-               <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
-                <br>
-                <span><b>Location:</b></span> {{x.location}}
-                </li>
-              </ul>
+            <ngb-tab title="Home">
+              <ng-template ngbTabContent>
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <ul class="list-group">
+                  <li class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
+                    [class.selected]="x===selectedX" >
+                    <span><b>Name:</b>&nbsp;<span>{{x.name}}</span></span>
+                    &nbsp; &nbsp;&nbsp; &nbsp;
+
+                    <span styel="margin-right=100px;"><button class="btn btn-sm btn-outline-danger"
+                        (click)="favourites(selectedX,objectIndex)">💙</button></span>
+                    <br>
+                    <span><b>Image:</b>&nbsp;</span>&nbsp;
+                    <img class="imageBig" [src]="x.image" height="60" width="60" />
+                    <br><span><b>Ratings:&nbsp;</b></span>
+                    <ngb-rating [(rate)]="x.rating">
+                      <ng-template let-fill="fill" let-index="index">
+                        <span class="star" [class.filled]="fill === 100">&#9733;</span>
+                      </ng-template>
+                    </ngb-rating>
+                    <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
+                    <br>
+                    <span><b>Location:</b></span> {{x.location}}
+                  </li>
+                </ul>
               </ng-template>
-              </ngb-tab>
+            </ngb-tab>
           </ngb-tabset>
-       
-             
+
+
         </div>
-        </nav>
-      
-     
-      </div>
-    </div>  
-<!-- ............................. Search Area............................... -->
-<div class="topRight">
-  <div>
-</div>
-</div>
+      </nav>
+
+
+    </div>
+  </div>
+  
+  <!-- ............................. Search Area............................... -->
+  <div class="topRight">
+    <div>
+    </div>
+  </div>
 </div>
 
-   <!--                    To Add new Restaurant                 -->
+<!--                    To Add new Restaurant                 -->
 
 
 <div class="addRest">
-    <form [formGroup]="myForm" >
-      <div class="form-group">
-        <div class="card-header">
-          <h4 >Add Restaurant :</h4>
-        </div>
-        <div>
-          <label>Restaurant Name:</label>
-          <input  class="form-control" formControlName="name"  type="text" placeholder="Enter the Restaurant name:" required/>
-        </div>
-        <br />
-        <div>
-          <label>Location:</label>
-        <input  placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+  <form [formGroup]="myForm">
+    <div class="form-group">
+      <div class="card-header">
+        <h4>Add Restaurant :</h4>
+      </div>
+      <div>
+        <label>Restaurant Name:</label>
+        <input class="form-control" formControlName="name" type="text" placeholder="Enter the Restaurant name:"
+          required />
+      </div>
+      <br />
+      <div>
+        <label>Location:</label>
+        <!-- <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl"> -->
         <!-- <agm-map formControlName="location" [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map> -->
-        </div>
-        <br>
-        <div class="form-group">
-          <label>Ratings:</label>
-          <ngb-rating formControlName="ratings" [(rate)]="currentRate">
-              <ng-template let-fill="fill" let-index="index">
-                <span class="star" [class.filled]="fill === 100" >&#9733;</span>
-              </ng-template>
-            </ngb-rating>
-        </div>
-        <div class="form-group">
-          <label>Date:</label>&nbsp;  
-   <div class="input-group-append">
-      <input class="form-control" placeholder="yyyy-mm-dd"
-          name="dp" formControlName='date' ngbDatepicker #d="ngbDatepicker">
-     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
-   </div>
-   </div>
-        <br>
-        <div class="form-group">
-          <label>Images:</label>&nbsp;
-          <input  type="file"   (change)="uploadFile($event)">
-          
-          <div><p><ngb-progressbar showValue="true" type="success" [value]="uploadPercent | async"></ngb-progressbar></p>
-           <!-- {{ uploadPercent | async }} -->
-            </div> 
-          <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
-       </div>
       </div>
-      <button class="btn btn-danger" style='padding: 10px;
+      <br>
+      <div class="form-group">
+        <label>Ratings:</label>
+        <ngb-rating formControlName="rating" [(rate)]="currentRate">
+          <ng-template let-fill="fill" let-index="index">
+            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+          </ng-template>
+        </ngb-rating>
+      </div>
+      <div class="form-group">
+        <label>Date:</label>&nbsp;
+        <div class="input-group-append">
+          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='date' ngbDatepicker
+            #d="ngbDatepicker">
+          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <label>Images:</label>&nbsp;
+        <input type="file" (change)="uploadFile($event)">
+
+        <div>
+          <p>
+            <ngb-progressbar showValue="true" type="success" [value]="uploadPercent | async"></ngb-progressbar>
+          </p>
+          <!-- {{ uploadPercent | async }} -->
+        </div>
+        <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
+      </div>
+    </div>
+    <button class="btn btn-danger" style='padding: 10px;
       text-align: center;
       text-decoration: none;
       
       border-radius: 12px;
-      color:black;
-      margin-right:16px'
-       
-        type="submit"
-        (click)="submitRestaurant()"
-      >
-        Submit
-      </button>
-    </form>
- 
+      color:white;
+      margin-right:16px' type="submit" (click)="submitRestaurant()">
+      Submit
+    </button>
+  </form>
+
 </div>
 <!-- ---------------------- Loader Component ----------------------------- -->
 
 <ng-template #loadingLoop>
-    <div class="loader"></div>
+  <div class="loader"></div>
 </ng-template>
 
 <!--..............................SideBar Menu.................................. -->
 
-<div class="sideBar">
+<div class="sideBarMenu">
   <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
-    <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">For Better Search</button>
+    <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">For Better
+      Search</button>
     <div ngbDropdownMenu aria-labelledby="dropdownManual">
-      <button ngbDropdownItem (click)="favourites()">Favourites 💙</button> 
+      <button ngbDropdownItem (click)="favourites()">Favourites 💙</button>
       <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
       <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
       <button ngbDropdownItem (click)="locationBased()">Location Based 📍</button>
@@ -181,7 +174,7 @@
         <div class="input-group">
           <button (click)="dp.toggle()"></button>
           <button class="btn btn-outline-secondary calendar"  type="button"></button> -->
-        <!-- </div>
+<!-- </div>
         <form  nonvalidate>
            <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">Sure Add to Favourites?</h4>
@@ -204,7 +197,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-success" 
               (click)="favourites(selectedX)">Yes</button> -->
-            <!-- <button type="button" class="btn btn-outline-danger" (click)="delItems(selectedX,objectIndex)" data-toggle="tooltip"
+<!-- <button type="button" class="btn btn-outline-danger" (click)="delItems(selectedX,objectIndex)" data-toggle="tooltip"
               data-placement="bottom" title="Will move activity to Done-Activities.">Done</button> -->
-          <!-- </div>
-</ng-template> --> 
+<!-- </div>
+</ng-template> -->

@@ -63,6 +63,7 @@ export class RestaurantsComponent implements OnInit {
   lng: any;
   lat: any;
   favouriteRestaurants: any;
+  ranking: any;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -104,64 +105,64 @@ export class RestaurantsComponent implements OnInit {
     this.loadingData = false;
 
 
-    //...........................Google-Maps-API..........................................
-    //set google maps defaults
-    this.zoom = 4;
-    this.latitude = 39.8282;
-    this.longitude = -98.5795;
+  //   //...........................Google-Maps-API..........................................
+  //   //set google maps defaults
+  //   this.zoom = 4;
+  //   this.latitude = 39.8282;
+  //   this.longitude = -98.5795;
 
-    //create search FormControl
-    this.searchControl = new FormControl();
+  //   //create search FormControl
+  //   this.searchControl = new FormControl();
 
-    //set current position
-    this.setCurrentPosition();
+  //   //set current position
+  //   this.setCurrentPosition();
 
-    //load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          console.log('place is:', place);
-          console.log('place name is:', place.formatted_address);
-          this.Location = place.formatted_address;
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
+  //   //load Places Autocomplete
+  //   this.mapsAPILoader.load().then(() => {
+  //     let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+  //       types: ["address"]
+  //     });
+  //     autocomplete.addListener("place_changed", () => {
+  //       this.ngZone.run(() => {
+  //         //get the place result
+  //         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  //         console.log('place is:', place);
+  //         console.log('place name is:', place.formatted_address);
+  //         this.Location = place.formatted_address;
+  //         //verify result
+  //         if (place.geometry === undefined || place.geometry === null) {
+  //           return;
+  //         }
 
-          //set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          console.log('cords:', this.latitude, this.longitude)
-          this.zoom = 12;
-        });
-      });
-    });
-  }
+  //         //set latitude, longitude and zoom
+  //         this.latitude = place.geometry.location.lat();
+  //         this.longitude = place.geometry.location.lng();
+  //         console.log('cords:', this.latitude, this.longitude)
+  //         this.zoom = 12;
+  //       });
+  //     });
+  //   });
+  // }
 
-  private setCurrentPosition() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 12;
-      });
-    }
-    //.............................................................................
+  // private setCurrentPosition() {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       this.latitude = position.coords.latitude;
+  //       this.longitude = position.coords.longitude;
+  //       this.zoom = 12;
+  //     });
+  //   }
+  //   //.............................................................................
 
 
 
-    //.............................................................................
+  //   //.............................................................................
 
     //.................Form Validation........................
     this.myForm = new FormGroup({
       name: new FormControl("", Validators.required),
       location: new FormControl("", Validators.required),
-      ratings: new FormControl("", Validators.required),
+      rating: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
       image: new FormControl('', Validators.required),
     });
@@ -173,11 +174,11 @@ export class RestaurantsComponent implements OnInit {
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
-          // console.log(
-          //   "restaurant data is:",
-          //   `${result.id} => ${result.data()}`,
-          //   result.data()
-          // );
+          console.log(
+            "fetched restaurant data is:",
+            `${result.id} => ${result.data()}`,
+            result.data()
+          );
 
           this.restaurantDetails.push({
             name: result.data().name,
@@ -187,7 +188,7 @@ export class RestaurantsComponent implements OnInit {
               year: result.data().date.year,
             },
             location: result.data().location,
-            ratings: result.data().rating,
+            rating: result.data().rating,
             image: result.data().image
 
           });
@@ -239,6 +240,7 @@ export class RestaurantsComponent implements OnInit {
     //To submit the data into the restaurant collection
     console.log('restaurant name:', this.myForm.value.name);
     this.restaurantsName = this.myForm.value.name;
+    this.ranking=this.myForm.value.rating;
     this.date2 = this.myForm.value.date;
     this.lat = this.myForm.value.location.latitude;
     this.lng = this.myForm.value.location.longitude;
@@ -260,8 +262,8 @@ export class RestaurantsComponent implements OnInit {
           name: this.restaurantsName,
           image: downloadURL,
           date: this.date2,
-          rating: this.myForm.value.ratings,
-          location: this.Location
+          rating: this.ranking,
+         // location: this.Location
         })
         console.log('stored', this.Location);
         this.toastr.info("Data has been recorded!");
@@ -306,23 +308,21 @@ export class RestaurantsComponent implements OnInit {
     }
   }
 
+  favourites(w: any) {
+    console.log('passed X:', w)
+    this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
-
-
-  favourites(x: any) {
-    console.log('passed X:', x)
-
-    this.favouriteRestaurants.push({
-      name: x.name,
+    this.restaurantDetails.push({
+      name: w.name,
       // loacation:x.loacation,
       date: {
-        day: x.date.day,
-        month: x.date.month,
-        year: x.date.year
+        day: w.date.day,
+        month: w.date.month,
+        year: w.date.year
       },
-      ratings: x.rating
+      rating: w.rating
     });
-    console.log('Fav Details:', this.favouriteRestaurants);
+    console.log('Fav Details:', this.restaurantDetails);
   }
 
   topRated() {
@@ -348,7 +348,7 @@ export class RestaurantsComponent implements OnInit {
               year: result.data().date.year,
             },
             location: result.data().location,
-            ratings: result.data().rating,
+            rating:result.data().rating,
             image: result.data().image
 
           });
@@ -367,7 +367,7 @@ export class RestaurantsComponent implements OnInit {
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
-      .collection("restaurants", ref => ref.orderBy('date.year', 'desc'))
+      .collection("restaurants", ref => ref.orderBy(('date.year'),'desc'))
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
@@ -385,7 +385,7 @@ export class RestaurantsComponent implements OnInit {
               year: result.data().date.year,
             },
             location: result.data().location,
-            ratings: result.data().rating,
+            rating: result.data().rating,
             image: result.data().image
 
           });
@@ -420,7 +420,7 @@ export class RestaurantsComponent implements OnInit {
               year: result.data().date.year,
             },
             location: result.data().location,
-            ratings: result.data().rating,
+            rating: result.data().rating,
             image: result.data().image
 
           });
