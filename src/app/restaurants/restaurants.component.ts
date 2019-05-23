@@ -1,5 +1,11 @@
-///<reference types="@types/googlemaps" />
-import { Component, OnInit, Input, ViewChild, ElementRef, NgZone, ChangeDetectorRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  NgZone
+} from "@angular/core";
 import {
   NgbModal,
   ModalDismissReasons,
@@ -17,15 +23,15 @@ import { ConstantPool } from "@angular/compiler";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { ToastrService } from "ngx-toastr";
-import { finalize, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { finalize, switchMap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 import { AgmCoreModule, MapsAPILoader } from "@agm/core"; //For Google Maps
-//import {} from '@types/googlemaps';
-import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
-import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
-
-
+//import {} from 'googlemaps';
+import { Placeholder } from "@angular/compiler/src/i18n/i18n_ast";
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import * as googleMaps from "@google/maps";
+//import { } from '@types/googlemaps';
 
 let google: any;
 
@@ -54,16 +60,14 @@ export class RestaurantsComponent implements OnInit {
   imageURL: any;
   sortRestaurantResult = []; //to store data based on Rating(descending order)
   loadingData: boolean = false;
-  dateBasedRestaurant = []
+  dateBasedRestaurant = [];
   loactionBasedRestaurant = [];
-  closeResult: string;
-  selectedRestaurant: any;
-
+  favouriteRestaurant=[];
   @ViewChild("search")
   public searchElementRef: ElementRef;
   lng: any;
   lat: any;
-  favouriteRestaurants = [];
+  selectedRestaurant= [];
   ranking: any;
 
   constructor(
@@ -74,38 +78,19 @@ export class RestaurantsComponent implements OnInit {
     private toastr: ToastrService,
     public router: Router,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
-    private modalService: NgbModal,
-    private cd: ChangeDetectorRef
-    // private google:GooglePlaceModule
+    private ngZone: NgZone // private google:GooglePlaceModule
   ) {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
   }
 
   public handleAddressChange(address: any) {
+    console.log(address);
+    this.Location=address.formatted_address;
     // Do some stuff
   }
   ngOnInit() {
-
-    // this.mapsAPILoader.load().then(
-    //   () =>{
-    //     let autocomplete= new google.maps.places.Autocomplete(this.searchElement.nativeElement,{types:"address"});
-    //         autocomplete.addListener('place_changed',() =>{
-    //         this.ngZone.run(() => {
-    //           let place:google.maps.places.PlaceResult = autocomplete.getPlace();
-    //           if(place.geometry === undefined || place.geometry === null ){
-    //             return;
-    //           }
-    //         });
-    //     })
-    //   }
-    // );
-
-
     this.loadingData = false;
-
-
     //   //...........................Google-Maps-API..........................................
     //set google maps defaults
     this.zoom = 4;
@@ -119,45 +104,29 @@ export class RestaurantsComponent implements OnInit {
     this.setCurrentPosition();
 
     //load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-          console.log('place is:', place);
-          console.log('place name is:', place.formatted_address);
-          this.Location = place.formatted_address;
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
+    // this.mapsAPILoader.load().then(() => {
+    //   let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+    //     types: ["address"]
+    //   });
+    //   autocomplete.addListener("place_changed", () => {
+    //     this.ngZone.run(() => {
+    //       //get the place result
+    //       let place = autocomplete.getPlace();
+    //       console.log('place name is:',place.formatted_address);
+    //         this.Location=place.formatted_address;
+    //       //verify result
+    //       if (place.geometry === undefined || place.geometry === null) {
+    //         return;
+    //       }
 
-          //set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          console.log('cords:', this.latitude, this.longitude)
-          this.zoom = 12;
-        });
-      });
-    });
-  }
-
-  private setCurrentPosition() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 12;
-      });
-    }
-    //.............................................................................
-
-
-
-    //.............................................................................
+    //       //set latitude, longitude and zoom
+    //       this.latitude = place.geometry.location.lat();
+    //       this.longitude = place.geometry.location.lng();
+    //       console.log('cords:',this.latitude,this.longitude)
+    //       this.zoom = 12;
+    //     });
+    //   });
+    // });
 
     //.................Form Validation........................
     this.myForm = new FormGroup({
@@ -165,74 +134,165 @@ export class RestaurantsComponent implements OnInit {
       location: new FormControl("", Validators.required),
       rating: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
-      image: new FormControl('', Validators.required),
+      image: new FormControl("", Validators.required)
     });
 
-    //.......................Fetching data initially................................
+    //.......................Fetching data randomly................................
 
     this.db
       .collection("restaurants")
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
-          console.log(
-            "fetched restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
+          // console.log(
+          //   "restaurant data is:",
+          //   `${result.id} => ${result.data()}`,
+          //   result.data()
+          // );
 
           this.restaurantDetails.push({
             name: result.data().name,
             date: {
               day: result.data().date.day,
               month: result.data().date.month,
-              year: result.data().date.year,
+              year: result.data().date.year
             },
             location: result.data().location,
             rating: result.data().rating,
             image: result.data().image
-
           });
-          //  console.log('Normal fetched data:', this.restaurantDetails);
-          this.loadingData = true;
+          // console.log('Detail is:',this.restaurantDetails);
         });
       });
 
+    //....................Fetching data based on Rating(from higher to lower)...................
 
+    this.db
+      .collection("restaurants", ref => ref.orderBy("rating", "desc"))
+      .get()
+      .subscribe(querySnapshot => {
+        querySnapshot.forEach(result => {
+          // console.log(
+          //   "restaurant data is:",
+          //   `${result.id} => ${result.data()}`,
+          //   result.data()
+          // );
+
+          this.sortRestaurantResult.push({
+            name: result.data().name,
+            date: {
+              day: result.data().date.day,
+              month: result.data().date.month,
+              year: result.data().date.year
+            },
+            location: result.data().location,
+            rating: result.data().rating,
+            image: result.data().image
+          });
+          this.loadingData = true;
+          // console.log('Detail is:',this.restaurantDetails);
+        });
+      });
+
+    //........................Fetching data based on Time........................................
+
+    this.db
+      .collection("restaurants", ref => ref.orderBy("date.year", "desc"))
+      .get()
+      .subscribe(querySnapshot => {
+        querySnapshot.forEach(result => {
+          // console.log(
+          //   "restaurant data is:",
+          //   `${result.id} => ${result.data()}`,
+          //   result.data()
+          // );
+
+          this.dateBasedRestaurant.push({
+            name: result.data().name,
+            date: {
+              day: result.data().date.day,
+              month: result.data().date.month,
+              year: result.data().date.year
+            },
+            location: result.data().location,
+            rating: result.data().rating,
+            image: result.data().image
+          });
+          // console.log('Detail is:',this.dateBasedRestaurant);
+        });
+      });
+
+    //........................Fetching data based on Location(City).................................
+
+    this.db
+      .collection("restaurants", ref => ref.orderBy("location"))
+      .get()
+      .subscribe(querySnapshot => {
+        querySnapshot.forEach(result => {
+          console.log(
+            "restaurant data is:",
+            `${result.id} => ${result.data()}`,
+            result.data()
+          );
+
+          this.loactionBasedRestaurant.push({
+            name: result.data().name,
+            date: {
+              day: result.data().date.day,
+              month: result.data().date.month,
+              year: result.data().date.year
+            },
+            location: result.data().location,
+            rating: result.data().rating,
+            image: result.data().image
+          });
+          // console.log('Detail is:',this.loactionBasedRestaurant);
+        });
+      });
   }
+  private setCurrentPosition() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 12;
+      });
+    }
 
+    //.............................................................................
+  }
   //.........................For submiting the restaurant details...........................
 
   submitRestaurant() {
     //To submit the data into the restaurant collection
-    console.log('restaurant name:', this.myForm.value.name);
+    console.log("restaurant name:", this.myForm.value.name);
     this.restaurantsName = this.myForm.value.name;
-    this.ranking = this.myForm.value.rating;
     this.date2 = this.myForm.value.date;
-    this.lat = this.myForm.value.location.latitude;
-    this.lng = this.myForm.value.location.longitude;
+    console.log('Ranking is:',this.myForm.value.rating);
+    this.ranking = this.myForm.value.rating;
+   // this.Location =this.myForm.value.loacation;
+    console.log('address',this.myForm.value.loacation);
+   console.log("ratings",this.ranking);
     console.log("Date", this.date2);
 
     const filePath = this.fileRef.name;
-    const fileRef = this.storage.ref(filePath);
-    console.log('filePAth', filePath, fileRef)
-    const task = this.storage.upload(filePath, this.fileRef);
+    // const fileRef = this.storage.ref(filePath);
+    // console.log("filePAth", filePath, fileRef);
+    
+    const task = this.storage.upload(filePath, this.fileRef).then(snapshot => snapshot.ref.getDownloadURL())
+      .then(downloadURL => {
+        console.log(
+          `Successfully uploaded file and got download link - ${downloadURL}`
+        );
 
-    // observe percentage changes
-    this.uploadPercent = task.percentageChanges();
-    fileRef.put(this.fileRef)
-      .then(snapshot => {
-        return snapshot.ref.getDownloadURL();   // Will return a promise with the download link
-      }).then(downloadURL => {
-        console.log(`Successfully uploaded file and got download link - ${downloadURL}`);
-        this.db.collection('restaurants').add({
+        this.db.collection("restaurants").add({
           name: this.restaurantsName,
           image: downloadURL,
           date: this.date2,
           rating: this.ranking,
-          // location: this.Location
-        })
-        console.log('stored', this.Location);
+          location:this.Location
+        });
+        console.log("stored", this.Location);
         this.toastr.info("Data has been recorded!");
         this.imageURL = downloadURL;
         return downloadURL;
@@ -241,6 +301,7 @@ export class RestaurantsComponent implements OnInit {
         // Use to signal error if something goes wrong.
         console.log(`Failed to upload file and get link - ${error}`);
       });
+      
     console.log("Date Format", this.myForm.value);
     this.myForm.reset();
   }
@@ -248,59 +309,42 @@ export class RestaurantsComponent implements OnInit {
   //...........To Upload the picture to FireBase-Storage.......
 
   uploadFile(event) {
-    console.log('kdjfjdsf');
+    
     const file = event.target.files[0];
     this.fileRef = file;
     this.imageName = file.name;
   }
 
-  //.................................Just to do logout.....................................
-
-  logout() {
-    this.afAuth.auth.signOut();
-    this.toastr.success("LoggedOut Succesfullly");
-    this.router.navigate(["/login"]);
+  onTap(x:any){
+    this.favouriteRestaurant=x;
+    console.log('jhfsfsfs',this.selectedRestaurant);
   }
 
 
-  onTap(x: any) {
-    console.log('initialize:', x);
-    this.selectedRestaurant = x;
-  }
   addToFavourites(w: any) {
-
-    this.db.collection('favourites').add({
+    console.log('object Favourite:',w);
+      this.db.collection("favourites").add({
       name: w.name,
       date: {
         day: w.date.day,
         month: w.date.month,
         year: w.date.year
       },
+      location:w.location,
       rating: w.rating,
       image: w.image
     });
 
     this.selectedRestaurant = w;
-    this.favouriteRestaurants.push({
-      name: w.name,
-      date: {
-        day: w.date.day,
-        month: w.date.month,
-        year: w.date.year
-      },
-      rating: w.rating
-    });
+    
     this.toastr.success("Added to favourites");
-
   }
 
-  //.....................To get the list of Favourite restaurants........................
+  
+  //.......................To Fetch the favourite Restaurants..................................
 
   favourites(w: any) {
-
     this.loadingData = false;
-
-
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
@@ -321,30 +365,65 @@ export class RestaurantsComponent implements OnInit {
               month: result.data().date.month,
               year: result.data().date.year
             },
+            location:result.data().location,
             rating: result.data().rating,
             image: result.data().image
           });
           this.loadingData = true;
-
-        })
-
+        });
       });
-
 
     this.toastr.success("Favourites💙 Loaded Succesfullly");
 
-    console.log('Fav Details:', this.restaurantDetails);
+    console.log("Fav Details:", this.restaurantDetails);
+  }
+
+  //..............To get the restaurants recently added..................................
+
+  recentlyAdded() {
+    this.loadingData = false;
+
+    //........................Fetching data based on Time........................................
+    this.restaurantDetails.splice(0, this.restaurantDetails.length);
+
+    this.db
+      .collection("restaurants", ref => ref.orderBy("date.year", "desc"))
+      .get()
+      .subscribe(querySnapshot => {
+        querySnapshot.forEach(result => {
+          console.log(
+            "restaurant data is:",
+            `${result.id} => ${result.data()}`,
+            result.data()
+          );
+
+          this.restaurantDetails.push({
+            name: result.data().name,
+            date: {
+              day: result.data().date.day,
+              month: result.data().date.month,
+              year: result.data().date.year
+            },
+            location: result.data().location,
+            rating: result.data().rating,
+            image: result.data().image
+          });
+          //this.toastr.success("Recenly Added");
+          this.loadingData = true;
+        });
+      });
+    this.toastr.success("Recently Added⏲ Loaded Succesfullly");
+
+    console.log("Recently added restaurants:", this.restaurantDetails);
   }
 
   //...............To get the restaurants based on Ratings............
 
   topRated() {
-
     this.loadingData = false;
 
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
-    console.log('inside topRated:', this.restaurantDetails);
-
+    console.log("inside topRated:", this.restaurantDetails);
 
     this.db
       .collection("restaurants", ref => ref.orderBy("rating", "desc"))
@@ -361,75 +440,29 @@ export class RestaurantsComponent implements OnInit {
             date: {
               day: result.data().date.day,
               month: result.data().date.month,
-              year: result.data().date.year,
+              year: result.data().date.year
             },
             location: result.data().location,
             rating: result.data().rating,
             image: result.data().image
-
           });
           this.loadingData = true;
-
         });
         this.toastr.success("Top Rated ★ Restaurants Loaded!");
       });
-    console.log('Top Rated Restaurants:', this.restaurantDetails)
-  }
-
-  //..............To get the restaurants recently added..................................
-
-  recentlyAdded() {
-
-    this.loadingData = false;
-
-    //........................Fetching data based on Time........................................
-    this.restaurantDetails.splice(0, this.restaurantDetails.length);
-
-    this.db
-      .collection("restaurants", ref => ref.orderBy(('date.year'), 'desc'))
-      .get()
-      .subscribe(querySnapshot => {
-        querySnapshot.forEach(result => {
-          console.log(
-            "restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
-
-          this.restaurantDetails.push({
-            name: result.data().name,
-            date: {
-              day: result.data().date.day,
-              month: result.data().date.month,
-              year: result.data().date.year,
-            },
-            location: result.data().location,
-            rating: result.data().rating,
-            image: result.data().image
-
-          });
-          //this.toastr.success("Recenly Added");
-          this.loadingData = true;
-
-        });
-      });
-    this.toastr.success("Recently Added⏲ Loaded Succesfullly");
-
-    console.log('Recently added restaurants:', this.restaurantDetails);
-
+    console.log("Top Rated Restaurants:", this.restaurantDetails);
   }
 
   //......................Restaurants based on locations....................
 
   locationBased() {
-
     this.loadingData = false;
 
     //........................Fetching data based on Location(City).................................
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
-      .collection("restaurants", ref => ref.orderBy('location'))
+      .collection("restaurants", ref => ref.orderBy("location"))
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
@@ -444,44 +477,42 @@ export class RestaurantsComponent implements OnInit {
             date: {
               day: result.data().date.day,
               month: result.data().date.month,
-              year: result.data().date.year,
+              year: result.data().date.year
             },
             location: result.data().location,
             rating: result.data().rating,
             image: result.data().image
-
           });
           this.loadingData = true;
-
         });
       });
 
-    console.log('Location📍 Based Restaurnts:', this.restaurantDetails);
-
-
+    console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
   }
 
+  //.................................Just to do logout.....................................
 
+  logout() {
+    this.afAuth.auth.signOut();
+    this.toastr.success("LoggedOut Succesfullly");
+    this.router.navigate(["/login"]);
+  }
 }
-//.......................................END....................................................
-
-
-
 
 //.......................................Extras............................................
 
 //  console.log('Sortin result:', this.restaurantDetails.sort());
-              // for(let b=0;b<this.restaurantDetails.length;b++){
-              //   for(let c=0;c<(this.restaurantDetails.length-1);c++){
-              //    // console.log('inside the loop');
-              //     if(this.restaurantDetails[c].ratings < this.restaurantDetails[c+1].ratings){
-              //         this.temp=this.restaurantDetails[c];
-              //         this.restaurantDetails[c]=this.restaurantDetails[c+1];
-              //         this.restaurantDetails[c+1]=this.temp;
-              //     }
-              //     this.sortRestaurantResult.push({
-              //       //name:this.restaurantDetails[c].name,
+// for(let b=0;b<this.restaurantDetails.length;b++){
+//   for(let c=0;c<(this.restaurantDetails.length-1);c++){
+//    // console.log('inside the loop');
+//     if(this.restaurantDetails[c].ratings < this.restaurantDetails[c+1].ratings){
+//         this.temp=this.restaurantDetails[c];
+//         this.restaurantDetails[c]=this.restaurantDetails[c+1];
+//         this.restaurantDetails[c+1]=this.temp;
+//     }
+//     this.sortRestaurantResult.push({
+//       //name:this.restaurantDetails[c].name,
 
-              //     });
-              //   }
-              // }
+//     });
+//   }
+// }

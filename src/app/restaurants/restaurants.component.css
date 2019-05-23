@@ -1,23 +1,18 @@
+.navbar{
+  color:white;
+}
 
 .gridContainer{
+  
   background: lightgray;
   width: 100px;
   display: grid;
-  grid-template-columns:auto 500px 500px;
-  grid-template-rows:auto ;
+  grid-template-columns:500px auto;
 
-}
-
-.d1{
-  position:absolute;
-  top:60px;
-  left:05px;
-  width:200px;
 }
 
 .d2{
-    margin-left:auto;
-    margin-right: auto;
+    
     bottom: 0px;
     width: 500px;
     display:grid;
@@ -25,21 +20,24 @@
   .d3{
     position: absolute;
     top: 60px;
-    right: 05px;
+    right: 100px;
     width: 320px;
     font-size: 15px;
+    justify-content: center;
+    /* justify-items: center; */
     text-align:left;
   }
  
-
-  li:hover {
+ .restaurantGrid{
+   display: grid;
+   grid-template-columns: repeat(3,1fr);
+   grid-gap: 05px;
+ }
+  .list-group-item:hover{
     color: rgb(15, 15, 15);
     background-color: white;
-  } 
+  }
 
-.navbar{
-  color:white;
-}
   .star {
     font-size: 1.5rem;
     color: #b0c4de;
@@ -54,7 +52,7 @@
     color: #ff1e1e;
   }
 
-.imageBig:hover {
+/* .imageBig:hover {
   position:relative;
   top:-20px;
   left:55px;
@@ -62,10 +60,10 @@
   height:auto;
   display:block;
   z-index:999;
-}
+} */
 
 .agm-map{
-  height: 400px;
+  height: 300px;
 }
 
 .loader {
@@ -86,3 +84,4 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+

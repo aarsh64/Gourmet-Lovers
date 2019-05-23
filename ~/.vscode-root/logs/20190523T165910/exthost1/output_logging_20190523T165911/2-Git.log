@@ -1,0 +1,112 @@
+Looking for git in: git
+Using git 2.7.4 from git
+> git rev-parse --show-toplevel
+> git config --get commit.template
+Open repository: /home/pk/foodplaces
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+fatal: no upstream configured for branch 'master'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :src/app/restaurants/restaurants.component.ts
+> git check-ignore -z --stdin
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+fatal: no upstream configured for branch 'master'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :src/app/restaurants/restaurants.component.ts
+> git check-ignore -z --stdin
+> git show :src/app/app.component.ts
+> git show :src/app/app.module.ts
+> git check-ignore -z --stdin
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+fatal: no upstream configured for branch 'master'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :node_modules/@types/googlemaps/index.d.ts
+> git ls-files --stage -- node_modules/@types/googlemaps/
+> git check-ignore -z --stdin
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :node_modules/@types/googlemaps/index.d.ts
+> git ls-files --stage -- node_modules/@types/googlemaps/
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :tsconfig.json
+> git check-ignore -z --stdin
+> git show :src/tsconfig.spec.json
+> git show :src/app/restaurants/restaurants.component.html
+> git check-ignore -z --stdin
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :tsconfig.json
+> git show :src/tsconfig.spec.json
+> git show :tsconfig.json
+> git show :package.json
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git check-ignore -z --stdin
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :node_modules/@types/googlemaps/index.d.ts
+> git ls-files --stage -- node_modules/@types/googlemaps/
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :node_modules/@types/googlemaps/index.d.ts
+> git ls-files --stage -- node_modules/@types/googlemaps/
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/users/users.component.spec.ts
+> git show :src/app/users/users.component.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/users/users.component.html
+> git show :src/app/users/users.component.ts
+> git show :src/app/users/users.component.html
+> git show :src/app/users/users.component.ts
+> git show :src/app/users/users.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/users/users.component.html
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/index.html
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/index.html
+> git show :src/app/app.module.ts
+> git show :src/index.html
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html

@@ -64,7 +64,6 @@ export class UsersComponent implements OnInit {
     this.db
       .collection("users")
       .add({
-        username: this.userForm.value.username,
         email: this.userForm.value.email,
         password: this.userForm.value.password
       })

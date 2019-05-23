@@ -17,7 +17,8 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule,Routes } from '@angular/router';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
-//import{google} from '@google/maps';
+
+import{google} from '@google/maps';
 import { AuthGuard } from './auth.guard';
 //import {} from '/googlemaps';
 

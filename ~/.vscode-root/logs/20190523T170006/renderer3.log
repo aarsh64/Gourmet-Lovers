@@ -1,0 +1,2 @@
+[2019-05-23 17:00:07.016] [renderer3] [error] Failed to watch /home/pk/foodplaces/~/.vscode-root/User for changes (Error: ENOSPC: no space left on device, watch '/home/pk/foodplaces/~/.vscode-root/User')
+[2019-05-23 17:00:07.086] [renderer3] [error] Failed to watch /home/pk/foodplaces/~/.vscode-root/logs/20190523T170006/output_3_20190523T170006 for changes (Error: ENOSPC: no space left on device, watch '/home/pk/foodplaces/~/.vscode-root/logs/20190523T170006/output_3_20190523T170006')
