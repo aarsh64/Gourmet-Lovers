@@ -63,7 +63,7 @@ export class RestaurantsComponent implements OnInit {
   public searchElementRef: ElementRef;
   lng: any;
   lat: any;
-  favouriteRestaurants=[];
+  favouriteRestaurants = [];
   ranking: any;
 
   constructor(
@@ -107,57 +107,57 @@ export class RestaurantsComponent implements OnInit {
 
 
     //   //...........................Google-Maps-API..........................................
-    //   //set google maps defaults
-    //   this.zoom = 4;
-    //   this.latitude = 39.8282;
-    //   this.longitude = -98.5795;
+    //set google maps defaults
+    this.zoom = 4;
+    this.latitude = 39.8282;
+    this.longitude = -98.5795;
 
-    //   //create search FormControl
-    //   this.searchControl = new FormControl();
+    //create search FormControl
+    this.searchControl = new FormControl();
 
-    //   //set current position
-    //   this.setCurrentPosition();
+    //set current position
+    this.setCurrentPosition();
 
-    //   //load Places Autocomplete
-    //   this.mapsAPILoader.load().then(() => {
-    //     let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-    //       types: ["address"]
-    //     });
-    //     autocomplete.addListener("place_changed", () => {
-    //       this.ngZone.run(() => {
-    //         //get the place result
-    //         let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-    //         console.log('place is:', place);
-    //         console.log('place name is:', place.formatted_address);
-    //         this.Location = place.formatted_address;
-    //         //verify result
-    //         if (place.geometry === undefined || place.geometry === null) {
-    //           return;
-    //         }
+    //load Places Autocomplete
+    this.mapsAPILoader.load().then(() => {
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          console.log('place is:', place);
+          console.log('place name is:', place.formatted_address);
+          this.Location = place.formatted_address;
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
 
-    //         //set latitude, longitude and zoom
-    //         this.latitude = place.geometry.location.lat();
-    //         this.longitude = place.geometry.location.lng();
-    //         console.log('cords:', this.latitude, this.longitude)
-    //         this.zoom = 12;
-    //       });
-    //     });
-    //   });
-    // }
+          //set latitude, longitude and zoom
+          this.latitude = place.geometry.location.lat();
+          this.longitude = place.geometry.location.lng();
+          console.log('cords:', this.latitude, this.longitude)
+          this.zoom = 12;
+        });
+      });
+    });
+  }
 
-    // private setCurrentPosition() {
-    //   if ("geolocation" in navigator) {
-    //     navigator.geolocation.getCurrentPosition((position) => {
-    //       this.latitude = position.coords.latitude;
-    //       this.longitude = position.coords.longitude;
-    //       this.zoom = 12;
-    //     });
-    //   }
-    //   //.............................................................................
+  private setCurrentPosition() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 12;
+      });
+    }
+    //.............................................................................
 
 
 
-    //   //.............................................................................
+    //.............................................................................
 
     //.................Form Validation........................
     this.myForm = new FormGroup({
@@ -168,7 +168,7 @@ export class RestaurantsComponent implements OnInit {
       image: new FormControl('', Validators.required),
     });
 
-    //.......................Fetching data randomly................................
+    //.......................Fetching data initially................................
 
     this.db
       .collection("restaurants")
@@ -198,41 +198,7 @@ export class RestaurantsComponent implements OnInit {
         });
       });
 
-    //....................Fetching data based on Rating(from higher to lower)................... 
 
-    // this.db
-    //   .collection("restaurants", ref => ref.orderBy("rating", "desc"))
-    //   .get()
-    //   .subscribe(querySnapshot => {
-    //     querySnapshot.forEach(result => {
-    //       console.log(
-    //         "restaurant data is:",
-    //         `${result.id} => ${result.data()}`,
-    //         result.data()
-    //       );
-
-    //       this.sortRestaurantResult.push({
-    //         name: result.data().name,
-    //         date: {
-    //           day: result.data().date.day,
-    //           month: result.data().date.month,
-    //           year: result.data().date.year,
-    //         },
-    //         location: result.data().location,
-    //         ratings: result.data().rating,
-    //         image: result.data().image
-
-    //       });
-
-
-    //     });
-
-    //   });
-
-
-    // console.log('Restaurans based on Ratings:', this.sortRestaurantResult);
-    //console.log('Based on Timings:', this.dateBasedRestaurant);
-    //console.log('Based on Locaion:', this.loactionBasedRestaurant);
   }
 
   //.........................For submiting the restaurant details...........................
@@ -296,39 +262,45 @@ export class RestaurantsComponent implements OnInit {
     this.router.navigate(["/login"]);
   }
 
- 
+
   onTap(x: any) {
-    console.log('initialize:',x);
+    console.log('initialize:', x);
     this.selectedRestaurant = x;
   }
-  addToFavourites(w:any){
+  addToFavourites(w: any) {
 
     this.db.collection('favourites').add({
-      name:w.name,
-      date:{
-        day:w.date.day,
-        month:w.date.month,
-        year:w.date.year
+      name: w.name,
+      date: {
+        day: w.date.day,
+        month: w.date.month,
+        year: w.date.year
       },
-      rating:w.rating,
-      image:w.image
+      rating: w.rating,
+      image: w.image
     });
 
-    this.selectedRestaurant=w;
+    this.selectedRestaurant = w;
     this.favouriteRestaurants.push({
-      name:w.name,
-      date:{
-        day:w.date.day,
-        month:w.date.month,
-        year:w.date.year
+      name: w.name,
+      date: {
+        day: w.date.day,
+        month: w.date.month,
+        year: w.date.year
       },
-      rating:w.rating
+      rating: w.rating
     });
     this.toastr.success("Added to favourites");
- 
+
   }
+
+  //.....................To get the list of Favourite restaurants........................
+
   favourites(w: any) {
-    
+
+    this.loadingData = false;
+
+
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
@@ -350,18 +322,26 @@ export class RestaurantsComponent implements OnInit {
               year: result.data().date.year
             },
             rating: result.data().rating,
-            image:result.data().image
-          });})
-        
-        });
+            image: result.data().image
+          });
+          this.loadingData = true;
 
-    
-    this.toastr.success("Favourites Loaded Succesfullly");
+        })
+
+      });
+
+
+    this.toastr.success("Favourites💙 Loaded Succesfullly");
 
     console.log('Fav Details:', this.restaurantDetails);
   }
 
+  //...............To get the restaurants based on Ratings............
+
   topRated() {
+
+    this.loadingData = false;
+
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
     console.log('inside topRated:', this.restaurantDetails);
 
@@ -388,13 +368,19 @@ export class RestaurantsComponent implements OnInit {
             image: result.data().image
 
           });
+          this.loadingData = true;
+
         });
-        this.toastr.success("Top Rated Restaurants Loaded!");
+        this.toastr.success("Top Rated ★ Restaurants Loaded!");
       });
     console.log('Top Rated Restaurants:', this.restaurantDetails)
   }
 
+  //..............To get the restaurants recently added..................................
+
   recentlyAdded() {
+
+    this.loadingData = false;
 
     //........................Fetching data based on Time........................................
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
@@ -423,16 +409,22 @@ export class RestaurantsComponent implements OnInit {
 
           });
           //this.toastr.success("Recenly Added");
+          this.loadingData = true;
 
         });
       });
-      this.toastr.success("Recently Added Loaded Succesfullly");
+    this.toastr.success("Recently Added⏲ Loaded Succesfullly");
 
     console.log('Recently added restaurants:', this.restaurantDetails);
 
   }
 
+  //......................Restaurants based on locations....................
+
   locationBased() {
+
+    this.loadingData = false;
+
     //........................Fetching data based on Location(City).................................
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
@@ -459,17 +451,22 @@ export class RestaurantsComponent implements OnInit {
             image: result.data().image
 
           });
+          this.loadingData = true;
 
         });
       });
 
-    console.log('Location Based Restaurnts:', this.restaurantDetails);
+    console.log('Location📍 Based Restaurnts:', this.restaurantDetails);
 
 
   }
 
 
 }
+//.......................................END....................................................
+
+
+
 
 //.......................................Extras............................................
 

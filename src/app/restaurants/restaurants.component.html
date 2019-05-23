@@ -12,7 +12,9 @@
         <b>Dashboard</b></h4>
     </div>
     <div class="navbar-header">
-      <h3 style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"><b>🍔FoodBusters🍔</b></h3>
+      <a style="font-size: 25px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
+      title="will lead you to your activities" routerLink="/restaurantDetails"
+      routerLinkActive="active"><b>🍔GourmetLovers🍔</b></a>
 
     </div>
 
@@ -31,25 +33,45 @@
 
 
 <!--..................... Print stored restaurants................... -->
-<div class="restaurantDetails">
+<div class="gridContainer">
+ 
+<!--..............................SideBar Menu.................................. -->
+
+<div class="d1">
+    <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+      <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">For Better
+        Search</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownManual">
+        <button ngbDropdownItem (click)="favourites()">Favourites 💙</button>
+        <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
+        <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
+        <button ngbDropdownItem (click)="locationBased()">Location Based 📍</button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+<div class="d2">
   <div *ngIf="loadingData; else loadingLoop">
     <div class="card">
       <nav class="navbar navbar-expand-lg navbar bg-light ">
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ngb-tabset>
-            <ngb-tab title="Home">
+            <ngb-tab >
               <ng-template ngbTabContent>
                 <ul class="navbar-nav mr-auto">
                 </ul>
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
+                <!-- <ul class="list-group"> -->
+                  <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
                     <span><b>Name:</b>&nbsp;<span>{{x.name}}</span></span>
                     &nbsp; &nbsp;&nbsp; &nbsp;
 
                     <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger"
-                        (click)="addToFavourites(selectedRestaurant)">💙</button></span>
+                        (click)="addToFavourites(x)">💙</button></span>
                     <br>
                     <span><b>Image:</b>&nbsp;</span>&nbsp;
                     <img class="imageBig" [src]="x.image" height="60" width="60" />
@@ -62,8 +84,8 @@
                     <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
                     <br>
                     <span><b>Location:</b></span> {{x.location}}
-                  </li>
-                </ul>
+                  </div>
+                <!-- </ul> -->
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
@@ -86,7 +108,7 @@
 <!--                    To Add new Restaurant                 -->
 
 
-<div class="addRest">
+<div class="d3">
   <form [formGroup]="myForm">
     <div class="form-group">
       <div class="card-header">
@@ -100,7 +122,7 @@
       <br />
       <div>
         <label>Location:</label>
-        <!-- <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl"> -->
+        <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
         <!-- <agm-map formControlName="location" [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map> -->
@@ -129,7 +151,7 @@
 
         <div>
           <p>
-            <ngb-progressbar showValue="true" type="success" [value]="uploadPercent | async"></ngb-progressbar>
+            <ngb-progressbar showValue="true" type="danger" [value]="uploadPercent | async"></ngb-progressbar>
           </p>
           <!-- {{ uploadPercent | async }} -->
         </div>
@@ -148,20 +170,6 @@
   <div class="loader"></div>
 </ng-template>
 
-<!--..............................SideBar Menu.................................. -->
-
-<div class="sideBarMenu">
-  <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
-    <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()">For Better
-      Search</button>
-    <div ngbDropdownMenu aria-labelledby="dropdownManual">
-      <button ngbDropdownItem (click)="favourites()">Favourites 💙</button>
-      <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
-      <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
-      <button ngbDropdownItem (click)="locationBased()">Location Based 📍</button>
-    </div>
-  </div>
-</div>
 
 <!-- Add to favourites
 <ng-template #content>

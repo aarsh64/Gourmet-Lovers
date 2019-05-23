@@ -1,30 +1,42 @@
-.restaurantDetails{
+
+.gridContainer{
+  background: lightgray;
+  width: 100px;
+  display: grid;
+  grid-template-columns:auto 500px 500px;
+  grid-template-rows:auto ;
+
+}
+
+.d1{
+  position:absolute;
+  top:60px;
+  left:05px;
+  width:200px;
+}
+
+.d2{
     margin-left:auto;
     margin-right: auto;
     bottom: 0px;
     width: 500px;
+    display:grid;
   }
-  li:hover {
-    color: rgb(15, 15, 15);
-    background-color: white;
-  } 
-
-.addRest{
+  .d3{
     position: absolute;
     top: 60px;
     right: 05px;
     width: 320px;
     font-size: 15px;
-    text-align:left
+    text-align:left;
   }
+ 
 
-.sideBarMenu{
-  position:absolute;
-  top:60px;
-  left:05px;
-  width:200px;
+  li:hover {
+    color: rgb(15, 15, 15);
+    background-color: white;
+  } 
 
-}
 .navbar{
   color:white;
 }
