@@ -62,12 +62,12 @@ export class RestaurantsComponent implements OnInit {
   loadingData: boolean = false;
   dateBasedRestaurant = [];
   loactionBasedRestaurant = [];
-  favouriteRestaurant=[];
+  favouriteRestaurant = [];
   @ViewChild("search")
   public searchElementRef: ElementRef;
   lng: any;
   lat: any;
-  selectedRestaurant= [];
+  selectedRestaurant = [];
   ranking: any;
 
   constructor(
@@ -85,8 +85,8 @@ export class RestaurantsComponent implements OnInit {
   }
 
   public handleAddressChange(address: any) {
-    console.log(address);
-    this.Location=address.formatted_address;
+    console.log('Full Location',address);
+    this.Location = address.formatted_address;
     // Do some stuff
   }
   ngOnInit() {
@@ -103,30 +103,6 @@ export class RestaurantsComponent implements OnInit {
     //set current position
     this.setCurrentPosition();
 
-    //load Places Autocomplete
-    // this.mapsAPILoader.load().then(() => {
-    //   let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-    //     types: ["address"]
-    //   });
-    //   autocomplete.addListener("place_changed", () => {
-    //     this.ngZone.run(() => {
-    //       //get the place result
-    //       let place = autocomplete.getPlace();
-    //       console.log('place name is:',place.formatted_address);
-    //         this.Location=place.formatted_address;
-    //       //verify result
-    //       if (place.geometry === undefined || place.geometry === null) {
-    //         return;
-    //       }
-
-    //       //set latitude, longitude and zoom
-    //       this.latitude = place.geometry.location.lat();
-    //       this.longitude = place.geometry.location.lng();
-    //       console.log('cords:',this.latitude,this.longitude)
-    //       this.zoom = 12;
-    //     });
-    //   });
-    // });
 
     //.................Form Validation........................
     this.myForm = new FormGroup({
@@ -193,62 +169,6 @@ export class RestaurantsComponent implements OnInit {
           // console.log('Detail is:',this.restaurantDetails);
         });
       });
-
-    //........................Fetching data based on Time........................................
-
-    this.db
-      .collection("restaurants", ref => ref.orderBy("date.year", "desc"))
-      .get()
-      .subscribe(querySnapshot => {
-        querySnapshot.forEach(result => {
-          // console.log(
-          //   "restaurant data is:",
-          //   `${result.id} => ${result.data()}`,
-          //   result.data()
-          // );
-
-          this.dateBasedRestaurant.push({
-            name: result.data().name,
-            date: {
-              day: result.data().date.day,
-              month: result.data().date.month,
-              year: result.data().date.year
-            },
-            location: result.data().location,
-            rating: result.data().rating,
-            image: result.data().image
-          });
-          // console.log('Detail is:',this.dateBasedRestaurant);
-        });
-      });
-
-    //........................Fetching data based on Location(City).................................
-
-    this.db
-      .collection("restaurants", ref => ref.orderBy("location"))
-      .get()
-      .subscribe(querySnapshot => {
-        querySnapshot.forEach(result => {
-          console.log(
-            "restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
-
-          this.loactionBasedRestaurant.push({
-            name: result.data().name,
-            date: {
-              day: result.data().date.day,
-              month: result.data().date.month,
-              year: result.data().date.year
-            },
-            location: result.data().location,
-            rating: result.data().rating,
-            image: result.data().image
-          });
-          // console.log('Detail is:',this.loactionBasedRestaurant);
-        });
-      });
   }
   private setCurrentPosition() {
     if ("geolocation" in navigator) {
@@ -268,18 +188,20 @@ export class RestaurantsComponent implements OnInit {
     console.log("restaurant name:", this.myForm.value.name);
     this.restaurantsName = this.myForm.value.name;
     this.date2 = this.myForm.value.date;
-    console.log('Ranking is:',this.myForm.value.rating);
+    console.log("Ranking is:", this.myForm.value.rating);
     this.ranking = this.myForm.value.rating;
-   // this.Location =this.myForm.value.loacation;
-    console.log('address',this.myForm.value.loacation);
-   console.log("ratings",this.ranking);
+    // this.Location =this.myForm.value.loacation;
+    console.log("address", this.myForm.value.loacation);
+    console.log("ratings", this.ranking);
     console.log("Date", this.date2);
 
     const filePath = this.fileRef.name;
     // const fileRef = this.storage.ref(filePath);
     // console.log("filePAth", filePath, fileRef);
-    
-    const task = this.storage.upload(filePath, this.fileRef).then(snapshot => snapshot.ref.getDownloadURL())
+
+    const task = this.storage
+      .upload(filePath, this.fileRef)
+      .then(snapshot => snapshot.ref.getDownloadURL())
       .then(downloadURL => {
         console.log(
           `Successfully uploaded file and got download link - ${downloadURL}`
@@ -290,7 +212,7 @@ export class RestaurantsComponent implements OnInit {
           image: downloadURL,
           date: this.date2,
           rating: this.ranking,
-          location:this.Location
+          location: this.Location
         });
         console.log("stored", this.Location);
         this.toastr.info("Data has been recorded!");
@@ -301,7 +223,7 @@ export class RestaurantsComponent implements OnInit {
         // Use to signal error if something goes wrong.
         console.log(`Failed to upload file and get link - ${error}`);
       });
-      
+
     console.log("Date Format", this.myForm.value);
     this.myForm.reset();
   }
@@ -309,38 +231,35 @@ export class RestaurantsComponent implements OnInit {
   //...........To Upload the picture to FireBase-Storage.......
 
   uploadFile(event) {
-    
     const file = event.target.files[0];
     this.fileRef = file;
     this.imageName = file.name;
   }
 
-  onTap(x:any){
-    this.favouriteRestaurant=x;
-    console.log('jhfsfsfs',this.selectedRestaurant);
+  onTap(x: any) {
+    this.favouriteRestaurant = x;
+    console.log("jhfsfsfs", this.selectedRestaurant);
   }
 
-
   addToFavourites(w: any) {
-    console.log('object Favourite:',w);
-      this.db.collection("favourites").add({
+    console.log("object Favourite:", w);
+    this.db.collection("favourites").add({
       name: w.name,
       date: {
         day: w.date.day,
         month: w.date.month,
         year: w.date.year
       },
-      location:w.location,
+      location: w.location,
       rating: w.rating,
       image: w.image
     });
 
     this.selectedRestaurant = w;
-    
+
     this.toastr.success("Added to favourites");
   }
 
-  
   //.......................To Fetch the favourite Restaurants..................................
 
   favourites(w: any) {
@@ -365,7 +284,7 @@ export class RestaurantsComponent implements OnInit {
               month: result.data().date.month,
               year: result.data().date.year
             },
-            location:result.data().location,
+            location: result.data().location,
             rating: result.data().rating,
             image: result.data().image
           });
@@ -383,7 +302,7 @@ export class RestaurantsComponent implements OnInit {
   recentlyAdded() {
     this.loadingData = false;
 
-    //........................Fetching data based on Time........................................
+    //...................Fetching data based on Time................................
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
@@ -455,23 +374,24 @@ export class RestaurantsComponent implements OnInit {
 
   //......................Restaurants based on locations....................
 
-  locationBased() {
-    this.loadingData = false;
-
-    //........................Fetching data based on Location(City).................................
+  searchByLocation() {
+    console.log('Location Called with location',this.Location);
+    
+    //................Fetching data based on Location(City)...........................
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
-      .collection("restaurants", ref => ref.orderBy("location"))
+      .collection("restaurants", ref => ref.where("location","==",this.Location))
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
-          console.log(
+          this.loadingData = false;
+          console.log(  
             "restaurant data is:",
             `${result.id} => ${result.data()}`,
             result.data()
           );
-
+      
           this.restaurantDetails.push({
             name: result.data().name,
             date: {
@@ -483,8 +403,11 @@ export class RestaurantsComponent implements OnInit {
             rating: result.data().rating,
             image: result.data().image
           });
+          console.log('location based Restaurants:',this.restaurantDetails);
           this.loadingData = true;
         });
+        this.toastr.success("Location Based Restaurants Loaded!");
+
       });
 
     console.log("Location📍 Based Restaurnts:", this.restaurantDetails);

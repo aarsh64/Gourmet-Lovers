@@ -3,18 +3,16 @@
 }
 
 .gridContainer{
-  
-  background: lightgray;
-  width: 100px;
+   /* background: lightgray; */
+  width:720px;
   display: grid;
-  grid-template-columns:500px auto;
+  grid-template-columns:auto auto;
 
 }
 
 .d2{
-    
     bottom: 0px;
-    width: 500px;
+    /* width: auto; */
     display:grid;
   }
   .d3{
@@ -73,7 +71,7 @@
   border-bottom: 16px solid crimson;
   border-radius: 50%;
   margin-left:280px;
-  margin-top:100px;
+  margin-top:250px;
   width: 70px;
   height: 70px;
   animation: spin 2s linear infinite;

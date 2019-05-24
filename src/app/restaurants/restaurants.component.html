@@ -8,13 +8,18 @@
 
   <nav class="navbar sticky-top navbar-dark bg-danger">
     <div class="navbar-header">
-      <h4 style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif" class="navbar-brand-header">
-        <b>Dashboard</b></h4>
+      <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand" routerLink="/restaurantDetails" routerLinkActive="active">
+        <b>🍔Gourmet Lovers🍔</b></a>
     </div>&nbsp;
     <div class="navbar-header">
-      <a style="font-size: 25px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
-      title="will lead you to your activities" routerLink="/restaurantDetails"
-      routerLinkActive="active"><b>🍔GourmetLovers🍔</b></a>
+        <input style="width: 430px" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
+        <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
+            <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
+          </agm-map>
+    </div>
+    <div>
+        <button style="font-size: 15px" class="btn btn-danger my-2 my-sm-0" data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
+        title="make sure you have selected right location" ><b>Search</b></button>
 
     </div>
 
@@ -26,7 +31,7 @@
                 <button ngbDropdownItem (click)="favourites()">Favourites 💙</button>
                 <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
                 <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
-                <button ngbDropdownItem (click)="locationBased()">Location Based 📍</button>
+                <button ngbDropdownItem (click)="locationBased()">City Based 📍</button>
               </div>
             </div>
           
@@ -48,15 +53,14 @@
 <!--..................... Print stored restaurants................... -->
 
 <div class="gridContainer">
- <div class="d2">
     <div *ngIf="loadingData; else loadingLoop">
- 
+   <div class="d2">
     <div class="card">
       <nav class="navbar navbar-expand-lg navbar bg-light ">
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ngb-tabset>
-            <ngb-tab title="Welcome,">
+            <ngb-tab title="Welcome!">
               <ng-template ngbTabContent>
                
                   <div class="restaurantGrid">
@@ -86,22 +90,12 @@
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
-
-
-        </div>
+          </div>
       </nav>
-
-
     </div>
+  </div>
   </div>
   
-  <!-- ............................. Search Area............................... -->
-  <div class="topRight">
-    <div>
-    </div>
-  </div>
-</div>
-
 <!--                    To Add new Restaurant                 -->
 
 <div class="d3">
