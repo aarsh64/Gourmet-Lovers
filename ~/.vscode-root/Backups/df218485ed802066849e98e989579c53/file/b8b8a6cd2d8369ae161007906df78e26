@@ -1,3 +1,4 @@
+file:///home/pk/foodplaces/src/app/restaurants/restaurants.component.ts
 import {
   Component,
   OnInit,
@@ -289,7 +290,7 @@ export class RestaurantsComponent implements OnInit {
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
-      .collection("restaurants", ref => ref.orderBy("date.year", "desc"))
+      .collection("restaurants", ref => ref.orderBy("date.year", "desc").where('date.month','',''))
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {

@@ -18,7 +18,7 @@
           </agm-map>
     </div>
     <div>
-        <button style="font-size: 15px" class="btn btn-danger my-2 my-sm-0" data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
+        <button style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
         title="make sure you have selected right location" ><b>Search</b></button>
 
     </div>
@@ -28,10 +28,11 @@
             <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
               <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()"><b>For Better Search</b></button>
               <div ngbDropdownMenu aria-labelledby="dropdownManual">
-                <button ngbDropdownItem (click)="favourites()">Favourites 💙</button>
-                <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
+                <!-- <a ngbDropdownItem routerLink="restaurantDetails"routerLinkActive="active">Home☕</a> -->
+                <button ngbDropdownItem (click)="favourites()">My Favourites 💙</button>
+                <button ngbDropdownItem (click)="topRated()">Top Rated ★	</button>
                 <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
-                <button ngbDropdownItem (click)="locationBased()">City Based 📍</button>
+                <button ngbDropdownItem (click)="alphabeticalOrder()">☕ A>>Z ☕</button>
               </div>
             </div>
           

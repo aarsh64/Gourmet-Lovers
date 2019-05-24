@@ -20,7 +20,7 @@
             <label>Password:</label>
             <input type="password" class="form-control" formControlName="password" required />
           </div>
-          <button type="signup" class="btn btn-danger" (click)="signUp()" [disabled]="
+          <button type="signup" style="margin-right: 20px;" class="btn btn-danger" (click)="signUp()" [disabled]="
             !(
               this.userForm.controls.email.valid &&
               this.userForm.controls.password.valid
@@ -28,14 +28,13 @@
           ">
             SignUp
           </button>
-    
-          <button  class="btn btn-danger" (click)="Login()" [disabled]="
+          <button style="margin-right: 20px;" class="btn btn-danger" (click)="Login()" [disabled]="
             !( 
               this.userForm.controls.email.valid &&
               this.userForm.controls.password.valid
             )" >
             Login
-        </button>   
+        </button>
         </form>
     </div> 
   </div>
