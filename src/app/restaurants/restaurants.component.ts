@@ -89,6 +89,7 @@ export class RestaurantsComponent implements OnInit {
     console.log("Full Location", address);
     this.Location = address.formatted_address;
     console.log("city:", this.Location);
+    console.log('lat',address.geometry.location.lat());
     // Do some stuff
   }
   ngOnInit() {
@@ -121,12 +122,6 @@ export class RestaurantsComponent implements OnInit {
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
-          // console.log(
-          //   "restaurant data is:",
-          //   `${result.id} => ${result.data()}`,
-          //   result.data()
-          // );
-
           this.restaurantDetails.push({
             name: result.data().name,
             date: {
@@ -310,7 +305,6 @@ export class RestaurantsComponent implements OnInit {
             rating: result.data().rating,
             image: result.data().image
           });
-          //this.toastr.success("Recenly Added");
           this.loadingData = true;
         });
       });
@@ -360,12 +354,12 @@ export class RestaurantsComponent implements OnInit {
   searchByLocation() {
     console.log("Location Called with location", this.Location);
 
-      this.loadingData=false;
-      if(this.Location==undefined){
-        this.loadingData=true;
-        this.toastr.info('Sorry but no Search Result found!');
-      }
-    //................Fetching data based on Location(City)...........................
+    this.loadingData = false;
+    if (this.Location == undefined) {
+      this.loadingData = true;
+      this.toastr.info("Sorry but no Search Result found!");
+    }
+   
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
@@ -396,16 +390,14 @@ export class RestaurantsComponent implements OnInit {
           console.log("location based Restaurants:", this.restaurantDetails);
           this.loadingData = true;
         });
-        
       });
-      this.toastr.success("Location Based Restaurants Loaded!");
+    this.toastr.success("Location Based Restaurants Loaded!");
     console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
   }
 
   //...................Get restaurants in alphabetic order........................
   alphabeticalOrder() {
-     
-    this.loadingData=false;
+    this.loadingData = false;
 
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
@@ -434,7 +426,7 @@ export class RestaurantsComponent implements OnInit {
         });
         this.toastr.success("Loaded Successfully!");
       });
-      console.log('alphabeticalOrder Array:',this.restaurantDetails);
+    console.log("alphabeticalOrder Array:", this.restaurantDetails);
   }
 
   //.................................Just to do logout.....................................
@@ -446,7 +438,6 @@ export class RestaurantsComponent implements OnInit {
   }
 }
 //.......................................END............................................
-
 
 // //..................To get User's Added Restaurants................
 //myPlaces() {

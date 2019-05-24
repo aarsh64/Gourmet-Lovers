@@ -6,8 +6,11 @@
        <router-outlet></router-outlet>
      </div>
     
+     <div *ngIf="loadUser;else login">   
+        <div class="loader"></div>
+    </div>
     
-     <div #login>
+     <ng-template #login>
 
     <div class="container">
         <form [formGroup]="userForm" class="text-center border border-light p-5" class="container" autocomplete="on">
@@ -37,4 +40,5 @@
         </button>
         </form>
     </div> 
-  </div>
+  </ng-template>
+

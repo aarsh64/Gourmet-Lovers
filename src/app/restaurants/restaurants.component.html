@@ -12,13 +12,13 @@
         <b>🍔Gourmet Lovers🍔</b></a>
     </div>&nbsp;
     <div class="navbar-header">
-        <input style="width: 430px" ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
+        <input style="width: 430px" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
     </div>
     <div>
-        <button style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
+        <button type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
         title="make sure you have selected right location" ><b>Search</b></button>
 
     </div>
@@ -30,7 +30,7 @@
               <div ngbDropdownMenu aria-labelledby="dropdownManual">
                 <!-- <a ngbDropdownItem routerLink="restaurantDetails"routerLinkActive="active">Home☕</a> -->
                 <button ngbDropdownItem (click)="favourites()">My Favourites 💙</button>
-                <button ngbDropdownItem (click)="topRated()">Top Rated ★	</button>
+                <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
                 <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
                 <button ngbDropdownItem (click)="alphabeticalOrder()">☕ A>>Z ☕</button>
               </div>
@@ -70,7 +70,7 @@
                   <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
                     <div><b>Name:</b>&nbsp;<span>{{x.name}}</span>&nbsp;
-                      <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger"
+                      <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="bottom" title="Press to make it your favourite!"
                         (click)="addToFavourites(x)">💙</button></span>
                     </div>
                      <br>
@@ -87,7 +87,6 @@
                     <span><b>Location:</b></span> {{x.location}}
                   </div>
                 </div>
-                <!-- </ul> -->
               </ng-template>
             </ngb-tab>
           </ngb-tabset>
@@ -107,7 +106,7 @@
       </div>
       <div>
         <label>Restaurant Name:</label>
-        <input class="form-control" formControlName="name" type="text" placeholder="Enter the Restaurant name:"
+        <input class="form-control" formControlName="name" type="text" placeholder="Enter the Restaurant Name"
           required />
       </div>
       <br />
@@ -141,7 +140,7 @@
         <input type="file" (change)="uploadFile($event)">
         <div>
           <p>
-            <ngb-progressbar showValue="true" type="danger" [value]="uploadPercent | async"></ngb-progressbar>
+            <!-- <ngb-progressbar></ngb-progressbar> -->
           </p>
           <!-- {{ uploadPercent | async }} -->
         </div>
@@ -160,7 +159,10 @@
   <div class="loader"></div>
 </ng-template>
 
+<!-- --------------------------- END ------------------------------------- -->
 
+
+<!--.......................................EXTRA...........................................-->
 <!-- Add to favourites
 <ng-template #content>
         <div class="input-group">

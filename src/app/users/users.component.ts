@@ -5,8 +5,8 @@ import { FirebaseDatabase } from "@angular/fire";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
-import { RouterModule, Router } from '@angular/router';
-import { AppRoutingModule } from 'src/app/app-routing.module';
+import { RouterModule, Router } from "@angular/router";
+import { AppRoutingModule } from "src/app/app-routing.module";
 
 @Component({
   selector: "app-users",
@@ -15,12 +15,13 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 })
 export class UsersComponent implements OnInit {
   userForm: any; //For Form validation............
+  loaduser: boolean;
 
   constructor(
     public afAuth: AngularFireAuth,
     public db: AngularFirestore,
     private toastr: ToastrService,
-    private router:Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -35,6 +36,7 @@ export class UsersComponent implements OnInit {
   }
 
   Login() {
+    this.loaduser = true;
     this.afAuth.auth
       .signInWithEmailAndPassword(
         this.userForm.value.email,
@@ -46,10 +48,10 @@ export class UsersComponent implements OnInit {
           this.afAuth.authState.subscribe(v =>
             console.log(v, "auth state after login")
           );
-          this.router.navigate(['/restaurantDetails']);
+          this.router.navigate(["/restaurantDetails"]);
           this.toastr.success("Logged In Successfully!");
           console.log("promise is accepted.");
-          // this.loadUser = false;
+          this.loaduser = false;
         },
         error => {
           console.log("error", error);
@@ -61,6 +63,7 @@ export class UsersComponent implements OnInit {
   }
 
   signUp() {
+    this.loaduser = true;
     this.db
       .collection("users")
       .add({
@@ -73,6 +76,7 @@ export class UsersComponent implements OnInit {
       .catch(err => {
         console.log(err);
         this.toastr.error(err.message);
+        this.loaduser = false;
       });
 
     return this.afAuth.auth
