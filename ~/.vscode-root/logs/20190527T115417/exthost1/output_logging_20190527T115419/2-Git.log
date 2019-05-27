@@ -47,3 +47,6 @@ fatal: no upstream configured for branch 'justDemo'
 > git show :src/app/restaurants/restaurants.component.ts
 > git show :src/app/restaurants/restaurants.component.html
 > git show :src/app/restaurants/restaurants.component.ts
+> git check-ignore -z --stdin
+> git show :src/app/users/users.component.ts
+> git show :src/app/restaurants/restaurants.component.ts

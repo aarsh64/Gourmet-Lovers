@@ -121,25 +121,25 @@ export class RestaurantsComponent implements OnInit {
   }
   ngOnInit() {
 
-        //--------GeoFireX----------
-          const center=this.geo.point(40.5,-80);
-          const radius=0.01;
-          const field='pos';
-          const cities= this.geo.collection('placePoints');
-          const point=this.geo.point(40,-80);
-          this.db.collection('placePoints').add({name:'random',position:point.data});
+      //   //--------GeoFireX----------
+      //     const center=this.geo.point(40.5,-80);
+      //     const radius=0.01;
+      //     const field='pos';
+      //     const cities= this.geo.collection('placePoints');
+      //     const point=this.geo.point(40,-80);
+      //     this.db.collection('placePoints').add({name:'random',position:point.data});
 
-         // const query=cities.within(center,radius,field);
-          //query.subscribe(console.log);
+      //    // const query=cities.within(center,radius,field);
+      //     //query.subscribe(console.log);
 
-      //..................................................................................
+      // //..................................................................................
 
-          //this.geo.collection('bearings').within(center,radius,field);
-          this.points = this.radius.pipe(
-            switchMap(r =>
-              {return this.geo.collection('bearings').within(center,r,field);
-            })
-          );
+      //     //this.geo.collection('bearings').within(center,radius,field);
+      //     this.points = this.radius.pipe(
+      //       switchMap(r =>
+      //         {return this.geo.collection('bearings').within(center,r,field);
+      //       })
+      //     );
             
         
   
@@ -181,10 +181,11 @@ export class RestaurantsComponent implements OnInit {
             },
             location: result.data().location,
             rating: result.data().rating,
-            image: result.data().image
+            image: result.data().image,
+            objID:result.data().id
           });
           this.loadingData = true;
-          // console.log('Detail is:',this.restaurantDetails);
+         //  console.log('Fetched detail is:',this.restaurantDetails);
         });
       });
   }
@@ -209,15 +210,15 @@ export class RestaurantsComponent implements OnInit {
 
   submitRestaurant() {
     //To submit the data into the restaurant collection
-    console.log("restaurant name:", this.myForm.value.name);
-    this.restaurantsName = this.myForm.value.name;
-    this.date2 = this.myForm.value.date;
-    console.log("Ranking is:", this.myForm.value.rating);
-    this.ranking = this.myForm.value.rating;
+      console.log("restaurant name:", this.myForm.value.name);
+      this.restaurantsName = this.myForm.value.name;
+      this.date2 = this.myForm.value.date;
+      console.log("Ranking is:", this.myForm.value.rating);
+      this.ranking = this.myForm.value.rating;
     // this.Location =this.myForm.value.loacation;
-    console.log("address", this.myForm.value.loacation);
-    console.log("ratings", this.ranking);
-    console.log("Date", this.date2);
+      console.log("address", this.myForm.value.loacation);
+      console.log("ratings", this.ranking);
+      console.log("Date", this.date2);
 
     const filePath = this.fileRef.name;
     // const fileRef = this.storage.ref(filePath);
@@ -281,7 +282,8 @@ export class RestaurantsComponent implements OnInit {
         location: w.location,
         rating: w.rating,
         image: w.image,
-        userID: this.usersCustomerId
+        userID: this.usersCustomerId,
+       // objID:w.ob
       });
       console.log("userID:", this.usersCustomerId);
       this.selectedRestaurant = w;
@@ -292,7 +294,8 @@ export class RestaurantsComponent implements OnInit {
     console.log("object Favourite:", w);
   }
 
-  //
+  //...........................................................................................
+
   //.......................To Fetch the favourite Restaurants..................................
 
   favourites(w: any) {
@@ -313,7 +316,6 @@ export class RestaurantsComponent implements OnInit {
             );
             this.restaurantDetails.push({
               name: result.data().name,
-              // loacation:x.loacation,
               date: {
                 day: result.data().date.day,
                 month: result.data().date.month,
@@ -321,16 +323,20 @@ export class RestaurantsComponent implements OnInit {
               },
               location: result.data().location,
               rating: result.data().rating,
-              image: result.data().image
+              image: result.data().image,
             });
             this.loadingData = true;
+            // if(this.restaurantDetails.length==1){
+            //   this.loadingData=true;
+            //   this.toastr.error('No Favourites right now!');
+            // }
           });
         });
 
       this.toastr.success("Favourites💙 Loaded Succesfullly");
       console.log("Fav Details:", this.restaurantDetails);
     });    
-    // this.loadingData=true;
+  
     // this.loadingData=true;
   }
 
@@ -451,10 +457,6 @@ export class RestaurantsComponent implements OnInit {
 
       console.log("My Places Details:", this.restaurantDetails);
     });
-    // if(this.restaurantDetails.length<1){
-    //   this.toastr.error('Seems like you have not added anything yet');
-    // }    
-    //this.loadingData=true;
   }
 
   //......................Restaurants based on locations....................
@@ -555,53 +557,4 @@ export class RestaurantsComponent implements OnInit {
 }
 //.......................................END............................................
 
-// //..................To get User's Added Restaurants................
-//myPlaces() {
-//   //...............To get uId of the user......................
-
-//   this.afAuth.authState.subscribe(auth => {
-//     if (auth) {
-
-//       //..................To fetch data of specific user based on the uID...............
-
-//       this.db
-//         .collection("restaurants", ref => ref.where("userID", "==", auth.uid))
-//         .get()
-//         .subscribe(querySnapshot => {
-//           querySnapshot.forEach(doc => {
-//             this.loadingData = false;
-//             console.log("Data:", `${doc.id} => ${doc.data()}`, doc.data());
-//             this.restaurantDetails.push({
-//               name: doc.data().Name,
-//               date: {
-//                 day: doc.data().date.day,
-//                 month: doc.data().date.month,
-//                 year: doc.data().date.year
-//               },
-//               location: doc.data().location,
-//               rating: doc.data().rating,
-//               image: doc.data().image
-//             });
-//           });
-//         });
-//     }
-//   });
-// }
-
-//.......................................Extras............................................
-
-//  console.log('Sortin result:', this.restaurantDetails.sort());
-// for(let b=0;b<this.restaurantDetails.length;b++){
-//   for(let c=0;c<(this.restaurantDetails.length-1);c++){
-//    // console.log('inside the loop');
-//     if(this.restaurantDetails[c].ratings < this.restaurantDetails[c+1].ratings){
-//         this.temp=this.restaurantDetails[c];
-//         this.restaurantDetails[c]=this.restaurantDetails[c+1];
-//         this.restaurantDetails[c+1]=this.temp;
-//     }
-//     this.sortRestaurantResult.push({
-//       //name:this.restaurantDetails[c].name,
-
-//     });
-//   }
-// }
+//.......................................Extras Below............................................
