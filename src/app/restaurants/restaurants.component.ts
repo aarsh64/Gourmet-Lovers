@@ -24,14 +24,18 @@ import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { ToastrService } from "ngx-toastr";
 import { finalize, switchMap } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
 import { AgmCoreModule, MapsAPILoader } from "@agm/core"; //For Google Maps
 //import {} from 'googlemaps';
 import { Placeholder } from "@angular/compiler/src/i18n/i18n_ast";
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import * as googleMaps from "@google/maps";
+import { GeoFireClient } from 'geofirex';
 //import { } from '@types/googlemaps';
+import * as geofirex from 'geofirex';
+import * as firebaseApp from 'firebase/app';
+import { CollectionReference, QuerySnapshot } from '@firebase/firestore-types';
 
 let google: any;
 
@@ -42,8 +46,20 @@ let google: any;
   providers: [NgbRatingConfig]
 })
 export class RestaurantsComponent implements OnInit {
+   
+     //GeoFireX
+     geo=geofirex.init(firebaseApp);
+     points:Observable<any>;
+     radius=new BehaviorSubject(.5);
+     //---------- 
+
+
+
+
+
   myForm: any;
   date2: any;
+  
   profileUrl: Observable<string | null>;
   downloadURL: Observable<string>;
   public latitude: number = 51.678418;
@@ -67,6 +83,7 @@ export class RestaurantsComponent implements OnInit {
   public searchElementRef: ElementRef;
   lng: any;
   lat: any;
+  center:any;
   selectedRestaurant = [];
   ranking: any;
   usersCustomerId: string;
@@ -88,11 +105,44 @@ export class RestaurantsComponent implements OnInit {
   public handleAddressChange(address: any) {
     console.log("Full Location", address);
     this.Location = address.formatted_address;
-    console.log("city:", this.Location);
-    console.log('lat',address.geometry.location.lat());
+    const lng=address.geometry.location.lng(); 
+    console.log('lng value is:',lng);  
+    const lat=address.geometry.location.lat();
+    this.center=this.geo.point(lat.data,lng.data);
+    console.log(this.center,"center points");
+    const radius=0.5;
+    const field='pos';
+    const cities= this.geo.collection('placePoints');
+    const point=this.geo.point(lng,lat);
+    console.log('point value:',point);
+    this.db.collection('placePoints').add({name:address.formatted_address,position:point.data}).then((x) => console.log('upadted geo',x));
+
     // Do some stuff
   }
   ngOnInit() {
+
+        //--------GeoFireX----------
+          const center=this.geo.point(40.5,-80);
+          const radius=0.01;
+          const field='pos';
+          const cities= this.geo.collection('placePoints');
+          const point=this.geo.point(40,-80);
+          this.db.collection('placePoints').add({name:'random',position:point.data});
+
+         // const query=cities.within(center,radius,field);
+          //query.subscribe(console.log);
+
+      //..................................................................................
+
+          //this.geo.collection('bearings').within(center,radius,field);
+          this.points = this.radius.pipe(
+            switchMap(r =>
+              {return this.geo.collection('bearings').within(center,r,field);
+            })
+          );
+            
+        
+  
     this.loadingData = false;
     //   //...........................Google-Maps-API..........................................
     //set google maps defaults
@@ -138,6 +188,11 @@ export class RestaurantsComponent implements OnInit {
         });
       });
   }
+  //...............update function to change the radius.........
+  update(v){
+    this.radius.next(v);
+  }
+//.................................................................
   private setCurrentPosition() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -146,6 +201,7 @@ export class RestaurantsComponent implements OnInit {
         this.zoom = 12;
       });
     }
+    
 
     //.............................................................................
   }
@@ -175,22 +231,24 @@ export class RestaurantsComponent implements OnInit {
           `Successfully uploaded file and got download link - ${downloadURL}`
         );
 
+       this.afAuth.authState.subscribe(auth =>{
+         this.usersCustomerId=auth.uid;
+       
         this.db.collection("restaurants").add({
           name: this.restaurantsName,
           image: downloadURL,
           date: this.date2,
           rating: this.ranking,
-          location: this.Location
+          location: this.Location,
+          uid:this.usersCustomerId
         });
         console.log("stored", this.Location);
         this.toastr.info("Data has been recorded!");
         this.imageURL = downloadURL;
         return downloadURL;
       })
-      .catch(error => {
-        // Use to signal error if something goes wrong.
-        console.log(`Failed to upload file and get link - ${error}`);
       });
+  
 
     console.log("Date Format", this.myForm.value);
     this.myForm.reset();
@@ -270,9 +328,10 @@ export class RestaurantsComponent implements OnInit {
         });
 
       this.toastr.success("Favourites💙 Loaded Succesfullly");
-
       console.log("Fav Details:", this.restaurantDetails);
-    });
+    });    
+    // this.loadingData=true;
+    // this.loadingData=true;
   }
 
   //..................To get the restaurants recently added..................................
@@ -347,6 +406,55 @@ export class RestaurantsComponent implements OnInit {
         this.toastr.success("Top Rated ★ Restaurants Loaded!");
       });
     console.log("Top Rated Restaurants:", this.restaurantDetails);
+
+  }
+  
+  //..................User's specific added places........................
+
+  myPlaces(){
+
+    this.loadingData=false;
+    
+    this.restaurantDetails.splice(0, this.restaurantDetails.length);
+    console.log('restaurants details:',this.restaurantDetails);
+
+    this.afAuth.authState.subscribe(auth => {
+      this.usersCustomerId=auth.uid;
+
+      this.db
+        .collection("restaurants", ref => ref.where("uid", "==", this.usersCustomerId))
+        .get()
+        .subscribe(querySnapshot => {
+          querySnapshot.forEach(result => {
+            console.log(
+              "fetched restaurant data is:",
+              `${result.id} => ${result.data()}`,
+              result.data()
+            );
+            this.restaurantDetails.push({
+              name: result.data().name,
+              //location:result.location,
+              date: {
+                day: result.data().date.day,
+                month: result.data().date.month,
+                year: result.data().date.year
+              },
+              location: result.data().location,
+              rating: result.data().rating,
+              image: result.data().image
+            });
+            this.loadingData = true;
+          });
+        });
+
+      this.toastr.success("My Places Loaded Succesfullly");
+
+      console.log("My Places Details:", this.restaurantDetails);
+    });
+    // if(this.restaurantDetails.length<1){
+    //   this.toastr.error('Seems like you have not added anything yet');
+    // }    
+    //this.loadingData=true;
   }
 
   //......................Restaurants based on locations....................
@@ -354,45 +462,53 @@ export class RestaurantsComponent implements OnInit {
   searchByLocation() {
     console.log("Location Called with location", this.Location);
 
+
     this.loadingData = false;
-    if (this.Location == undefined) {
-      this.loadingData = true;
-      this.toastr.info("Sorry but no Search Result found!");
-    }
-   
-    this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
-    this.db
-      .collection("restaurants", ref =>
-        ref.where("location", "==", this.Location)
+      const start='9qg5ux7r';
+      const end= start +'~'
+      const q = this.db.collection("placePoints" ,ref =>ref.orderBy(this.Location).startAt(start).endAt(end)
       )
-      .get()
-      .subscribe(querySnapshot => {
-        querySnapshot.forEach(result => {
-          this.loadingData = false;
-          console.log(
-            "restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
+      console.log(q,'Does it work?');
+    this.loadingData=true;
+    // if (this.Location == undefined) {
+    //   this.loadingData = true;
+    //   this.toastr.info("Sorry but no Search Result found!");
+    // }
+   
+    // this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
-          this.restaurantDetails.push({
-            name: result.data().name,
-            date: {
-              day: result.data().date.day,
-              month: result.data().date.month,
-              year: result.data().date.year
-            },
-            location: result.data().location,
-            rating: result.data().rating,
-            image: result.data().image
-          });
-          console.log("location based Restaurants:", this.restaurantDetails);
-          this.loadingData = true;
-        });
-      });
-    this.toastr.success("Location Based Restaurants Loaded!");
-    console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
+    // this.db
+    //   .collection("restaurants", ref =>
+    //     ref.where("location", "==", this.Location)
+    //   )
+    //   .get()
+    //   .subscribe(querySnapshot => {
+    //     querySnapshot.forEach(result => {
+    //       this.loadingData = false;
+    //       console.log(
+    //         "restaurant data is:",
+    //         `${result.id} => ${result.data()}`,
+    //         result.data()
+    //       );
+
+    //       this.restaurantDetails.push({
+    //         name: result.data().name,
+    //         date: {
+    //           day: result.data().date.day,
+    //           month: result.data().date.month,
+    //           year: result.data().date.year
+    //         },
+    //         location: result.data().location,
+    //         rating: result.data().rating,
+    //         image: result.data().image
+    //       });
+    //       console.log("location based Restaurants:", this.restaurantDetails);
+    //       this.loadingData = true;
+    //     });
+    //   });
+    // this.toastr.success("Location Based Restaurants Loaded!");
+    // console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
   }
 
   //...................Get restaurants in alphabetic order........................

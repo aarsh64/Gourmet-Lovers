@@ -2,8 +2,8 @@
     "telemetry.machineId": "b8cd4c88e43be8e6084788baa48d5212a3dfbe868faa8a536f8bb7197cb803d8",
     "openedPathsList": {
         "workspaces3": [
-            "file:///home/pk/ToDo-App-master",
-            "file:///home/pk/foodplaces"
+            "file:///home/pk/foodplaces",
+            "file:///home/pk/ToDo-App-master"
         ],
         "files2": []
     },
@@ -50,24 +50,24 @@
                                     "id": "openRecentFolder",
                                     "uri": {
                                         "$mid": 1,
-                                        "fsPath": "/home/pk/ToDo-App-master",
-                                        "external": "file:///home/pk/ToDo-App-master",
-                                        "path": "/home/pk/ToDo-App-master",
-                                        "scheme": "file"
-                                    },
-                                    "enabled": true,
-                                    "label": "/home/pk/ToDo-App-master"
-                                },
-                                {
-                                    "id": "openRecentFolder",
-                                    "uri": {
-                                        "$mid": 1,
+                                        "fsPath": "/home/pk/foodplaces",
                                         "external": "file:///home/pk/foodplaces",
                                         "path": "/home/pk/foodplaces",
                                         "scheme": "file"
                                     },
                                     "enabled": true,
-                                    "label": "/home/pk/foodplaces"
+                                    "label": "~/foodplaces"
+                                },
+                                {
+                                    "id": "openRecentFolder",
+                                    "uri": {
+                                        "$mid": 1,
+                                        "external": "file:///home/pk/ToDo-App-master",
+                                        "path": "/home/pk/ToDo-App-master",
+                                        "scheme": "file"
+                                    },
+                                    "enabled": true,
+                                    "label": "~/ToDo-App-master"
                                 },
                                 {
                                     "id": "vscode.menubar.separator"
@@ -552,8 +552,7 @@
                     },
                     {
                         "id": "workbench.action.navigateToLastEditLocation",
-                        "label": "&&Last Edit Location",
-                        "enabled": false
+                        "label": "&&Last Edit Location"
                     },
                     {
                         "id": "vscode.menubar.separator"

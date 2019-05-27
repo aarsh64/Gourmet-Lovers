@@ -28,7 +28,8 @@
     "@types/jest": "^24.0.13",
     "bootstrap": "^4.3.1",
     "core-js": "^2.5.4",
-    "firebase": "^6.0.2",
+    "firebase": "^6.0.4",
+    "geofirex": "0.0.6",
     "google": "^2.1.0",
     "google-address-autocomplete": "^1.4.0",
     "google-maps": "^3.3.0",
@@ -38,7 +39,7 @@
     "ngx-google-places-autocomplete": "^2.0.3",
     "ngx-toastr": "^10.0.4",
     "pretty-checkbox": "^3.0.3",
-    "rxjs": "~6.3.3",
+    "rxjs": "^6.5.2",
     "tslib": "^1.9.0",
     "typings": "^2.1.1",
     "zone.js": "~0.8.26"

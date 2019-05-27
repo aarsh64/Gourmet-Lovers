@@ -243,3 +243,17 @@ fatal: no upstream configured for branch 'master'
 > git show :src/app/restaurants/restaurants.component.ts
 > git show :src/app/restaurants/restaurants.component.html
 > git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git check-ignore -z --stdin
+> git show :src/environments/environment.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/app.module.ts
+> git show :src/app/restaurants/restaurants.component.ts

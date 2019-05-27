@@ -18,8 +18,8 @@
           </agm-map>
     </div>
     <div>
-        <button type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
-        title="make sure you have selected right location" ><b>Search</b></button>
+        <a type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
+        title="make sure you have selected proper location" ><b>Search</b></a>
 
     </div>
 
@@ -28,7 +28,8 @@
             <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
               <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()"><b>For Better Search</b></button>
               <div ngbDropdownMenu aria-labelledby="dropdownManual">
-                <!-- <a ngbDropdownItem routerLink="restaurantDetails"routerLinkActive="active">Home☕</a> -->
+                <button ngbDropdownItem data-toggle="tooltip" data-placement="bottom"
+                title="Your Added Places" (click)="myPlaces()">My Places☕</button>
                 <button ngbDropdownItem (click)="favourites()">My Favourites 💙</button>
                 <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
                 <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
