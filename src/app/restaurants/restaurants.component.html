@@ -12,13 +12,13 @@
         <b>🍔Gourmet Lovers🍔</b></a>
     </div>&nbsp;
     <div class="navbar-header">
-        <input style="width: 430px" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
+        <input style="width: 430px;" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
     </div>
     <div>
-        <a type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" (click)="searchByLocation()"
+        <a type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" 
         title="make sure you have selected proper location" ><b>Search</b></a>
 
     </div>
@@ -120,7 +120,7 @@
       </div>
       <br>
       <div class="form-group">
-        <label styele="m">Ratings:</label>
+        <label>Ratings:</label>
         <ngb-rating formControlName="rating" [(rate)]="currentRate">
           <ng-template let-fill="fill" let-index="index">
             <span class="star" [class.filled]="fill === 100">&#9733;</span>
@@ -148,7 +148,7 @@
         <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
       </div>
     </div>
-    <button class="btn btn-danger"  type="submit" (click)="submitRestaurant()">
+    <button class="btn btn-danger" [disabled]="!(this.myForm.controls.name.value && this.myForm.controls.rating.value)" type="submit" (click)="submitRestaurant()">
       Submit
     </button>
   </form>

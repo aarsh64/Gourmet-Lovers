@@ -20,3 +20,5 @@
 [2019-05-27 11:57:36.717] [exthost] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/html-language-features/client/dist/htmlMain
 [2019-05-27 16:04:17.678] [exthost] [info] ExtensionService#_doActivateExtension vscode.css-language-features {"startup":false,"activationEvent":"onLanguage:css"}
 [2019-05-27 16:04:17.678] [exthost] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/css-language-features/client/dist/cssMain
+[2019-05-27 18:31:31.252] [exthost] [info] ExtensionService#_doActivateExtension esbenp.prettier-vscode {"startup":false,"activationEvent":"*"}
+[2019-05-27 18:31:31.252] [exthost] [info] ExtensionService#loadCommonJSModule /home/pk/.vscode/extensions/esbenp.prettier-vscode-1.9.0/out/src/extension

@@ -88,6 +88,7 @@ export class UsersComponent implements OnInit {
         console.log("success", success);
         this.userForm.reset();
         this.toastr.info("Account Successfully Created.");
-        });
+        this.router.navigate(["/restaurantDetails"]);
+      });
   }
 }
