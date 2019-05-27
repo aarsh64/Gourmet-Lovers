@@ -10,17 +10,19 @@
 
 }
 
+
 .d2{
     bottom: 0px;
     /* width: auto; */
     display:grid;
+    position: relative;
 
   }
   .d3{
     top:0;
     bottom:0;
-    position: fixed;
-    overflow:auto;
+    position: fixed ;
+    /* overflow:auto; */
     top: 60px;
     right: 100px;
     width: 320px;

@@ -69,3 +69,37 @@ fatal: no upstream configured for branch 'justDemo'
 > git show :src/app/restaurants/restaurants.component.css
 > git show :src/app/restaurants/restaurants.component.html
 > git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git check-ignore -z --stdin
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.html
+> git check-ignore -z --stdin
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/auth.guard.ts
+> git show :src/app/app.component.ts
+> git check-ignore -z --stdin
+> git show :src/app/app.module.ts
+> git check-ignore -z --stdin
+> git show :src/app/auth.guard.spec.ts
+> git show :src/app/auth.guard.ts
+> git show :src/app/auth.guard.spec.ts
+> git show :src/app/auth.guard.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.css
