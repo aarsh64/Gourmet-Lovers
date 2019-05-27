@@ -110,6 +110,7 @@ export class RestaurantsComponent implements OnInit {
     const lat=address.geometry.location.lat();
     this.center=this.geo.point(lat.data,lng.data);
     console.log(this.center,"center points");
+
     const radius=0.5;
     const field='pos';
     const cities= this.geo.collection('placePoints');
@@ -331,12 +332,17 @@ export class RestaurantsComponent implements OnInit {
             //   this.toastr.error('No Favourites right now!');
             // }
           });
+          if(this.restaurantDetails.length==0){
+          
+            this.loadingData=true;
+            this.toastr.info('No favourites yet!');
+        }else{
+          this.toastr.success("Favourites💙 Loaded Succesfullly");
+          console.log("Fav Details:", this.restaurantDetails);
+        }
         });
-
-      this.toastr.success("Favourites💙 Loaded Succesfullly");
-      console.log("Fav Details:", this.restaurantDetails);
-    });    
-  
+    });  
+    
     // this.loadingData=true;
   }
 
@@ -451,12 +457,17 @@ export class RestaurantsComponent implements OnInit {
             });
             this.loadingData = true;
           });
-        });
-
-      this.toastr.success("My Places Loaded Succesfullly");
-
-      console.log("My Places Details:", this.restaurantDetails);
-    });
+          if(this.restaurantDetails.length==0){
+            this.loadingData=true;
+            this.toastr.info('No Data yet!');
+          }  
+        else{
+            this.toastr.success("My Places Loaded Succesfullly");
+          console.log("My Places Details:", this.restaurantDetails);
+             }    
+                });
+   });
+    
   }
 
   //......................Restaurants based on locations....................
@@ -467,11 +478,11 @@ export class RestaurantsComponent implements OnInit {
 
     this.loadingData = false;
 
-      const start='9qg5ux7r';
-      const end= start +'~'
-      const q = this.db.collection("placePoints" ,ref =>ref.orderBy(this.Location).startAt(start).endAt(end)
-      )
-      console.log(q,'Does it work?');
+      // const start='9qg5ux7r';
+      // const end= start +'~'
+      // const q = this.db.collection("placePoints" ,ref =>ref.orderBy(this.Location).startAt(start).endAt(end)
+      // );
+      console.log('Does it work?');
     this.loadingData=true;
     // if (this.Location == undefined) {
     //   this.loadingData = true;

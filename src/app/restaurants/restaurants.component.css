@@ -14,9 +14,13 @@
     bottom: 0px;
     /* width: auto; */
     display:grid;
+
   }
   .d3{
-    position: absolute;
+    top:0;
+    bottom:0;
+    position: fixed;
+    overflow:auto;
     top: 60px;
     right: 100px;
     width: 320px;

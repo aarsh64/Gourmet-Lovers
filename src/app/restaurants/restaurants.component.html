@@ -29,7 +29,7 @@
               <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()"><b>For Better Search</b></button>
               <div ngbDropdownMenu aria-labelledby="dropdownManual">
                 <button ngbDropdownItem data-toggle="tooltip" data-placement="bottom"
-                title="Your Added Places" (click)="myPlaces()">My Places☕</button>
+                title="Places you have contributed!" (click)="myPlaces()">My Places ☕</button>
                 <button ngbDropdownItem (click)="favourites()">My Favourites 💙</button>
                 <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
                 <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
@@ -105,7 +105,7 @@
       <div class="card-header">
         <h4>Add Restaurant :</h4>
       </div>
-      <div>
+      <div><br>
         <label>Restaurant Name:</label>
         <input class="form-control" formControlName="name" type="text" placeholder="Enter the Restaurant Name"
           required />
@@ -120,7 +120,7 @@
       </div>
       <br>
       <div class="form-group">
-        <label>Ratings:</label>
+        <label styele="m">Ratings:</label>
         <ngb-rating formControlName="rating" [(rate)]="currentRate">
           <ng-template let-fill="fill" let-index="index">
             <span class="star" [class.filled]="fill === 100">&#9733;</span>
@@ -132,7 +132,7 @@
         <div class="input-group-append">
           <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='date' ngbDatepicker
             #d="ngbDatepicker">
-          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+          <button style="border: black" class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Open</button>
         </div>
       </div>
       <br>
