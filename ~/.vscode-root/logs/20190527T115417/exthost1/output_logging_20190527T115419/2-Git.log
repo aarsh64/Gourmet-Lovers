@@ -50,3 +50,5 @@ fatal: no upstream configured for branch 'justDemo'
 > git check-ignore -z --stdin
 > git show :src/app/users/users.component.ts
 > git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/users/users.component.ts
+> git show :src/app/users/users.component.html

@@ -87,13 +87,7 @@ export class UsersComponent implements OnInit {
       .then(success => {
         console.log("success", success);
         this.userForm.reset();
-
         this.toastr.info("Account Successfully Created.");
-        // this.router.navigate(['/userdata']);
-        // this.db.collection("activities").add({
-        //   Name: "Demo",
-        //   Time: 12,
-        // uid: this.usersCustomerId
-      });
+        });
   }
 }
