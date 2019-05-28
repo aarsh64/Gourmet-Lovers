@@ -10,17 +10,16 @@ import { finalize, switchMap } from "rxjs/operators";
 import { Observable, BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
 import { AgmCoreModule, MapsAPILoader } from "@agm/core"; //For Google Maps
-//import {} from 'googlemaps';
 import { Placeholder } from "@angular/compiler/src/i18n/i18n_ast";
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import * as googleMaps from "@google/maps";
 import { GeoFireClient } from "geofirex";
-//import { } from '@types/googlemaps';
 import * as geofirex from "geofirex";
 import * as firebaseApp from "firebase/app";
-import { CollectionReference, QuerySnapshot } from "@firebase/firestore-types";
+import { CollectionReference, QuerySnapshot, GeoPoint } from "@firebase/firestore-types";
 
 let google: any;
+declare var H: any;
 
 @Component({
   selector: "app-restaurants",
@@ -29,6 +28,31 @@ let google: any;
   providers: [NgbRatingConfig]
 })
 export class RestaurantsComponent implements OnInit {
+  //..............Here Maps.................... 
+  // @ViewChild("map")
+  //   public mapElement: ElementRef;
+
+  //   @Input()
+  //   public appId: any;
+
+  //   @Input()
+  //   public appCode: any;
+
+  //   @Input()
+  //   public lat: any;
+
+  //   @Input()
+  //   public lng: any;
+
+  //   @Input()
+  //   public width: any;
+
+  //   @Input()
+  //   public height: any;
+
+  //   private platform: any;
+  //   private map: any;
+  //   //---------------------------------------------------
   //GeoFireX
   geo = geofirex.init(firebaseApp);
   points: Observable<any>;
@@ -65,6 +89,7 @@ export class RestaurantsComponent implements OnInit {
   selectedRestaurant = [];
   ranking: any;
   usersCustomerId: string;
+  geoPoint: geofirex.GeoFirePoint;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -79,29 +104,21 @@ export class RestaurantsComponent implements OnInit {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
   }
+//..........................TO get tha address.........................................
 
   public handleAddressChange(address: any) {
     console.log("Full Location", address);
     this.Location = address.formatted_address;
-    const lng = address.geometry.location.lng();
-    console.log("lng value is:", lng);
-    const lat = address.geometry.location.lat();
-    this.center = this.geo.point(lat.data, lng.data);
-    console.log(this.center, "center points");
-
-    const radius = 0.5;
-    const field = "pos";
-    const cities = this.geo.collection("placePoints");
-    const point = this.geo.point(lng, lat);
-    console.log("point value:", point);
-    this.db
-      .collection("placePoints")
-      .add({ name: address.formatted_address, position: point.data })
-      .then(x => console.log("upadted geo", x));
-
+    this.lng = address.geometry.location.lng();
+    console.log("lng value is:", this.lng);
+    this.lat = address.geometry.location.lat();
+    this.geoPoint = this.geo.point(this.lng,this.lat);
+        
     // Do some stuff
   }
   ngOnInit() {
+    
+
     //   //--------GeoFireX----------
     //     const center=this.geo.point(40.5,-80);
     //     const radius=0.01;
@@ -168,6 +185,24 @@ export class RestaurantsComponent implements OnInit {
         });
       });
   }
+
+  //...............For Here-Maps.......................
+//   public ngAfterViewInit() {
+//     let defaultLayers = this.platform.createDefaultLayers();
+//     this.map = new H.Map(
+//         this.mapElement.nativeElement,
+//         defaultLayers.normal.map,
+//         {
+//             zoom: 10,
+//             center: { lat: this.lat, lng: this.lng }
+//         }
+//     );
+// }
+
+//......................................................
+
+
+
   //...............update function to change the radius.........
   update(v) {
     this.radius.next(v);
@@ -187,6 +222,12 @@ export class RestaurantsComponent implements OnInit {
   //.........................For submiting the restaurant details...........................
 
   submitRestaurant() {
+    const cities = this.geo.collection("placePoints");
+    console.log("point value:", this.geoPoint);
+   
+      cities.add({ name: this.Location, position: this.geoPoint.data })
+      .then(x => console.log("upadted geo", x));
+
     //To submit the data into the restaurant collection
     console.log("restaurant name:", this.myForm.value.name);
     this.restaurantsName = this.myForm.value.name;
@@ -440,54 +481,62 @@ export class RestaurantsComponent implements OnInit {
   //......................Restaurants based on locations....................
 
   searchByLocation() {
-    console.log("Location Called with location", this.Location);
+
+    console.log("Location Called with location", this.geoPoint);
 
     this.loadingData = false;
 
-    // const start='9qg5ux7r';
-    // const end= start +'~'
-    // const q = this.db.collection("placePoints" ,ref =>ref.orderBy(this.Location).startAt(start).endAt(end)
-    // );
-    //   console.log('Does it work?');
-    // this.loadingData=true;
-    if (this.Location == undefined) {
-      this.loadingData = true;
-      this.toastr.info("Sorry but no Search Result found!");
-    }
+    
+    const collection=this.geo.collection('placePoints');
+    const center=this.geoPoint;
+    const radius= 5;
+    const field='position';
+    const q = collection.within(center,radius,field);
+      q.subscribe((es) => {
+        es.forEach((dc) => {
+          console.log('query data',dc);
+        })
+      })
+      // console.log('Does it work?',q);
+    this.loadingData=true;
+    // if (this.Location == undefined) {
+    //   this.loadingData = true;
+    //   this.toastr.info("Sorry but no Search Result found!");
+    // }
 
-    this.restaurantDetails.splice(0, this.restaurantDetails.length);
+    // this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
-    this.db
-      .collection("restaurants", ref =>
-        ref.where("location", "==", this.Location)
-      )
-      .get()
-      .subscribe(querySnapshot => {
-        querySnapshot.forEach(result => {
-          this.loadingData = false;
-          console.log(
-            "restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
+    // this.db
+    //   .collection("restaurants", ref =>
+    //     ref.where("location", "==", this.Location)
+    //   )
+    //   .get()
+    //   .subscribe(querySnapshot => {
+    //     querySnapshot.forEach(result => {
+    //       this.loadingData = false;
+    //       console.log(
+    //         "restaurant data is:",
+    //         `${result.id} => ${result.data()}`,
+    //         result.data()
+    //       );
 
-          this.restaurantDetails.push({
-            name: result.data().name,
-            date: {
-              day: result.data().date.day,
-              month: result.data().date.month,
-              year: result.data().date.year
-            },
-            location: result.data().location,
-            rating: result.data().rating,
-            image: result.data().image
-          });
-          console.log("location based Restaurants:", this.restaurantDetails);
-          this.loadingData = true;
-        });
-      });
-    this.toastr.success("Location Based Restaurants Loaded!");
-    console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
+    //       this.restaurantDetails.push({
+    //         name: result.data().name,
+    //         date: {
+    //           day: result.data().date.day,
+    //           month: result.data().date.month,
+    //           year: result.data().date.year
+    //         },
+    //         location: result.data().location,
+    //         rating: result.data().rating,
+    //         image: result.data().image
+    //       });
+    //       console.log("location based Restaurants:", this.restaurantDetails);
+    //       this.loadingData = true;
+    //     });
+    //   });
+    // this.toastr.success("Location Based Restaurants Loaded!");
+    // console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
   }
 
   //...................Get restaurants in alphabetic order........................

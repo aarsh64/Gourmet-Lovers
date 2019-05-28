@@ -19,7 +19,7 @@
     </div>
     <div>
         <a type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" 
-        title="make sure you have selected proper location" ><b>Search</b></a>
+        title="make sure you have selected proper location" (click)="searchByLocation()" ><b>Search</b></a>
 
     </div>
 
@@ -113,6 +113,9 @@
       <br />
       <div>
         <label>Location:</label>
+   
+        <!-- <div #map [style.width]="width" [style.height]="height"></div> -->
+
         <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" formControlName="location" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
