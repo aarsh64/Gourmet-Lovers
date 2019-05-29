@@ -3,7 +3,7 @@
 </div>
 
 
-
+<!-- .........................Navigation Bar......................................... -->
 <div class="activityContainer" *ngIf="afAuth.user | async as user">
 
   <nav class="navbar sticky-top navbar-dark bg-danger">
@@ -50,7 +50,7 @@
     </div>
   </nav>
 
-
+<!-- ........................................................................................... -->
 
 <!--..................... Print stored restaurants................... -->
 
@@ -96,8 +96,11 @@
     </div>
   </div>
   </div>
-  
-<!--                    To Add new Restaurant                 -->
+  <!-- ............................................................................................  -->
+
+
+
+  <!--                    To Add new Restaurant                 -->
 
 <div class="d3">
 
@@ -144,11 +147,7 @@
         <label>Images:</label>&nbsp;
         <input type="file" (change)="uploadFile($event)">
         <div>
-          <p>
-            <!-- <ngb-progressbar></ngb-progressbar> -->
-          </p>
-          <!-- {{ uploadPercent | async }} -->
-        </div>
+                 </div>
         <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
       </div>
     </div>
@@ -158,13 +157,18 @@
   </form>
 </div>
 </div>
-
+<!-- ..................................................................................... -->
 
 <!-- ---------------------- Loader Component ----------------------------- -->
 
 <ng-template #loadingLoop>
   <div class="loader"></div>
 </ng-template>
+
+<!-- ....................................................................... -->
+
+
+
 
 <!-- --------------------------- END ------------------------------------- -->
 
