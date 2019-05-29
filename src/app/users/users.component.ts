@@ -44,13 +44,13 @@ export class UsersComponent implements OnInit {
       )
       .then(
         success => {
-          console.log("logged in successfullty.");
+          // console.log("logged in successfullty.");
           this.afAuth.authState.subscribe(v =>
             console.log(v, "auth state after login")
           );
           this.router.navigate(["/restaurantDetails"]);
           this.toastr.success("Logged In Successfully!");
-          console.log("promise is accepted.");
+          // console.log("promise is accepted.");
           this.loaduser = false;
         },
         error => {

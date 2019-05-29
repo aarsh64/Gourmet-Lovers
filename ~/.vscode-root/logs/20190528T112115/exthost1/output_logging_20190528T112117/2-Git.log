@@ -2637,3 +2637,39 @@ fatal: no upstream configured for branch 'justDemo'
 > git show :src/app/restaurants/restaurants.component.html
 > git show :src/app/restaurants/restaurants.component.spec.ts
 > git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/auth.guard.ts
+> git show :src/app/app.module.ts
+> git check-ignore -z --stdin
+> git show :src/environments/environment.ts
+> git show :src/environments/environment.prod.ts
+> git show :src/app/app.module.ts
+> git show :src/environments/environment.ts
+> git show :src/environments/environment.prod.ts
+> git show :src/app/app.component.html
+> git show :src/app/users/users.component.html
+> git show :src/app/users/users.component.ts
+> git show :src/app/users/users.component.html
+> git show :.firebaserc
+> git check-ignore -z --stdin
+> git show :firebase.json
+> git ls-files --stage -- ./
+> git check-ignore -z --stdin
+> git show :angular.json
+> git show :firebase.json
+> git ls-files --stage -- ./
+> git show :angular.json
+> git show :firebase.json
+> git ls-files --stage -- ./
+> git show :angular.json
+> git show :src/app/app.component.css
+> git show :src/app/app.component.html
+> git show :src/app/users/users.component.html
+> git show :src/app/users/users.component.css
+> git show :firebase.json
+> git ls-files --stage -- ./
+> git show :angular.json
+> git show :src/app/users/users.component.css
+> git show :src/app/app.component.css

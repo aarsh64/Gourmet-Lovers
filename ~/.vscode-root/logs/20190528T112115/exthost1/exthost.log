@@ -139,3 +139,5 @@ TypeError: Cannot read property 'length' of undefined
 	at readableAddChunk (_stream_readable.js:264:11)
 	at Socket.Readable.push (_stream_readable.js:219:10)
 	at Pipe.onread (net.js:636:20)
+[2019-05-29 16:27:23.897] [exthost] [info] ExtensionService#_doActivateExtension vscode.npm {"startup":false,"activationEvent":"onLanguage:json"}
+[2019-05-29 16:27:23.897] [exthost] [info] ExtensionService#loadCommonJSModule /usr/share/code/resources/app/extensions/npm/dist/main

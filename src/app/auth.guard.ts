@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class AuthGuard implements CanActivate {
 
+ //In Auth Function it checks from the firebase wether the user is logged-in or not!
 
    constructor( private router: Router, private afAuth: AngularFireAuth){}
   canActivate(

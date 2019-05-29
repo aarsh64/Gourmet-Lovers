@@ -104,10 +104,10 @@ export class RestaurantsComponent implements OnInit {
   //..........................TO get tha address.........................................
 
   public handleAddressChange(address: any) {
-    console.log("Full Location", address);
+    // console.log("Full Location", address);
     this.Location = address.formatted_address;
     this.lng = address.geometry.location.lng();
-    console.log("lng value is:", this.lng);
+    // console.log("lng value is:", this.lng);
     this.lat = address.geometry.location.lat();
     this.geoPoint = this.geo.point(this.lng, this.lat);
 
@@ -184,17 +184,17 @@ export class RestaurantsComponent implements OnInit {
   submitRestaurant() {
     this.submitData = false;
     const cities = this.geo.collection("placePoints");
-    console.log("point value:", this.geoPoint);
+    // console.log("point value:", this.geoPoint);
 
     //To submit the data into the restaurant collection
-    console.log("restaurant name:", this.myForm.value.name);
+    // console.log("restaurant name:", this.myForm.value.name);
     this.restaurantsName = this.myForm.value.name;
     this.date2 = this.myForm.value.date;
-    console.log("Ranking is:", this.myForm.value.rating);
+    // console.log("Ranking is:", this.myForm.value.rating);
     this.ranking = this.myForm.value.rating;
-    console.log("address", this.myForm.value.loacation);
-    console.log("ratings", this.ranking);
-    console.log("Date", this.date2);
+    // console.log("address", this.myForm.value.loacation);
+    // console.log("ratings", this.ranking);
+    // console.log("Date", this.date2);
 
     const filePath = this.fileRef.name;
     // const fileRef = this.storage.ref(filePath);
@@ -204,9 +204,9 @@ export class RestaurantsComponent implements OnInit {
       .upload(filePath, this.fileRef)
       .then(snapshot => snapshot.ref.getDownloadURL())
       .then(downloadURL => {
-        console.log(
-          `Successfully uploaded file and got download link - ${downloadURL}`
-        );
+        // console.log(
+        //   `Successfully uploaded file and got download link - ${downloadURL}`
+        // );
 
         this.afAuth.authState.subscribe(auth => {
           this.usersCustomerId = auth.uid;
@@ -236,7 +236,7 @@ export class RestaurantsComponent implements OnInit {
             })
             .then(x => console.log("upadted geo", x));
 
-          console.log("stored", this.Location);
+          // console.log("stored", this.Location);
           this.submitData = true;
           this.toastr.info("Data has been recorded!");
           this.imageURL = downloadURL;
@@ -244,7 +244,7 @@ export class RestaurantsComponent implements OnInit {
         });
       });
 
-    console.log("Date Format", this.myForm.value);
+    // console.log("Date Format", this.myForm.value);
     this.myForm.reset();
   }
 
@@ -266,7 +266,7 @@ export class RestaurantsComponent implements OnInit {
   addToFavourites(w: any) {
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
-      console.log("id", auth.uid);
+      // console.log("id", auth.uid);
       this.db.collection("favourites").add({
         name: w.name,
         date: {
@@ -280,7 +280,7 @@ export class RestaurantsComponent implements OnInit {
         userID: this.usersCustomerId
         // objID:w.ob
       });
-      console.log("userID:", this.usersCustomerId);
+      // console.log("userID:", this.usersCustomerId);
       this.selectedRestaurant = w;
 
       this.toastr.success("Added to favourites");
@@ -302,11 +302,11 @@ export class RestaurantsComponent implements OnInit {
         .get()
         .subscribe(querySnapshot => {
           querySnapshot.forEach(result => {
-            console.log(
-              "fetched restaurant data is:",
-              `${result.id} => ${result.data()}`,
-              result.data()
-            );
+            // console.log(
+            //   "fetched restaurant data is:",
+            //   `${result.id} => ${result.data()}`,
+            //   result.data()
+            // );
             this.restaurantDetails.push({
               name: result.data().name,
               date: {
@@ -325,7 +325,7 @@ export class RestaurantsComponent implements OnInit {
             this.toastr.info("No favourites yet!");
           } else {
             this.toastr.success("Favourites💙 Loaded Succesfullly");
-            console.log("Fav Details:", this.restaurantDetails);
+            // console.log("Fav Details:", this.restaurantDetails);
           }
         });
     });
@@ -345,11 +345,11 @@ export class RestaurantsComponent implements OnInit {
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
-          console.log(
-            "restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
+          // console.log(
+          //   "restaurant data is:",
+          //   `${result.id} => ${result.data()}`,
+          //   result.data()
+          // );
 
           this.restaurantDetails.push({
             name: result.data().name,
@@ -367,7 +367,7 @@ export class RestaurantsComponent implements OnInit {
       });
     this.toastr.success("Recently Added⏲ Loaded Succesfullly");
 
-    console.log("Recently added restaurants:", this.restaurantDetails);
+    // console.log("Recently added restaurants:", this.restaurantDetails);
   }
 
   //...............To get the restaurants based on Ratings............
@@ -376,18 +376,18 @@ export class RestaurantsComponent implements OnInit {
     this.loadingData = false;
 
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
-    console.log("inside topRated:", this.restaurantDetails);
+    // console.log("inside topRated:", this.restaurantDetails);
 
     this.db
       .collection("restaurants", ref => ref.orderBy("rating", "desc"))
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
-          console.log(
-            "restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
+          // console.log(
+          //   "restaurant data is:",
+          //   `${result.id} => ${result.data()}`,
+          //   result.data()
+          // );
           this.restaurantDetails.push({
             name: result.data().name,
             date: {
@@ -403,7 +403,7 @@ export class RestaurantsComponent implements OnInit {
         });
         this.toastr.success("Top Rated ★ Restaurants Loaded!");
       });
-    console.log("Top Rated Restaurants:", this.restaurantDetails);
+    // console.log("Top Rated Restaurants:", this.restaurantDetails);
   }
 
   //..................User's specific added places........................
@@ -412,7 +412,7 @@ export class RestaurantsComponent implements OnInit {
     this.loadingData = false;
 
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
-    console.log("restaurants details:", this.restaurantDetails);
+    // console.log("restaurants details:", this.restaurantDetails);
 
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
@@ -424,11 +424,11 @@ export class RestaurantsComponent implements OnInit {
         .get()
         .subscribe(querySnapshot => {
           querySnapshot.forEach(result => {
-            console.log(
-              "fetched restaurant data is:",
-              `${result.id} => ${result.data()}`,
-              result.data()
-            );
+            // console.log(
+            //   "fetched restaurant data is:",
+            //   `${result.id} => ${result.data()}`,
+            //   result.data()
+            // );
             this.restaurantDetails.push({
               name: result.data().name,
               //location:result.location,
@@ -448,7 +448,7 @@ export class RestaurantsComponent implements OnInit {
             this.toastr.info("No Data yet!");
           } else {
             this.toastr.success("My Places Loaded Succesfullly");
-            console.log("My Places Details:", this.restaurantDetails);
+            // console.log("My Places Details:", this.restaurantDetails);
           }
         });
     });
@@ -457,7 +457,7 @@ export class RestaurantsComponent implements OnInit {
   //......................Restaurants based on locations....................
 
   searchByLocation() {
-    console.log("Location Called with location", this.geoPoint);
+    // console.log("Location Called with location", this.geoPoint);
 
     this.loadingData = false;
     if (this.Location == undefined) {
@@ -467,18 +467,18 @@ export class RestaurantsComponent implements OnInit {
 
     const collection = this.geo.collection("placePoints");
     const center = this.geoPoint;
-    const radius = 5.5; //........Will give restaurants within given point with raius of 5.5km
+    const radius = 7.25; //........Will give restaurants within given point with raius of 5.5km
     const field = "position";
     const q = collection.within(center, radius, field);
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     q.subscribe(querySnapshot => {
       querySnapshot.forEach(result => {
-        console.log(
-          "restaurant data is:",
-          `${result.name} => ${result}`,
-          result
-        );
+        // console.log(
+        //   "restaurant data is:",
+        //   `${result.name} => ${result}`,
+        //   result
+        // );
         this.date2=result.date;
         this.restaurantDetails.push({
           name: result.name,
@@ -494,11 +494,11 @@ export class RestaurantsComponent implements OnInit {
 
         // console.log(this.locationBased, "HHHHHHAAAAAAAA");
         //console.log("Details", result);
-      
+        this.loadingData = true;  
       });
     });
     // console.log('Does it work?',q);
-    this.loadingData = true;
+    
  }
 
   //...................Get restaurants in alphabetic order........................
@@ -513,11 +513,11 @@ export class RestaurantsComponent implements OnInit {
       .get()
       .subscribe(querySnapshot => {
         querySnapshot.forEach(result => {
-          console.log(
-            "restaurant data is:",
-            `${result.id} => ${result.data()}`,
-            result.data()
-          );
+          // console.log(
+          //   "restaurant data is:",
+          //   `${result.id} => ${result.data()}`,
+          //   result.data()
+          // );
           this.restaurantDetails.push({
             name: result.data().name,
             date: {
@@ -533,7 +533,7 @@ export class RestaurantsComponent implements OnInit {
         });
         this.toastr.success("Loaded Successfully!");
       });
-    console.log("alphabeticalOrder Array:", this.restaurantDetails);
+    // console.log("alphabeticalOrder Array:", this.restaurantDetails);
   }
 
   //.................................Just to do logout.....................................
