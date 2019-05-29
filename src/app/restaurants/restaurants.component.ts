@@ -256,6 +256,8 @@ export class RestaurantsComponent implements OnInit {
     this.imageName = file.name;
   }
 
+
+ //...............Tap Function(not that necessary)................................................
   onTap(x: any) {
     this.favouriteRestaurant = x;
     //console.log("jhfsfsfs", this.selectedRestaurant);

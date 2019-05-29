@@ -23,7 +23,8 @@
             <label>Password:</label>
             <input type="password" class="form-control" formControlName="password" required />
           </div>
-          <button type="signup" style="margin-right: 20px;" class="btn btn-danger" (click)="signUp()" [disabled]="
+          <button data-toggle="tooltip" data-placement="bottom" 
+           title="Yeah! Hurry Up! Just a click away." type="signup" style="margin-right: 20px;" class="btn btn-danger" (click)="signUp()" [disabled]="
             !(
               this.userForm.controls.email.valid &&
               this.userForm.controls.password.valid
@@ -31,7 +32,8 @@
           ">
             SignUp
           </button>
-          <button style="margin-right: 20px;" class="btn btn-danger" (click)="Login()" [disabled]="
+          <button data-toggle="tooltip" data-placement="bottom" 
+           title="Already Signed Up?" style="margin-right: 20px;" class="btn btn-danger" (click)="Login()" [disabled]="
             !( 
               this.userForm.controls.email.valid &&
               this.userForm.controls.password.valid

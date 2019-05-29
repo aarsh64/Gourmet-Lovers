@@ -105,7 +105,7 @@
   <!--                    To Add new Restaurant                 -->
 
 <div class="d3">
-
+<div *ngIf="submitData;else loadingLoop2">
   <form [formGroup]="myForm" data-toggle="tooltip" data-placement="bottom"
   title="Please fill the form with care,It matters a lot!">
     <div class="form-group">
@@ -160,6 +160,7 @@
   </form>
 </div>
 </div>
+</div>
 <!-- ..................................................................................... -->
 
 <!-- ---------------------- Loader Component ----------------------------- -->
@@ -168,8 +169,10 @@
   <div class="loader"></div>
 </ng-template>
 
-<!-- ....................................................................... -->
-
+<!-- ....................While data is submiting............................. -->
+<ng-template #loadingLoop2>
+  <div class="loader2"></div>
+</ng-template>
 
 
 
