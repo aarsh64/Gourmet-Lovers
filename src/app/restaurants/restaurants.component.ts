@@ -1,6 +1,23 @@
-import {Component,OnInit,Input,ViewChild,ElementRef,NgZone} from "@angular/core";
-import {NgbModal,ModalDismissReasons, NgbRatingConfig,NgbDate} from "@ng-bootstrap/ng-bootstrap";
-import {FormControl,FormGroup,ReactiveFormsModule,Validators} from "@angular/forms";
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  NgZone
+} from "@angular/core";
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbRatingConfig,
+  NgbDate
+} from "@ng-bootstrap/ng-bootstrap";
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ConstantPool } from "@angular/compiler";
 import { AngularFireStorage } from "@angular/fire/storage";
@@ -16,8 +33,12 @@ import * as googleMaps from "@google/maps";
 import { GeoFireClient } from "geofirex";
 import * as geofirex from "geofirex";
 import * as firebaseApp from "firebase/app";
-import { CollectionReference, QuerySnapshot, GeoPoint } from "@firebase/firestore-types";
-
+import {
+  CollectionReference,
+  QuerySnapshot,
+  GeoPoint
+} from "@firebase/firestore-types";
+import { toGeoJSON } from "geofirex";
 let google: any;
 declare var H: any;
 
@@ -28,7 +49,7 @@ declare var H: any;
   providers: [NgbRatingConfig]
 })
 export class RestaurantsComponent implements OnInit {
-  //..............Here Maps.................... 
+  //..............Here Maps....................
   // @ViewChild("map")
   //   public mapElement: ElementRef;
 
@@ -79,7 +100,7 @@ export class RestaurantsComponent implements OnInit {
   sortRestaurantResult = []; //to store data based on Rating(descending order)
   loadingData: boolean = false;
   dateBasedRestaurant = [];
-  loactionBasedRestaurant = [];
+  locationBased = [];
   favouriteRestaurant = [];
   @ViewChild("search")
   public searchElementRef: ElementRef;
@@ -90,6 +111,7 @@ export class RestaurantsComponent implements OnInit {
   ranking: any;
   usersCustomerId: string;
   geoPoint: geofirex.GeoFirePoint;
+  submitData: boolean=true;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -104,7 +126,7 @@ export class RestaurantsComponent implements OnInit {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
   }
-//..........................TO get tha address.........................................
+  //..........................TO get tha address.........................................
 
   public handleAddressChange(address: any) {
     console.log("Full Location", address);
@@ -112,13 +134,11 @@ export class RestaurantsComponent implements OnInit {
     this.lng = address.geometry.location.lng();
     console.log("lng value is:", this.lng);
     this.lat = address.geometry.location.lat();
-    this.geoPoint = this.geo.point(this.lng,this.lat);
-        
+    this.geoPoint = this.geo.point(this.lng, this.lat);
+
     // Do some stuff
   }
   ngOnInit() {
-    
-
     //   //--------GeoFireX----------
     //     const center=this.geo.point(40.5,-80);
     //     const radius=0.01;
@@ -187,21 +207,19 @@ export class RestaurantsComponent implements OnInit {
   }
 
   //...............For Here-Maps.......................
-//   public ngAfterViewInit() {
-//     let defaultLayers = this.platform.createDefaultLayers();
-//     this.map = new H.Map(
-//         this.mapElement.nativeElement,
-//         defaultLayers.normal.map,
-//         {
-//             zoom: 10,
-//             center: { lat: this.lat, lng: this.lng }
-//         }
-//     );
-// }
+  //   public ngAfterViewInit() {
+  //     let defaultLayers = this.platform.createDefaultLayers();
+  //     this.map = new H.Map(
+  //         this.mapElement.nativeElement,
+  //         defaultLayers.normal.map,
+  //         {
+  //             zoom: 10,
+  //             center: { lat: this.lat, lng: this.lng }
+  //         }
+  //     );
+  // }
 
-//......................................................
-
-
+  //......................................................
 
   //...............update function to change the radius.........
   update(v) {
@@ -222,11 +240,9 @@ export class RestaurantsComponent implements OnInit {
   //.........................For submiting the restaurant details...........................
 
   submitRestaurant() {
+    this.submitData=false;
     const cities = this.geo.collection("placePoints");
     console.log("point value:", this.geoPoint);
-   
-      cities.add({ name: this.Location, position: this.geoPoint.data })
-      .then(x => console.log("upadted geo", x));
 
     //To submit the data into the restaurant collection
     console.log("restaurant name:", this.myForm.value.name);
@@ -261,12 +277,25 @@ export class RestaurantsComponent implements OnInit {
             rating: this.ranking,
             location: this.Location,
             uid: this.usersCustomerId
-          });
+          }).catch((err) => {console.log(err)
+          this.submitData=true});
+          cities
+            .add({
+              name: this.restaurantsName,
+              image: downloadURL,
+              date: this.date2,
+              rating: this.ranking,
+              location: this.Location,
+              position: this.geoPoint.data
+            })
+            .then(x => console.log("upadted geo", x));
+
           console.log("stored", this.Location);
+          this.submitData=true;
           this.toastr.info("Data has been recorded!");
           this.imageURL = downloadURL;
           return downloadURL;
-        });
+        })
       });
 
     console.log("Date Format", this.myForm.value);
@@ -481,66 +510,81 @@ export class RestaurantsComponent implements OnInit {
   //......................Restaurants based on locations....................
 
   searchByLocation() {
-
     console.log("Location Called with location", this.geoPoint);
 
     this.loadingData = false;
 
-    
-    const collection=this.geo.collection('placePoints');
-    const center=this.geoPoint;
-    const radius= 5;
-    const field='position';
-    const q = collection.within(center,radius,field);
-      q.subscribe((es) => {
-        es.forEach((dc) => {
-          console.log('query data',dc);
-        })
-      })
-      // console.log('Does it work?',q);
-    this.loadingData=true;
-    // if (this.Location == undefined) {
-    //   this.loadingData = true;
-    //   this.toastr.info("Sorry but no Search Result found!");
-    // }
+    const collection = this.geo.collection("placePoints");
+    const center = this.geoPoint;
+    const radius = 4;
+    const field = "position";
+    const q = collection.within(center, radius, field);
+    this.restaurantDetails.splice(0,this.restaurantDetails.length);
 
-    // this.restaurantDetails.splice(0, this.restaurantDetails.length);
+    q.subscribe(querySnapshot => {
+      querySnapshot.forEach(result => {
+        console.log(
+          "restaurant data is:",
+          `${result.name} => ${result}`,
+          result
+        );
+        this.restaurantDetails.push({
+          name:result.name,
+          location:result.location,
+          rating:result.rating,
+          image:result.image,
+        });
 
-    // this.db
-    //   .collection("restaurants", ref =>
-    //     ref.where("location", "==", this.Location)
-    //   )
-    //   .get()
-    //   .subscribe(querySnapshot => {
-    //     querySnapshot.forEach(result => {
-    //       this.loadingData = false;
-    //       console.log(
-    //         "restaurant data is:",
-    //         `${result.id} => ${result.data()}`,
-    //         result.data()
-    //       );
-
-    //       this.restaurantDetails.push({
-    //         name: result.data().name,
-    //         date: {
-    //           day: result.data().date.day,
-    //           month: result.data().date.month,
-    //           year: result.data().date.year
-    //         },
-    //         location: result.data().location,
-    //         rating: result.data().rating,
-    //         image: result.data().image
-    //       });
-    //       console.log("location based Restaurants:", this.restaurantDetails);
-    //       this.loadingData = true;
-    //     });
-    //   });
-    // this.toastr.success("Location Based Restaurants Loaded!");
-    // console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
+        console.log(this.locationBased,"HHHHHHAAAAAAAA");
+        //console.log("Details", result);
+        });
+      });
+    // console.log('Does it work?',q);
+    this.loadingData = true;
+    console.log("END of Location based function");
   }
+  //.....................................................................
+  // if (this.Location == undefined) {
+  //   this.loadingData = true;
+  //   this.toastr.info("Sorry but no Search Result found!");
+  // }
+
+  // this.restaurantDetails.splice(0, this.restaurantDetails.length);
+
+  // this.db
+  //   .collection("restaurants", ref =>
+  //     ref.where("location", "==", this.Location)
+  //   )
+  //   .get()
+  //   .subscribe(querySnapshot => {
+  //     querySnapshot.forEach(result => {
+  //       this.loadingData = false;
+  //       console.log(
+  //         "restaurant data is:",
+  //         `${result.id} => ${result.data()}`,
+  //         result.data()
+  //       );
+
+  //       this.restaurantDetails.push({
+  //         name: result.data().name,
+  //         date: {
+  //           day: result.data().date.day,
+  //           month: result.data().date.month,
+  //           year: result.data().date.year
+  //         },
+  //         location: result.data().location,
+  //         rating: result.data().rating,
+  //         image: result.data().image
+  //       });
+  //       console.log("location based Restaurants:", this.restaurantDetails);
+  //       this.loadingData = true;
+  //     });
+  //   });
+  // this.toastr.success("Location Based Restaurants Loaded!");
+  // console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
 
   //...................Get restaurants in alphabetic order........................
-  
+
   alphabeticalOrder() {
     this.loadingData = false;
 
