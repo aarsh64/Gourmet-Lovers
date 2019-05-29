@@ -21,7 +21,6 @@ import * as geofirex from 'geofirex';
 import * as firebase from 'firebase/app';
 import{google} from '@google/maps';
 import { AuthGuard } from './auth.guard';
-import { HeroMapComponent } from './hero-map/hero-map.component';
 //import {} from '/googlemaps';
 
 
@@ -30,7 +29,6 @@ import { HeroMapComponent } from './hero-map/hero-map.component';
     AppComponent,
     RestaurantsComponent,
     UsersComponent,
-    HeroMapComponent,
     
   ],
   imports: [
