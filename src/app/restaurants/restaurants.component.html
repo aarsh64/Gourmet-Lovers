@@ -11,18 +11,18 @@
       <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand" routerLink="/restaurantDetails" routerLinkActive="active">
         <b>🍔Gourmet Lovers🍔</b></a>
     </div>&nbsp;
-    <div class="navbar-header">
+        <div class="navbar-header">
         <input style="width: 430px;" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
-    </div>
+        </div>
     <div>
         <a type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" 
         title="make sure you have selected proper location" (click)="searchByLocation()" ><b>Search</b></a>
 
     </div>
-
+    
     <div>
        
             <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
@@ -31,8 +31,10 @@
                 <button ngbDropdownItem data-toggle="tooltip" data-placement="bottom"
                 title="Places you have contributed!" (click)="myPlaces()">My Places ☕</button>
                 <button ngbDropdownItem (click)="favourites()">My Favourites 💙</button>
-                <button ngbDropdownItem (click)="topRated()">Top Rated ★</button>
-                <button ngbDropdownItem (click)="recentlyAdded()">Recently Added ⏲</button>
+                <button ngbDropdownItem data-toggle="tooltip" data-placement="bottom"
+                title="From high rated to low rated!" (click)="topRated()">Top Rated ★</button>
+                <button ngbDropdownItem data-toggle="tooltip" data-placement="bottom"
+                title="Based on Dates/Years" (click)="recentlyAdded()">Recently Added ⏲</button>
                 <button ngbDropdownItem (click)="alphabeticalOrder()">☕ A>>Z ☕</button>
               </div>
             </div>
@@ -83,7 +85,7 @@
                         <span class="star" [class.filled]="fill === 100">&#9733;</span>
                       </ng-template>
                     </ngb-rating>
-                    <!-- <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }} -->
+                    <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
                     <br>
                     <span><b>Location:</b></span> {{x.location}}
                   </div>

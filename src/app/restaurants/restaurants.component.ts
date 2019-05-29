@@ -87,7 +87,7 @@ export class RestaurantsComponent implements OnInit {
   usersCustomerId: string;
   geoPoint: geofirex.GeoFirePoint;
   submitData: boolean = true;
-
+  
   constructor(
     public afAuth: AngularFireAuth,
     config: NgbRatingConfig,
@@ -136,7 +136,7 @@ export class RestaurantsComponent implements OnInit {
       date: new FormControl("", Validators.required),
       image: new FormControl("", Validators.required)
     });
-
+   
     //.......................Fetching data randomly................................
 
     this.db
@@ -192,7 +192,6 @@ export class RestaurantsComponent implements OnInit {
     this.date2 = this.myForm.value.date;
     console.log("Ranking is:", this.myForm.value.rating);
     this.ranking = this.myForm.value.rating;
-    // this.Location =this.myForm.value.loacation;
     console.log("address", this.myForm.value.loacation);
     console.log("ratings", this.ranking);
     console.log("Date", this.date2);
@@ -480,21 +479,27 @@ export class RestaurantsComponent implements OnInit {
           `${result.name} => ${result}`,
           result
         );
+        this.date2=result.date;
         this.restaurantDetails.push({
           name: result.name,
           location: result.location,
+          date:{  day:this.date2.day,
+                  month:this.date2.month,
+                  year:this.date2.year
+
+          },
           rating: result.rating,
           image: result.image
         });
 
         // console.log(this.locationBased, "HHHHHHAAAAAAAA");
         //console.log("Details", result);
+      
       });
     });
     // console.log('Does it work?',q);
     this.loadingData = true;
-    console.log("END of Location based function");
-  }
+ }
 
   //...................Get restaurants in alphabetic order........................
 

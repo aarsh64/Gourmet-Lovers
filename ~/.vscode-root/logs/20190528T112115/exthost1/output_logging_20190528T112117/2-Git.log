@@ -2628,3 +2628,12 @@ fatal: no upstream configured for branch 'justDemo'
 fatal: no upstream configured for branch 'justDemo'
 > git for-each-ref --format %(refname) %(objectname) --sort -committerdate
 > git remote --verbose
+> git show :src/app/hero-map/hero-map.component.html
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
+> git show :src/app/restaurants/restaurants.component.html
+> git show :src/app/restaurants/restaurants.component.spec.ts
+> git show :src/app/restaurants/restaurants.component.ts
