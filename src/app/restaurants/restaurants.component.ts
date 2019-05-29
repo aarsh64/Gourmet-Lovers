@@ -468,7 +468,7 @@ export class RestaurantsComponent implements OnInit {
 
     const collection = this.geo.collection("placePoints");
     const center = this.geoPoint;
-    const radius = 5.5;
+    const radius = 5.5; //........Will give restaurants within given point with raius of 5.5km
     const field = "position";
     const q = collection.within(center, radius, field);
     this.restaurantDetails.splice(0, this.restaurantDetails.length);

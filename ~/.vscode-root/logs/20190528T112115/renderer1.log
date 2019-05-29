@@ -168,3 +168,4 @@ TypeError: Cannot read property 'length' of undefined
 	at Pipe.onread (net.js:636:20)
 [2019-05-29 15:02:57.386] [renderer1] [warning] Aborted onWillSaveTextDocument-event after 1750ms
 [2019-05-29 15:03:00.314] [renderer1] [warning] UNRESPONSIVE extension host, 'vscode.emmet' took 98% of 1507.153ms, saved PROFILE here: '/tmp/exthost-f8be75.cpuprofile' [{"id":"gc","total":11576,"percentage":1},{"id":"self","total":1673,"percentage":0},{"id":"vscode.emmet","total":1472231,"percentage":98},{"id":"vscode.html-language-features","total":317,"percentage":0}]
+[2019-05-29 15:08:48.096] [renderer1] [error] Inotify limit reached (ENOSPC)
