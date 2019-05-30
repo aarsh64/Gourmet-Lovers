@@ -55,10 +55,10 @@
 <!-- ........................................................................................... -->
 
 <!--..................... Print stored restaurants................... -->
+<div *ngIf="loadingData; else loadingLoop">
 
 <div class="gridContainer">
-    <div *ngIf="loadingData; else loadingLoop">
-   <div class="d2">
+     <div class="d2">
     <div class="card">
       <nav class="navbar navbar-expand-lg navbar bg-light ">
 
@@ -97,7 +97,7 @@
       </nav>
     </div>
   </div>
-  </div>
+  
   <!-- ............................................................................................  -->
 
 
@@ -173,6 +173,7 @@
 </ng-template>
 <button class="btn btn-lng btn-danger" (click)="open(content)">Add Restaurant</button>
 
+</div>
 </div>
 </div>
 
