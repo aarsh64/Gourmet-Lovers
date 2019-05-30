@@ -90,7 +90,6 @@ export class RestaurantsComponent implements OnInit {
   submitData: boolean = true;
   closeResult: string;
 
-  
   constructor(
     public afAuth: AngularFireAuth,
     config: NgbRatingConfig,
@@ -99,13 +98,12 @@ export class RestaurantsComponent implements OnInit {
     private toastr: ToastrService,
     public router: Router,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone ,// private google:GooglePlaceModule
-    private modalService: NgbModal,
+    private ngZone: NgZone, // private google:GooglePlaceModule
+    private modalService: NgbModal
   ) {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
-
-}
+  }
   //..........................TO get tha address.........................................
 
   public handleAddressChange(address: any) {
@@ -141,7 +139,7 @@ export class RestaurantsComponent implements OnInit {
       date: new FormControl("", Validators.required),
       image: new FormControl("", Validators.required)
     });
-   
+
     //.......................Fetching data randomly................................
 
     this.db
@@ -231,7 +229,7 @@ export class RestaurantsComponent implements OnInit {
               this.submitData = true;
               this.toastr.error(err);
             });
-          
+
           cities
             .add({
               name: this.restaurantsName,
@@ -241,7 +239,9 @@ export class RestaurantsComponent implements OnInit {
               location: this.Location,
               position: this.geoPoint.data
             })
-            .then(x => console.log("upadted geo", x)).catch(y => {this.toastr.error(y)
+            .then(x => console.log("upadted geo", x))
+            .catch(y => {
+              this.toastr.error(y);
               this.submitData = true;
             });
 
@@ -265,8 +265,7 @@ export class RestaurantsComponent implements OnInit {
     this.imageName = file.name;
   }
 
-
- //...............Tap Function(not that necessary)................................................
+  //...............Tap Function(not that necessary)................................................
   onTap(x: any) {
     this.favouriteRestaurant = x;
     //console.log("jhfsfsfs", this.selectedRestaurant);
@@ -348,7 +347,7 @@ export class RestaurantsComponent implements OnInit {
     this.loadingData = false;
 
     //...................Fetching data based on Time................................
-    
+
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.db
@@ -490,14 +489,14 @@ export class RestaurantsComponent implements OnInit {
         //   `${result.name} => ${result}`,
         //   result
         // );
-        this.date2=result.date;
+        this.date2 = result.date;
         this.restaurantDetails.push({
           name: result.name,
           location: result.location,
-          date:{  day:this.date2.day,
-                  month:this.date2.month,
-                  year:this.date2.year
-
+          date: {
+            day: this.date2.day,
+            month: this.date2.month,
+            year: this.date2.year
           },
           rating: result.rating,
           image: result.image
@@ -505,14 +504,20 @@ export class RestaurantsComponent implements OnInit {
 
         // console.log(this.locationBased, "HHHHHHAAAAAAAA");
         //console.log("Details", result);
-        this.loadingData = true;  
+        this.loadingData = true;
       });
-      this.toastr.info('Currently no data available!');
-      this.loadingData=true;
+      if (this.restaurantDetails.length == 0) {
+        this.toastr.warning(
+          "No data right now,we will reach in this area soon!"
+        );
+      } else {
+        this.toastr.info("results are fetched!");
+      }
+      this.loadingData = true;
+      this.Location = undefined;
     });
     // console.log('Does it work?',q);
-    
- }
+  }
 
   //...................Get restaurants in alphabetic order........................
 
@@ -558,41 +563,32 @@ export class RestaurantsComponent implements OnInit {
   }
 
   open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService
+      .open(content, { ariaLabelledBy: "modal-basic-title" })
+      .result.then(
+        result => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        reason => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
-  
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
+      return "by pressing ESC";
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
+      return "by clicking on a backdrop";
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
-  
-
 }
-
 
 //......................For Modal..........................
 
 //.......................................END............................................
-
-
-
-
-
-
-
-
-
-
-
 
 //.......................................Extras Below............................................
 //.....................................................................

@@ -45,9 +45,7 @@ export class UsersComponent implements OnInit {
       .then(
         success => {
           // console.log("logged in successfullty.");
-          this.afAuth.authState.subscribe(v =>
-            console.log("login")
-          );
+          this.afAuth.authState.subscribe(v => console.log("login"));
           this.router.navigate(["/restaurantDetails"]);
           this.toastr.success("Logged In Successfully!");
           // console.log("promise is accepted.");

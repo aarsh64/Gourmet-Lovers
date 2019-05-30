@@ -9,7 +9,7 @@
   <nav class="navbar sticky-top navbar-dark bg-danger">
     <div class="navbar-header">
       <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand" routerLink="/restaurantDetails" routerLinkActive="active">
-        <b>🍔Gourmet Lovers🍔</b></a>
+        <b>🍔Gourmet Lovers🍕</b></a>
     </div>&nbsp;
         <div class="navbar-header">
         <input style="width: 430px;" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
@@ -42,7 +42,7 @@
          
         
       <a style="font-size: 15px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
-        title="will lead you to your activities" routerLink="/restaurantDetails"
+        title="will lead you to here only" routerLink="/restaurantDetails"
         routerLinkActive="active"><b>Profile</b></a>
 
       <a style="font-size: 15px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
@@ -112,7 +112,7 @@
   title="Please fill the form with care,It matters a lot!">
    
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Add Restaurant :</h4>
+        <h4 class="modal-title" id="modal-basic-title">Add Restaurant <b>🍽</b>:</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -171,7 +171,8 @@
 </div>
 
 </ng-template>
-<button class="btn btn-lng btn-danger" (click)="open(content)">Add Restaurant</button>
+<button class="btn btn-lng btn-danger" data-toggle="tooltip" data-placement="bottom"
+title="Press to add new Restaurant!" (click)="open(content)">Add Restaurant</button>
 
 </div>
 </div>
