@@ -277,6 +277,7 @@ export class RestaurantsComponent implements OnInit {
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
       // console.log("id", auth.uid);
+
       this.db.collection("favourites").add({
         name: w.name,
         date: {
@@ -471,7 +472,7 @@ export class RestaurantsComponent implements OnInit {
 
     this.loadingData = false;
     if (this.Location == undefined) {
-      this.toastr.warning("No data caught!");
+      this.toastr.warning("No data/new data is entered!");
       this.loadingData = true;
     }
 
@@ -511,7 +512,7 @@ export class RestaurantsComponent implements OnInit {
           "No data right now,we will reach in this area soon!"
         );
       } else {
-        this.toastr.info("results are fetched!");
+        this.toastr.info("Fetched!");
       }
       this.loadingData = true;
       this.Location = undefined;
@@ -562,7 +563,10 @@ export class RestaurantsComponent implements OnInit {
     this.router.navigate(["/login"]);
   }
 
+  //......................For Modal..........................
+
   open(content) {
+
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(
@@ -584,9 +588,12 @@ export class RestaurantsComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
+ //.................................................................... 
+
+
+
 }
 
-//......................For Modal..........................
 
 //.......................................END............................................
 
