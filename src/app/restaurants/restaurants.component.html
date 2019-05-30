@@ -104,17 +104,24 @@
 
   <!--                    To Add new Restaurant                 -->
 
-<div class="d3">
+<div class="addRestaurant">
+   <ng-template style="z-index:1000;" #content let-modal>
+
 <div *ngIf="submitData;else loadingLoop2">
   <form [formGroup]="myForm" data-toggle="tooltip" data-placement="bottom"
   title="Please fill the form with care,It matters a lot!">
-    <div class="form-group">
-      <div class="card-header">
-        <h4>Add Restaurant :</h4>
+   
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add Restaurant :</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
       </div>
-      <div><br>
+      <div class="modal-body">
+      <div class="form-group">
+      <div>
         <label>Restaurant Name:</label>
-        <input class="form-control" formControlName="name" type="text" placeholder="Enter the Restaurant Name"
+        <input class="form-control my-sm-0" formControlName="name" type="text" placeholder="Enter the Restaurant Name"
           required />
       </div>
       <br />
@@ -123,7 +130,7 @@
    
         <!-- <div #map [style.width]="width" [style.height]="height"></div> -->
 
-        <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" formControlName="location" #search [formControl]="searchControl">
+        <input style="width: 430px;" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-sm-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
@@ -140,7 +147,7 @@
       <div class="form-group">
         <label>Date:</label>&nbsp;
         <div class="input-group-append">
-          <input class="form-control" placeholder="yyyy-mm-dd" name="dp" formControlName='date' ngbDatepicker
+          <input class="form-control my-sm-0" placeholder="yyyy-mm-dd" name="dp" formControlName='date' ngbDatepicker
             #d="ngbDatepicker">
           <button style="border: black" class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Press</button>
         </div>
@@ -154,13 +161,21 @@
         <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
       </div>
     </div>
+  </div>
+    <div class="modal-footer">
     <button class="btn btn-danger" [disabled]="!(this.myForm.controls.name.value && this.myForm.controls.rating.value)" type="submit" (click)="submitRestaurant()">
       Submit
     </button>
+  </div>
   </form>
 </div>
+
+</ng-template>
+<button class="btn btn-lng btn-danger" (click)="open(content)">Add Restaurant</button>
+
 </div>
 </div>
+
 <!-- ..................................................................................... -->
 
 <!-- ---------------------- Loader Component ----------------------------- -->

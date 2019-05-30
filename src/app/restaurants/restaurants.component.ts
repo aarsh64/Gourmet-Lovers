@@ -39,6 +39,7 @@ import {
   GeoPoint
 } from "@firebase/firestore-types";
 import { toGeoJSON } from "geofirex";
+
 let google: any;
 declare var H: any;
 
@@ -87,6 +88,8 @@ export class RestaurantsComponent implements OnInit {
   usersCustomerId: string;
   geoPoint: geofirex.GeoFirePoint;
   submitData: boolean = true;
+  closeResult: string;
+
   
   constructor(
     public afAuth: AngularFireAuth,
@@ -96,11 +99,13 @@ export class RestaurantsComponent implements OnInit {
     private toastr: ToastrService,
     public router: Router,
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone // private google:GooglePlaceModule
+    private ngZone: NgZone ,// private google:GooglePlaceModule
+    private modalService: NgbModal,
   ) {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
-  }
+
+}
   //..........................TO get tha address.........................................
 
   public handleAddressChange(address: any) {
@@ -224,7 +229,9 @@ export class RestaurantsComponent implements OnInit {
             .catch(err => {
               console.log(err);
               this.submitData = true;
+              this.toastr.error(err);
             });
+          
           cities
             .add({
               name: this.restaurantsName,
@@ -234,7 +241,9 @@ export class RestaurantsComponent implements OnInit {
               location: this.Location,
               position: this.geoPoint.data
             })
-            .then(x => console.log("upadted geo", x));
+            .then(x => console.log("upadted geo", x)).catch(y => {this.toastr.error(y)
+              this.submitData = true;
+            });
 
           // console.log("stored", this.Location);
           this.submitData = true;
@@ -545,7 +554,30 @@ export class RestaurantsComponent implements OnInit {
     this.toastr.success("LoggedOut Succesfullly");
     this.router.navigate(["/login"]);
   }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+  
+
 }
+
+
+//......................For Modal..........................
 
 //.......................................END............................................
 
