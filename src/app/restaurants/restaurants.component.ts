@@ -507,6 +507,8 @@ export class RestaurantsComponent implements OnInit {
         //console.log("Details", result);
         this.loadingData = true;  
       });
+      this.toastr.info('Currently no data available!');
+      this.loadingData=true;
     });
     // console.log('Does it work?',q);
     
