@@ -8,7 +8,7 @@
 
   <nav class="navbar sticky-top navbar-dark bg-danger">
     <div class="navbar-header">
-      <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand" routerLink="/restaurantDetails" routerLinkActive="active">
+      <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand" routerLink="#" routerLinkActive="active" (click)="ngOnInit()">
         <b>🍔Gourmet Lovers🍕</b></a>
     </div>&nbsp;
         <div class="navbar-header">
@@ -74,7 +74,7 @@
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
                     <div><b>Name:</b>&nbsp;<span>{{x.name}}</span>&nbsp;
                       <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="bottom" title="Press to make it your favourite!"
-                        (click)="addToFavourites(x)">💙</button></span>
+                        (click)="addToFavourites(x,i)">💙</button></span>
                     </div>
                      <br>
                     <span>&nbsp;</span>&nbsp;

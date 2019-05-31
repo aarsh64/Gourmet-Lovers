@@ -158,8 +158,10 @@ export class RestaurantsComponent implements OnInit {
             location: result.data().location,
             rating: result.data().rating,
             image: result.data().image,
-            objID: result.data().id
+            objID: result.id,
+            favourites:result.data().favourites
           });
+         // console.log('objID:',result.id);
           this.loadingData = true;
         });
       });
@@ -270,35 +272,45 @@ export class RestaurantsComponent implements OnInit {
   //...............Tap Function(not that necessary)................................................
   onTap(x: any) {
     this.favouriteRestaurant = x;
-    //console.log("jhfsfsfs", this.selectedRestaurant);
+   // console.log("jhfsfsfs", this.favouriteRestaurant);
   }
 
   //.................Will add the selected card to Favourites collection.............................
 
-  addToFavourites(w: any) {
-
+  addToFavourites(w: any,i:number) {
 
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
       // console.log("id", auth.uid);
+        
 
-      this.db.collection("favourites").add({
-        name: w.name,
-        date: {
-          day: w.date.day,
-          month: w.date.month,
-          year: w.date.year
-        },
-        location: w.location,
-        rating: w.rating,
-        image: w.image,
-        userID: this.usersCustomerId
-        // objID:w.ob
-      });
+        if(w.favourites==true){
+               this.db.collection('restaurants').doc(w.objID).update({favourites:false}).then(() => {this.toastr.info('Removed From the Favourites')});
+               this.restaurantDetails.splice(i,1);
+         }
+         else{
+
+          this.db.collection('restaurants').doc(w.objID).update({favourites:true}).then(() => {this.toastr.success("Added to favourites,check the list once!");})  
+         
+        }
+      
+      // this.db.collection("restaurants").add({
+      //   name: w.name,
+      //   date: {
+      //     day: w.date.day,
+      //     month: w.date.month,
+      //     year: w.date.year
+      //   },
+      //   location: w.location,
+      //   rating: w.rating,
+      //   image: w.image,
+      //   userID: this.usersCustomerId
+      //   // objID:w.ob
+      // });
       // console.log("userID:", this.usersCustomerId);
       this.selectedRestaurant = w;
 
-      this.toastr.success("Added to favourites");
+      // this.toastr.success("Added to favourites");
     });
 
     console.log("object Favourite:", w);
@@ -306,23 +318,24 @@ export class RestaurantsComponent implements OnInit {
 
   //.......................To Fetch the favourite Restaurants(Function call)..................................
 
-  favourites(w: any) {  
+  favourites() {  
     this.loadingData = false;
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
-
       this.db
-        .collection("favourites", ref => ref.where("userID", "==", auth.uid))
+        .collection("restaurants", ref => ref.where("favourites", "==", true))
         .get()
         .subscribe(querySnapshot => {
           querySnapshot.forEach(result => {
+            
             // console.log(
             //   "fetched restaurant data is:",
             //   `${result.id} => ${result.data()}`,
             //   result.data()
             // );
+            
             this.restaurantDetails.push({
               name: result.data().name,
               date: {
@@ -332,7 +345,10 @@ export class RestaurantsComponent implements OnInit {
               },
               location: result.data().location,
               rating: result.data().rating,
-              image: result.data().image
+              image: result.data().image,
+              favourites:result.data().favourites,
+              objID: result.id
+
             });
             this.loadingData = true;
           });
@@ -376,7 +392,9 @@ export class RestaurantsComponent implements OnInit {
             },
             location: result.data().location,
             rating: result.data().rating,
-            image: result.data().image
+            image: result.data().image,
+            objID: result.id
+
           });
           this.loadingData = true;
         });
@@ -413,7 +431,9 @@ export class RestaurantsComponent implements OnInit {
             },
             location: result.data().location,
             rating: result.data().rating,
-            image: result.data().image
+            image: result.data().image,
+            objID: result.id
+
           });
           this.loadingData = true;
         });
@@ -455,7 +475,9 @@ export class RestaurantsComponent implements OnInit {
               },
               location: result.data().location,
               rating: result.data().rating,
-              image: result.data().image
+              image: result.data().image,
+              objID: result.id
+
             });
             this.loadingData = true;
           });
@@ -505,7 +527,9 @@ export class RestaurantsComponent implements OnInit {
             year: this.date2.year
           },
           rating: result.rating,
-          image: result.image
+          image: result.image,
+          objID: result.id
+
         });
 
         // console.log(this.locationBased, "HHHHHHAAAAAAAA");
@@ -551,7 +575,9 @@ export class RestaurantsComponent implements OnInit {
             },
             location: result.data().location,
             rating: result.data().rating,
-            image: result.data().image
+            image: result.data().image,
+            objID: result.id
+
           });
           this.loadingData = true;
         });
