@@ -89,7 +89,7 @@ export class RestaurantsComponent implements OnInit {
   geoPoint: geofirex.GeoFirePoint;
   submitData: boolean = true;
   closeResult: string;
-
+  
   constructor(
     public afAuth: AngularFireAuth,
     config: NgbRatingConfig,
@@ -138,6 +138,7 @@ export class RestaurantsComponent implements OnInit {
       rating: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
       image: new FormControl("", Validators.required)
+
     });
 
     //.......................Fetching data randomly................................
@@ -222,7 +223,8 @@ export class RestaurantsComponent implements OnInit {
               date: this.date2,
               rating: this.ranking,
               location: this.Location,
-              uid: this.usersCustomerId
+              uid: this.usersCustomerId,
+              favourites:false
             })
             .catch(err => {
               console.log(err);
@@ -274,6 +276,8 @@ export class RestaurantsComponent implements OnInit {
   //.................Will add the selected card to Favourites collection.............................
 
   addToFavourites(w: any) {
+
+
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
       // console.log("id", auth.uid);
@@ -302,12 +306,13 @@ export class RestaurantsComponent implements OnInit {
 
   //.......................To Fetch the favourite Restaurants(Function call)..................................
 
-  favourites(w: any) {
+  favourites(w: any) {  
     this.loadingData = false;
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
+
       this.db
         .collection("favourites", ref => ref.where("userID", "==", auth.uid))
         .get()
