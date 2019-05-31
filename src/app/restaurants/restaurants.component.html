@@ -8,7 +8,7 @@
 
   <nav class="navbar sticky-top navbar-dark bg-danger">
     <div class="navbar-header">
-      <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand" routerLink="#" routerLinkActive="active" (click)="ngOnInit()">
+      <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand">
         <b>🍔Gourmet Lovers🍕</b></a>
     </div>&nbsp;
         <div class="navbar-header">
@@ -85,7 +85,7 @@
                         <span class="star" [class.filled]="fill === 100">&#9733;</span>
                       </ng-template>
                     </ngb-rating>
-                    <br> <span><b> Date </b></span>{{ x.date.day }}:{{ x.date.month }}:{{ x.date.year }}
+                    <br> <span><b> Date </b></span>{{ x.date.day }}/{{ x.date.month }}/{{ x.date.year }}
                     <br>
                     <span><b>Location:</b></span> {{x.location}}
                   </div>

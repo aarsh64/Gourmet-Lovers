@@ -39,9 +39,11 @@ import {
   GeoPoint
 } from "@firebase/firestore-types";
 import { toGeoJSON } from "geofirex";
+import { NgOnChangesFeature, defineBase } from '@angular/core/src/render3';
 
 let google: any;
 declare var H: any;
+
 
 @Component({
   selector: "app-restaurants",
@@ -89,6 +91,8 @@ export class RestaurantsComponent implements OnInit {
   geoPoint: geofirex.GeoFirePoint;
   submitData: boolean = true;
   closeResult: string;
+  users=[];
+
   
   constructor(
     public afAuth: AngularFireAuth,
@@ -278,22 +282,18 @@ export class RestaurantsComponent implements OnInit {
   //.................Will add the selected card to Favourites collection.............................
 
   addToFavourites(w: any,i:number) {
+    
 
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
       // console.log("id", auth.uid);
+   
+      this.db.collection('restaurants').doc(w.objID).update({users:(this.usersCustomerId)}).then((succ) => {console.log('data',succ)});
+
+      // this.db.collection('restautants').doc(w.objID).update({users:thi})
         
-
-        if(w.favourites==true){
-               this.db.collection('restaurants').doc(w.objID).update({favourites:false}).then(() => {this.toastr.info('Removed From the Favourites')});
-               this.restaurantDetails.splice(i,1);
-         }
-         else{
-
-          this.db.collection('restaurants').doc(w.objID).update({favourites:true}).then(() => {this.toastr.success("Added to favourites,check the list once!");})  
-         
-        }
-      
+    });
+ 
       // this.db.collection("restaurants").add({
       //   name: w.name,
       //   date: {
@@ -308,10 +308,10 @@ export class RestaurantsComponent implements OnInit {
       //   // objID:w.ob
       // });
       // console.log("userID:", this.usersCustomerId);
-      this.selectedRestaurant = w;
+     // this.selectedRestaurant = w;
 
       // this.toastr.success("Added to favourites");
-    });
+    
 
     console.log("object Favourite:", w);
   }
@@ -324,17 +324,18 @@ export class RestaurantsComponent implements OnInit {
 
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
-      this.db
-        .collection("restaurants", ref => ref.where("favourites", "==", true))
+      // second condition must be..........(uid == this.usersCustomerId)........
+     this.db
+        .collection("restaurants", ref => ref.where("users", "array-contains",this.usersCustomerId))
         .get()
         .subscribe(querySnapshot => {
           querySnapshot.forEach(result => {
-            
-            // console.log(
-            //   "fetched restaurant data is:",
-            //   `${result.id} => ${result.data()}`,
-            //   result.data()
-            // );
+        
+             console.log(
+               "fetched restaurant data is:",
+               `${result.id} => ${result.data()}`,
+              result.data()
+             );
             
             this.restaurantDetails.push({
               name: result.data().name,
