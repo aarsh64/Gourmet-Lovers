@@ -19,7 +19,7 @@ import {
   Validators
 } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { ConstantPool } from "@angular/compiler";
+import { ConstantPool, IfStmt } from "@angular/compiler";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { ToastrService } from "ngx-toastr";
@@ -40,6 +40,7 @@ import {
 } from "@firebase/firestore-types";
 import { toGeoJSON } from "geofirex";
 import { NgOnChangesFeature, defineBase } from '@angular/core/src/render3';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 let google: any;
 declare var H: any;
@@ -91,7 +92,7 @@ export class RestaurantsComponent implements OnInit {
   geoPoint: geofirex.GeoFirePoint;
   submitData: boolean = true;
   closeResult: string;
-  users=[];
+  userscollection=[];
 
   
   constructor(
@@ -163,6 +164,7 @@ export class RestaurantsComponent implements OnInit {
             rating: result.data().rating,
             image: result.data().image,
             objID: result.id,
+            users:result.data().users,
             favourites:result.data().favourites
           });
          // console.log('objID:',result.id);
@@ -230,7 +232,8 @@ export class RestaurantsComponent implements OnInit {
               rating: this.ranking,
               location: this.Location,
               uid: this.usersCustomerId,
-              favourites:false
+              favourites:false,
+              users:[]
             })
             .catch(err => {
               console.log(err);
@@ -285,13 +288,35 @@ export class RestaurantsComponent implements OnInit {
     
 
     this.afAuth.authState.subscribe(auth => {
-      this.usersCustomerId = auth.uid;
-      // console.log("id", auth.uid);
-   
-      this.db.collection('restaurants').doc(w.objID).update({users:(this.usersCustomerId)}).then((succ) => {console.log('data',succ)});
+       
 
-      // this.db.collection('restautants').doc(w.objID).update({users:thi})
+        if(w.users==undefined){
+          this.userscollection.push(auth.uid);
+          this.db.collection('restaurants').doc(w.objID).update({ users:this.userscollection}).then(() => this.toastr.info('added to favourites!'));
+
+        }
+        else{
+          w.users.push(auth.uid);
+          console.log('w.users',w.users);
+          this.userscollection.push(w.users);
+          console.log('this.users',this.userscollection);
+          console.log('objID',w.objID);
+          this.db.collection('restaurants').doc(w.objID).update({ users:w.users}).then(() => this.toastr.info('added to favourites!'));
+
+
+        }
+       
+        // this.userscollection.push(w.users);
+      //   console.log('users',this.userscollection);
+      //   this.userscollection.push(auth.uid);
+      // console.log('USERS',this.userscollection);
+      // this.db.collection('restaurants').add({users:[this.userscollection]}).then((succ) => {console.log('data',succ)});
+// console.log(w.users,"is it>");
         
+      // this.db.collection('restaurants').add({
+      //   users:[this.userscollection]
+      // })
+
     });
  
       // this.db.collection("restaurants").add({
