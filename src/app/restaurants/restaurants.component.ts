@@ -244,7 +244,7 @@ export class RestaurantsComponent implements OnInit {
           this.imageURL = downloadURL;
           return downloadURL;
         });
-      });
+      }).catch((err) => {console.log(err)})
 
     this.myForm.reset();
   }
