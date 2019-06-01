@@ -15,7 +15,7 @@ import { AppRoutingModule } from "src/app/app-routing.module";
 })
 export class UsersComponent implements OnInit {
   userForm: any; //For Form validation............
-  loaduser: boolean;
+  loaduser: boolean;//Used for loading loop
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -44,17 +44,14 @@ export class UsersComponent implements OnInit {
       )
       .then(
         success => {
-          // console.log("logged in successfullty.");
           this.afAuth.authState.subscribe(v => console.log("login"));
           this.router.navigate(["/restaurantDetails"]);
           this.toastr.success("Logged In Successfully!");
-          // console.log("promise is accepted.");
           this.loaduser = false;
         },
         error => {
           console.log("error", error);
           this.toastr.error(error.message);
-          // this.loadUser = false;
         }
       );
     this.userForm.reset();
@@ -90,3 +87,5 @@ export class UsersComponent implements OnInit {
       });
   }
 }
+
+//------------------------------------------END OF THE CODE--------------------------------------------

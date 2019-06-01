@@ -39,12 +39,6 @@
               </div>
             </div>
           
-         
-        
-      <!-- <a style="font-size: 15px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
-        title="will lead you to here only" routerLink="/restaurantDetails"
-        routerLinkActive="active"><b>Profile</b></a> -->
-
       <a style="font-size: 15px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
         title="Just a click away from logout." routerLink="#" routerLinkActive="active"
         (click)="logout()"><b>Logout</b></a>
@@ -69,7 +63,6 @@
                
                   <div class="restaurantGrid">
 
-                                      <!-- <ul class="list-group"> -->
                   <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
                     <div><b>Name:</b>&nbsp;<span>{{x.name}}</span>&nbsp;
@@ -128,8 +121,6 @@
       <div>
         <label>Location:</label>
    
-        <!-- <div #map [style.width]="width" [style.height]="height"></div> -->
-
         <input style="width: 430px;" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-sm-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
@@ -193,7 +184,7 @@ title="Press to add new Restaurant!" (click)="open(content)">Add Restaurant</but
 
 
 
-<!-- --------------------------- END ------------------------------------- -->
+<!-- -------------------------------------END OF THE CODE------------------------------------- -->
 
 
 <!--.......................................EXTRA...........................................-->
