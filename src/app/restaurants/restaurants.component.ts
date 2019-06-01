@@ -39,12 +39,11 @@ import {
   GeoPoint
 } from "@firebase/firestore-types";
 import { toGeoJSON } from "geofirex";
-import { NgOnChangesFeature, defineBase } from '@angular/core/src/render3';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { NgOnChangesFeature, defineBase } from "@angular/core/src/render3";
+import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 let google: any;
 declare var H: any;
-
 
 @Component({
   selector: "app-restaurants",
@@ -92,9 +91,8 @@ export class RestaurantsComponent implements OnInit {
   geoPoint: geofirex.GeoFirePoint;
   submitData: boolean = true;
   closeResult: string;
-  userscollection=[];
+  userscollection = [];
 
-  
   constructor(
     public afAuth: AngularFireAuth,
     config: NgbRatingConfig,
@@ -143,7 +141,6 @@ export class RestaurantsComponent implements OnInit {
       rating: new FormControl("", Validators.required),
       date: new FormControl("", Validators.required),
       image: new FormControl("", Validators.required)
-
     });
 
     //.......................Fetching data randomly................................
@@ -164,10 +161,10 @@ export class RestaurantsComponent implements OnInit {
             rating: result.data().rating,
             image: result.data().image,
             objID: result.id,
-            users:result.data().users,
-            favourites:result.data().favourites
+            users: result.data().users,
+            favourites: result.data().favourites
           });
-         // console.log('objID:',result.id);
+          // console.log('objID:',result.id);
           this.loadingData = true;
         });
       });
@@ -232,8 +229,8 @@ export class RestaurantsComponent implements OnInit {
               rating: this.ranking,
               location: this.Location,
               uid: this.usersCustomerId,
-              favourites:false,
-              users:[]
+              favourites: false,
+              users: []
             })
             .catch(err => {
               console.log(err);
@@ -279,89 +276,73 @@ export class RestaurantsComponent implements OnInit {
   //...............Tap Function(not that necessary)................................................
   onTap(x: any) {
     this.favouriteRestaurant = x;
-   // console.log("jhfsfsfs", this.favouriteRestaurant);
+    // console.log("jhfsfsfs", this.favouriteRestaurant);
   }
 
   //.................Will add the selected card to Favourites collection.............................
 
-  addToFavourites(w: any,i:number) {
-    
-
+  addToFavourites(w: any, i: number) {
     this.afAuth.authState.subscribe(auth => {
-       
+      if (w.users == undefined) {
+        this.userscollection.push(auth.uid);
+        this.db
+          .collection("restaurants")
+          .doc(w.objID)
+          .update({ users: this.userscollection })
+          .then(() => this.toastr.info("added to favourites,check for once!"))
+          .catch(() => {
+            this.toastr.error("must be wrong while adding to favourites!");
+          });
+      } else {
+        w.users.push(auth.uid);
+        this.userscollection.push(w.users);
+        this.db
+          .collection("restaurants")
+          .doc(w.objID)
+          .update({ users: w.users })
+          .then(() => this.toastr.info("added to favourites,check for once!"))
+          .catch(() => {
+            this.toastr.error("must be wrong while adding to favourites!");
+          });
+      }
 
-        if(w.users==undefined){
-          this.userscollection.push(auth.uid);
-          this.db.collection('restaurants').doc(w.objID).update({ users:this.userscollection}).then(() => this.toastr.info('added to favourites!'));
-
-        }
-        else{
-          w.users.push(auth.uid);
-          console.log('w.users',w.users);
-          this.userscollection.push(w.users);
-          console.log('this.users',this.userscollection);
-          console.log('objID',w.objID);
-          this.db.collection('restaurants').doc(w.objID).update({ users:w.users}).then(() => this.toastr.info('added to favourites!'));
-
-
-        }
-       
-        // this.userscollection.push(w.users);
+      // this.userscollection.push(w.users);
       //   console.log('users',this.userscollection);
       //   this.userscollection.push(auth.uid);
       // console.log('USERS',this.userscollection);
       // this.db.collection('restaurants').add({users:[this.userscollection]}).then((succ) => {console.log('data',succ)});
-// console.log(w.users,"is it>");
-        
+      // console.log(w.users,"is it>");
+
       // this.db.collection('restaurants').add({
       //   users:[this.userscollection]
       // })
-
     });
- 
-      // this.db.collection("restaurants").add({
-      //   name: w.name,
-      //   date: {
-      //     day: w.date.day,
-      //     month: w.date.month,
-      //     year: w.date.year
-      //   },
-      //   location: w.location,
-      //   rating: w.rating,
-      //   image: w.image,
-      //   userID: this.usersCustomerId
-      //   // objID:w.ob
-      // });
-      // console.log("userID:", this.usersCustomerId);
-     // this.selectedRestaurant = w;
-
-      // this.toastr.success("Added to favourites");
-    
 
     console.log("object Favourite:", w);
   }
 
   //.......................To Fetch the favourite Restaurants(Function call)..................................
 
-  favourites() {  
+  favourites() {
     this.loadingData = false;
     this.restaurantDetails.splice(0, this.restaurantDetails.length);
 
     this.afAuth.authState.subscribe(auth => {
       this.usersCustomerId = auth.uid;
       // second condition must be..........(uid == this.usersCustomerId)........
-     this.db
-        .collection("restaurants", ref => ref.where("users", "array-contains",this.usersCustomerId))
+      this.db
+        .collection("restaurants", ref =>
+          ref.where("users", "array-contains", this.usersCustomerId)
+        )
         .get()
         .subscribe(querySnapshot => {
           querySnapshot.forEach(result => {
-        
-             console.log(
-               "fetched restaurant data is:",
-               `${result.id} => ${result.data()}`,
+            console.log(
+              "fetched restaurant data is:",
+              `${result.id} => ${result.data()}`,
               result.data()
-             );
-            
+            );
+
             this.restaurantDetails.push({
               name: result.data().name,
               date: {
@@ -372,9 +353,8 @@ export class RestaurantsComponent implements OnInit {
               location: result.data().location,
               rating: result.data().rating,
               image: result.data().image,
-              favourites:result.data().favourites,
+              favourites: result.data().favourites,
               objID: result.id
-
             });
             this.loadingData = true;
           });
@@ -420,7 +400,6 @@ export class RestaurantsComponent implements OnInit {
             rating: result.data().rating,
             image: result.data().image,
             objID: result.id
-
           });
           this.loadingData = true;
         });
@@ -459,7 +438,6 @@ export class RestaurantsComponent implements OnInit {
             rating: result.data().rating,
             image: result.data().image,
             objID: result.id
-
           });
           this.loadingData = true;
         });
@@ -503,7 +481,6 @@ export class RestaurantsComponent implements OnInit {
               rating: result.data().rating,
               image: result.data().image,
               objID: result.id
-
             });
             this.loadingData = true;
           });
@@ -555,7 +532,6 @@ export class RestaurantsComponent implements OnInit {
           rating: result.rating,
           image: result.image,
           objID: result.id
-
         });
 
         // console.log(this.locationBased, "HHHHHHAAAAAAAA");
@@ -603,7 +579,6 @@ export class RestaurantsComponent implements OnInit {
             rating: result.data().rating,
             image: result.data().image,
             objID: result.id
-
           });
           this.loadingData = true;
         });
@@ -623,7 +598,6 @@ export class RestaurantsComponent implements OnInit {
   //......................For Modal..........................
 
   open(content) {
-
     this.modalService
       .open(content, { ariaLabelledBy: "modal-basic-title" })
       .result.then(
@@ -645,12 +619,8 @@ export class RestaurantsComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
- //.................................................................... 
-
-
-
+  //....................................................................
 }
-
 
 //.......................................END............................................
 
