@@ -1,7 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-.pac-container {
-    z-index: 1051;
-  }
+
 .ng-reflect{
     background-color: brown;
+}
+
+/* To give shadow effects to buttons the class is defined here */
+.shadow{
+  -moz-box-shadow: 3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow: 3px 3px 5px 6px #ccc; 
+}
+/* To see the autocomplete in modal */
+.pac-container {
+  z-index: 1051;
 }

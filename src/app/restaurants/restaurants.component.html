@@ -5,20 +5,20 @@
 
 <!-- .........................Navigation Bar......................................... -->
 <div class="activityContainer" *ngIf="afAuth.user | async as user">
-
+  <div class="navigationBar">
   <nav class="navbar sticky-top navbar-dark bg-danger">
     <div class="navbar-header">
       <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand">
         <b>🍔Gourmet Lovers🍕</b></a>
-    </div>&nbsp;
+    </div>
         <div class="navbar-header">
-        <input style="width: 430px;" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
+        <input id="searchbar"  form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
         </div>
     <div>
-        <a type="search" style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" 
+        <a type="search"  style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" 
         title="make sure you have selected proper location" (click)="searchByLocation()" ><b>Search</b></a>
 
     </div>
@@ -45,24 +45,14 @@
 
     </div>
   </nav>
-
+</div>
 <!-- ........................................................................................... -->
 
 <!--..................... Print stored restaurants................... -->
 <div *ngIf="loadingData; else loadingLoop">
 
 <div class="gridContainer">
-     <div class="d2">
-    <div class="card">
-      <nav class="navbar navbar-expand-lg navbar bg-light ">
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ngb-tabset>
-            <ngb-tab title="Welcome!">
-              <ng-template ngbTabContent>
-               
                   <div class="restaurantGrid">
-
                   <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
                     <div><b>Name:</b>&nbsp;<span>{{x.name}}</span>&nbsp;
@@ -82,15 +72,8 @@
                     <br>
                     <span><b>Location:</b></span> {{x.location}}
                   </div>
-                </div>
-              </ng-template>
-            </ngb-tab>
-          </ngb-tabset>
-          </div>
-      </nav>
-    </div>
-  </div>
-  
+                </div> 
+               
   <!-- ............................................................................................  -->
 
 
@@ -98,12 +81,11 @@
   <!--                    To Add new Restaurant                 -->
 
 <div class="addRestaurant">
+  <div class="modalButton">
    <ng-template style="z-index:1000;" #content let-modal>
-
-<div *ngIf="submitData;else loadingLoop2">
+  <div *ngIf="submitData;else loadingLoop2">
   <form [formGroup]="myForm" data-toggle="tooltip" data-placement="bottom"
   title="Please fill the form with care,It matters a lot!">
-   
       <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Add Restaurant <b>🍽</b>:</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -120,8 +102,7 @@
       <br />
       <div>
         <label>Location:</label>
-   
-        <input style="width: 430px;" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-sm-0" #search [formControl]="searchControl">
+        <input style="width: 430px;" id="searchbar" form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-sm-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
@@ -138,7 +119,7 @@
       <div class="form-group">
         <label>Date:</label>&nbsp;
         <div class="input-group-append">
-          <input class="form-control my-sm-0" placeholder="yyyy-mm-dd" name="dp" formControlName='date' ngbDatepicker
+          <input  class="form-control my-sm-0" placeholder="yyyy-mm-dd" name="dp" formControlName='date' ngbDatepicker
             #d="ngbDatepicker">
           <button style="border: black" class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Press</button>
         </div>
@@ -147,8 +128,6 @@
       <div class="form-group">
         <label>Images:</label>&nbsp;
         <input type="file" (change)="uploadFile($event)">
-        <div>
-                 </div>
         <a [href]="downloadURL | async">{{ downloadURL | async }}</a>
       </div>
     </div>
@@ -160,15 +139,15 @@
   </div>
   </form>
 </div>
-
 </ng-template>
-<button class="btn btn-lng btn-danger" data-toggle="tooltip" data-placement="bottom"
+<button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom"
 title="Press to add new Restaurant!" (click)="open(content)">Add Restaurant</button>
 
 </div>
 </div>
 </div>
-
+</div>
+</div>
 <!-- ..................................................................................... -->
 
 <!-- ---------------------- Loader Component ----------------------------- -->

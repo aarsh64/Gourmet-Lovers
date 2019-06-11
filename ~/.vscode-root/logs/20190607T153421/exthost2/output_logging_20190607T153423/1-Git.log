@@ -1,0 +1,10 @@
+Looking for git in: git
+Using git 2.7.4 from git
+> git rev-parse --show-toplevel
+> git config --get commit.template
+Open repository: /home/pk
+> git status -z -u
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git check-ignore -z --stdin
+> git check-ignore -z --stdin

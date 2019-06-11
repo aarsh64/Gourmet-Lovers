@@ -1,110 +1,116 @@
-.navbar{
-  color:white;
-}
-
-.gridContainer{
-   /* background: lightgray; */
-  width:100%;
-  display: grid;
-  grid-template-columns:50px 50px;
-}
-
-
-.d2{
-    /* bottom: 0px; */
-    width: auto;
-    display:grid;
-    position: relative;
-  }
-  .d3{
-  
-    position: fixed ;
-    /* overflow:auto; */
-    bottom: 60px;
-    font-size: 15px;
-    justify-content: center;
-    /* justify-items: center; */
-    text-align:center;
-  }
-  /* The add button */
-.addRestaurant{
-  position:fixed;
-  right: 10px;
-  bottom: 50px;
+.navbar {
+  color: white;
 }
  
- .restaurantGrid{
-   display: grid;
-   grid-template-columns: repeat(4,1fr);
-   grid-gap: 05px;
- }
-  .list-group-item:hover{
-    color: rgb(15, 15, 15);
-    background-color: white;
-    
+.activityContainer{
+  width:auto;
+}
+.gridContainer {
+  /* background: lightgray; */
+  display: grid;
+  grid-template-columns: 1000px 300px; ;
+  grid-template-areas: 
+  "data side"
+  "data side";
+}
+.restaurantGrid {
+  grid-area:data;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 05px;
+}
+.addRestaurant {
+  position: fixed;
+  grid-area: side;
+   right: 10px;
+   bottom: 50px;
+}
+#searchbar{
+  width: 45vw;
+  left: 120px;
 }
 
-  .star {
-    font-size: 1.5rem;
-    color: #b0c4de;
-  }
-  .filled {
-    color: goldenrod;
-  }
-  .bad {
-    color: #deb0b0;
-  }
-  .filled.bad {
-    color: #ff1e1e;
-  }
+/* The add button */ 
 
-/* .imageBig:hover {
-  position:relative;
-  top:-20px;
-  left:55px;
-  width:200px;
-  height:auto;
-  display:block;
-  z-index:999;
-} */
+.list-group-item:hover {
+  color: rgb(15, 15, 15);
+  background-color: white;
+}
 
-.agm-map{
+.star {
+  font-size: 1.5rem;
+  color: #b0c4de;
+}
+.filled {
+  color: goldenrod;
+}
+.bad {
+  color: #deb0b0;
+}
+.filled.bad {
+  color: #ff1e1e;
+}
+.agm-map {
   height: 300px;
 }
 
 .loader {
-
   border: 6px solid #f0e9e9;
-  border-top: 6px solid #CC0000;
-  border-bottom: 6px solid #CC0000;
+  border-top: 6px solid #cc0000;
+  border-bottom: 6px solid #cc0000;
   border-radius: 50%;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 180px;
   width: 90px;
   height: 90px;
   animation: spin 1s linear infinite;
-  position: relative
+  position: relative;
 }
 
 .loader2 {
-
   border: 6px solid #f0e9e9;
-  border-top: 6px solid #CC0000;
-  border-bottom: 6px solid #CC0000;
+  border-top: 6px solid #cc0000;
+  border-bottom: 6px solid #cc0000;
   border-radius: 50%;
-  margin-left:200px;
-  margin-top:auto;
+  margin-left: 200px;
+  margin-top: auto;
   margin-bottom: auto;
-  top:0px;
+  top: 0px;
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
-  position: relative
+  position: relative;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-
+@media (max-width: 600px){
+  .activityContainer{
+    width:550px;
+  }
+  .gridContainer{
+   display: grid;
+   grid-template-columns: 250px 150px ;
+   grid-template-areas: 
+   "d1 s1"
+   "d1 s1";
+  }
+  .restaurantGrid{
+    display: grid;
+    grid-template-columns: repeat(2,180px);
+    grid-area: d1;
+  }
+  .addRestaurant {
+    position: fixed;
+    grid-area: s1;
+     right: 10px;
+     bottom: 50px;
+  }  
+}

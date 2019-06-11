@@ -1,0 +1,197 @@
+Looking for git in: git
+Using git 2.7.4 from git
+> git rev-parse --show-toplevel
+fatal: Not a git repository (or any of the parent directories): .git
+> git rev-parse --show-toplevel
+> git config --get commit.template
+Open repository: /home/pk
+> git status -z -u
+> git show :Documents/grid.html
+> git ls-files --stage -- Documents/
+> git check-ignore -z --stdin
+> git check-ignore -z --stdin
+> git show :Documents/gri2.copy.html
+> git ls-files --stage -- Documents/
+> git check-ignore -z --stdin
+> git show :Documents/grid.html
+> git ls-files --stage -- Documents/
+> git show :Documents/gri2.copy.html
+> git ls-files --stage -- Documents/
+> git show :Documents/grid.html
+> git ls-files --stage -- Documents/
+> git show :Documents/gri2.copy.html
+> git ls-files --stage -- Documents/
+> git show :Documents/grid.html
+> git ls-files --stage -- Documents/
+> git show :Documents/gri2.copy.html
+> git ls-files --stage -- Documents/
+> git show :Documents/grid.html
+> git ls-files --stage -- Documents/
+> git show :Documents/gri2.copy.html
+> git ls-files --stage -- Documents/
+> git show :Documents/grid.html
+> git ls-files --stage -- Documents/
+> git show :Documents/gri2.copy.html
+> git ls-files --stage -- Documents/
+> git show :Documents/grid.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git check-ignore -z --stdin
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git check-ignore -z --stdin
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git ls-files --stage -- Documents/
+> git show :Documents/MI_logo.html
+> git ls-files --stage -- Documents/
+> git show :Documents/manjaro_logo(grid).html
+> git show :Documents/MI_logo.html
