@@ -42,7 +42,6 @@ import { toGeoJSON } from "geofirex";
 import { NgOnChangesFeature, defineBase } from "@angular/core/src/render3";
 import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
-
 @Component({
   selector: "app-restaurants",
   templateUrl: "./restaurants.component.html",
@@ -116,6 +115,7 @@ export class RestaurantsComponent implements OnInit {
     this.lng = address.geometry.location.lng();
     this.lat = address.geometry.location.lat();
     this.geoPoint = this.geo.point(this.lng, this.lat);
+    this.searchByLocation();
   }
 
   ngOnInit() {
@@ -163,7 +163,6 @@ export class RestaurantsComponent implements OnInit {
             users: result.data().users,
             favourites: result.data().favourites
           });
-          // console.log('objID:',result.id);
           this.loadingData = true;
         });
       });
@@ -244,7 +243,10 @@ export class RestaurantsComponent implements OnInit {
           this.imageURL = downloadURL;
           return downloadURL;
         });
-      }).catch((err) => {console.log(err)})
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     this.myForm.reset();
   }
@@ -308,12 +310,6 @@ export class RestaurantsComponent implements OnInit {
         .get()
         .subscribe(querySnapshot => {
           querySnapshot.forEach(result => {
-            console.log(
-              "fetched restaurant data is:",
-              `${result.id} => ${result.data()}`,
-              result.data()
-            );
-
             this.restaurantDetails.push({
               name: result.data().name,
               date: {

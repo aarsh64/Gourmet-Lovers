@@ -3,32 +3,26 @@
 }
  
 .activityContainer{
-  width:auto;
+  width:100%;
 }
-.gridContainer {
-  /* background: lightgray; */
-  display: grid;
-  grid-template-columns: 1000px 300px; ;
-  grid-template-areas: 
-  "data side"
-  "data side";
-}
+
 .restaurantGrid {
-  grid-area:data;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, auto);
   grid-gap: 05px;
 }
 .addRestaurant {
   position: fixed;
-  grid-area: side;
    right: 10px;
    bottom: 50px;
 }
+#heading{
+  font-size: 20px;
+  transform:skewY(-5deg)
+}
 #searchbar{
   width: 45vw;
-  left: 120px;
-}
+ }
 
 /* The add button */ 
 
@@ -93,24 +87,23 @@
 }
 @media (max-width: 600px){
   .activityContainer{
-    width:550px;
-  }
-  .gridContainer{
-   display: grid;
-   grid-template-columns: 250px 150px ;
-   grid-template-areas: 
-   "d1 s1"
-   "d1 s1";
+    width:100%;
   }
   .restaurantGrid{
+    width: auto;
     display: grid;
-    grid-template-columns: repeat(2,180px);
-    grid-area: d1;
+    grid-template-columns: repeat(2,minmax(0px,287px));
+    
   }
   .addRestaurant {
     position: fixed;
-    grid-area: s1;
-     right: 10px;
-     bottom: 50px;
+       right: 2%;
+        bottom: 2%;
   }  
+
+  #searchbar{
+    width:90vw;
+    margin:2% 2% 2% 2%;
+   
+  }
 }

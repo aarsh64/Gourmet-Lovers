@@ -1,14 +1,14 @@
-<div>
+<!-- <div>
   <a routerLink="/restaurantDetails" routerLinkActive="active"></a>
 </div>
-
+ -->
 
 <!-- .........................Navigation Bar......................................... -->
 <div class="activityContainer" *ngIf="afAuth.user | async as user">
   <div class="navigationBar">
   <nav class="navbar sticky-top navbar-dark bg-danger">
     <div class="navbar-header">
-      <a style="font-size: 20px; transform:skewY(-5deg)" class="navbar-brand">
+      <a id="heading" class="navbar-brand">
         <b>🍔Gourmet Lovers🍕</b></a>
     </div>
         <div class="navbar-header">
@@ -17,12 +17,6 @@
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
         </div>
-    <div>
-        <a type="search"  style="font-size: 15px;" class="btn btn-danger my-2 my-sm-0"  data-toggle="tooltip" data-placement="bottom" 
-        title="make sure you have selected proper location" (click)="searchByLocation()" ><b>Search</b></a>
-
-    </div>
-    
     <div>
        
             <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
@@ -46,6 +40,7 @@
     </div>
   </nav>
 </div>
+<br>
 <!-- ........................................................................................... -->
 
 <!--..................... Print stored restaurants................... -->
@@ -55,7 +50,7 @@
                   <div class="restaurantGrid">
                   <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
-                    <div><b>Name:</b>&nbsp;<span>{{x.name}}</span>&nbsp;
+                    <div><b>Name:</b><span>{{x.name}}</span>
                       <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="bottom" title="Press to make it your favourite!"
                         (click)="addToFavourites(x,i)">💙</button></span>
                     </div>
@@ -72,11 +67,6 @@
                     <br>
                     <span><b>Location:</b></span> {{x.location}}
                   </div>
-                </div> 
-               
-  <!-- ............................................................................................  -->
-
-
 
   <!--                    To Add new Restaurant                 -->
 
@@ -145,6 +135,12 @@ title="Press to add new Restaurant!" (click)="open(content)">Add Restaurant</but
 
 </div>
 </div>
+                </div> 
+               
+  <!-- ............................................................................................  -->
+
+
+
 </div>
 </div>
 </div>
