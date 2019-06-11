@@ -118,6 +118,13 @@ export class RestaurantsComponent implements OnInit {
     this.searchByLocation();
   }
 
+  public handleAddressChange1(address: any) {
+    this.Location = address.formatted_address;
+    this.lng = address.geometry.location.lng();
+    this.lat = address.geometry.location.lat();
+    this.geoPoint = this.geo.point(this.lng, this.lat);
+  }
+
   ngOnInit() {
     this.loadingData = false;
     //...........................Google-Maps-API..........................................
