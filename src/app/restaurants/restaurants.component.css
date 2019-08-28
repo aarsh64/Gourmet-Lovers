@@ -1,6 +1,10 @@
 .navbar {
   color: white;
 }
+
+a{
+  cursor: pointer;
+}
  
 .activityContainer{
   width:100%;
@@ -53,7 +57,10 @@
 .agm-map {
   height: 300px;
 }
-
+.warning{
+ left: 0;
+color:red;
+}
 .loader {
   border: 6px solid #f0e9e9;
   border-top: 6px solid #cc0000;
