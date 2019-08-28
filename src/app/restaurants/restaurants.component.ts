@@ -116,7 +116,7 @@ export class RestaurantsComponent implements OnInit {
     this.lat = address.geometry.location.lat();
     this.geoPoint = this.geo.point(this.lng, this.lat);
     this.searchByLocation();
- }
+  }
 
   public handleAddressChange1(address: any) {
     this.Location = address.formatted_address;
