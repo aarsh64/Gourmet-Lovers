@@ -6,6 +6,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'foodplaces';
+  title = 'GourmetLovers';
   constructor(){}
 }

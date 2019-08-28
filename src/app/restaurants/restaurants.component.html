@@ -8,7 +8,7 @@
   <div class="navigationBar">
   <nav class="navbar sticky-top navbar-dark bg-danger">
     <div class="navbar-header">
-      <a id="heading" class="navbar-brand">
+      <a  (click)="ngOnInit()" id="heading" class="navbar-brand">
         <b>🍔Gourmet Lovers🍕</b></a>
     </div>
         <div class="navbar-header">
@@ -48,10 +48,10 @@
 
 <div class="gridContainer">
                   <div class="restaurantGrid">
-                  <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index"
+                  <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index;trackBy:index"
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
                     <div><b>Name:</b><span>{{x.name}}</span>
-                      <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="bottom" title="Press to make it your favourite!"
+                     &nbsp; <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="bottom" title="Press to make it your favourite!"
                         (click)="addToFavourites(x,i)">💙</button></span>
                     </div>
                      <br>
@@ -132,7 +132,6 @@
 </ng-template>
 <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom"
 title="Press to add new Restaurant!" (click)="open(content)">Add Restaurant</button>
-
 </div>
 </div>
                 </div> 
