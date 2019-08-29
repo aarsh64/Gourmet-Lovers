@@ -66,7 +66,7 @@ export class UsersComponent implements OnInit {
       })
       .then(success => {
         // console.log("success", success);
-        this.toastr.info('acc');
+        // this.toastr.info('Account created');
       })
       .catch(err => {
         // console.log(err);

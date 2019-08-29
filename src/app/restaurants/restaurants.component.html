@@ -50,7 +50,7 @@
                   <div class="restaurantGrid">
                   <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index;trackBy:index"
                     [class.selected]="x===selectedRestaurant" (click)="onTap(x)" >
-                    <div><b>Name:</b><span>{{x.name}}</span>
+                    <div><b>Name:</b><span> &nbsp;{{x.name}}</span>
                      &nbsp; <span style="margin-right:100px;"><button class="btn btn-sm btn-outline-danger" data-toggle="tooltip" data-placement="bottom" title="Press to make it your favourite!"
                         (click)="addToFavourites(x,i)">💙</button></span>
                     </div>
