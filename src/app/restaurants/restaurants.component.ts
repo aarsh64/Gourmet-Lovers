@@ -225,7 +225,7 @@ export class RestaurantsComponent implements OnInit {
               users: []
             })
             .catch(err => {
-              console.log(err);
+              // console.log(err);
               this.submitData = true;
               this.toastr.error(err);
             });
@@ -239,7 +239,7 @@ export class RestaurantsComponent implements OnInit {
               location: this.Location,
               position: this.geoPoint.data
             })
-            .then(x => console.log(x))
+            .then(x => {})
             .catch(y => {
               this.toastr.error(y);
               this.submitData = true;
@@ -252,7 +252,7 @@ export class RestaurantsComponent implements OnInit {
         });
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
       });
 
     this.myForm.reset();

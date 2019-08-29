@@ -43,14 +43,13 @@ export class UsersComponent implements OnInit {
         this.userForm.value.password
       )
       .then(
-        success => {
-          this.afAuth.authState.subscribe(v => console.log("login"));
-          this.router.navigate(["/restaurantDetails"]);
+        (success) => {
+          // this.afAuth.authState.subscribe(v => console.log("login"));
           this.toastr.success("Logged In Successfully!");
+          this.router.navigate(["/restaurantDetails"]);
           this.loaduser = false;
         },
         error => {
-          console.log("error", error);
           this.toastr.error(error.message);
         }
       );
@@ -66,11 +65,11 @@ export class UsersComponent implements OnInit {
         password: this.userForm.value.password
       })
       .then(success => {
-        console.log("success", success);
+        // console.log("success", success);
         this.toastr.info('acc');
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
         this.toastr.error(err.message);
         this.loaduser = false;
       });
@@ -81,9 +80,9 @@ export class UsersComponent implements OnInit {
         this.userForm.value.password
       )
       .then(success => {
-        console.log("success", success);
+        // console.log("success", success);
         this.userForm.reset();
-        this.toastr.info("Account Successfully Created.");
+        this.toastr.info("Account Successfully Created. Welcome!");
         this.router.navigate(["/restaurantDetails"]);
       });
   }

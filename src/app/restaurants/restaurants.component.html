@@ -12,7 +12,7 @@
         <b>🍔Gourmet Lovers🍕</b></a>
     </div>
         <div class="navbar-header">
-        <input id="searchbar"  form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
+        <input data-toggle="tooltip" data-placement="bottom" title="Enter Location to get its nearby Restaurants" id="searchbar"  form  ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" placeholder="Location 📍 based search" autocorrect="off" autocapitalize="off" spellcheck="off" type="search" class="form-control my-lg-0" #search [formControl]="searchControl">
         <agm-map [latitude]="lat" [longitude]="lng" [scrollwheel]="false" [zoom]="zoom">
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
