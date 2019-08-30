@@ -4,14 +4,11 @@
          <a routerLink="/restaurantDetails" routerLinkActive="active"></a>
        </nav>
      </div>
-    
      <div *ngIf="loaduser;else login">   
         <div class="loader"></div>
-    </div>
-    
+    </div>  
      <ng-template #login>
-
-    <div class="container">
+   <div class="container">
         <form [formGroup]="userForm" class="text-center border border-light p-5" class="container" autocomplete="on">
           <h2 class="card text-white bg-danger mb-2">Login Board</h2>
           <div class="form-group">
@@ -24,15 +21,11 @@
           </div>
           <button data-toggle="tooltip" data-placement="bottom" 
            title="Yeah! Hurry Up! Just a click away." type="signup" style="margin-right: 20px;" class="btn btn-danger" (click)="signUp()" [disabled]="
-            !(
-              this.userForm.controls.email.valid &&
-              this.userForm.controls.password.valid
-            )
-          ">
+            !(  this.userForm.controls.email.valid && this.userForm.controls.password.valid )">
             SignUp
           </button>
           <button data-toggle="tooltip" data-placement="bottom" 
-           title="Already Signed Up?" style="margin-right: 20px;" class="btn btn-danger" (click)="Login()" [disabled]="
+           title="Already Signed Up?" style="margin-right: 20px;" class="btn btn-danger" (click)="login()" [disabled]="
             !( 
               this.userForm.controls.email.valid &&
               this.userForm.controls.password.valid

@@ -13,13 +13,8 @@ import { UsersComponent } from "./users/users.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { environment } from "src/environments/environment";
 import { ToastrModule } from 'ngx-toastr';
-import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule,Routes } from '@angular/router';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete"; //For auto-complete 
-import * as geofirex from 'geofirex';
-import * as firebase from 'firebase/app';
-import{google} from '@google/maps';
 import { AuthGuard } from './auth.guard';
 
 

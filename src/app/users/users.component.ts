@@ -1,12 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { FirebaseDatabase } from "@angular/fire";
-import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
-import { RouterModule, Router } from "@angular/router";
-import { AppRoutingModule } from "src/app/app-routing.module";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-users",
@@ -34,8 +31,7 @@ export class UsersComponent implements OnInit {
       ])
     });
   }
-
-  Login() {
+  login() {
     this.loaduser = true;
     this.afAuth.auth
       .signInWithEmailAndPassword(
@@ -44,7 +40,6 @@ export class UsersComponent implements OnInit {
       )
       .then(
         (success) => {
-          // this.afAuth.authState.subscribe(v => console.log("login"));
           this.toastr.success("Logged In Successfully!");
           this.router.navigate(["/restaurantDetails"]);
           this.loaduser = false;
@@ -55,7 +50,6 @@ export class UsersComponent implements OnInit {
       );
     this.userForm.reset();
   }
-
   signUp() {
     this.loaduser = true;
     this.db
@@ -64,23 +58,17 @@ export class UsersComponent implements OnInit {
         email: this.userForm.value.email,
         password: this.userForm.value.password
       })
-      .then(success => {
-        // console.log("success", success);
-        // this.toastr.info('Account created');
-      })
+      .then(success => {})
       .catch(err => {
-        // console.log(err);
         this.toastr.error(err.message);
         this.loaduser = false;
       });
-
     return this.afAuth.auth
       .createUserWithEmailAndPassword(
         this.userForm.value.email,
         this.userForm.value.password
       )
       .then(success => {
-        // console.log("success", success);
         this.userForm.reset();
         this.toastr.info("Account Successfully Created. Welcome!");
         this.router.navigate(["/restaurantDetails"]);

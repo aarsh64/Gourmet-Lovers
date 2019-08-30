@@ -1,46 +1,27 @@
 import {
   Component,
   OnInit,
-  Input,
   ViewChild,
   ElementRef,
-  NgZone
 } from "@angular/core";
 import {
   NgbModal,
   ModalDismissReasons,
   NgbRatingConfig,
-  NgbDate
-} from "@ng-bootstrap/ng-bootstrap";
+ } from "@ng-bootstrap/ng-bootstrap";
 import {
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators
 } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { ConstantPool, IfStmt } from "@angular/compiler";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { ToastrService } from "ngx-toastr";
-import { finalize, switchMap } from "rxjs/operators";
 import { Observable, BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
-import { AgmCoreModule, MapsAPILoader } from "@agm/core"; //For Google Maps
-import { Placeholder } from "@angular/compiler/src/i18n/i18n_ast";
-import { GooglePlaceModule } from "ngx-google-places-autocomplete";
-import * as googleMaps from "@google/maps";
-import { GeoFireClient } from "geofirex";
 import * as geofirex from "geofirex";
 import * as firebaseApp from "firebase/app";
-import {
-  CollectionReference,
-  QuerySnapshot,
-  GeoPoint
-} from "@firebase/firestore-types";
-import { toGeoJSON } from "geofirex";
-import { NgOnChangesFeature, defineBase } from "@angular/core/src/render3";
-import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 @Component({
   selector: "app-restaurants",
@@ -99,8 +80,6 @@ export class RestaurantsComponent implements OnInit {
     private storage: AngularFireStorage,
     private toastr: ToastrService,
     public router: Router,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone, // private google:GooglePlaceModule
     private modalService: NgbModal
   ) {
     config.max = 5; //To make rating star max to 5.
@@ -225,7 +204,6 @@ export class RestaurantsComponent implements OnInit {
               users: []
             })
             .catch(err => {
-              // console.log(err);
               this.submitData = true;
               this.toastr.error(err);
             });
@@ -252,7 +230,6 @@ export class RestaurantsComponent implements OnInit {
         });
       })
       .catch(err => {
-        // console.log(err);
       });
 
     this.myForm.reset();
@@ -560,46 +537,5 @@ export class RestaurantsComponent implements OnInit {
 }
 
 //....................................THE END............................................
-
-//.......................................Extras Below............................................
-
-// if (this.Location == undefined) {
-//   this.loadingData = true;
-//   this.toastr.info("Sorry but no Search Result found!");
-// }
-
-// this.restaurantDetails.splice(0, this.restaurantDetails.length);
-
-// this.db
-//   .collection("restaurants", ref =>
-//     ref.where("location", "==", this.Location)
-//   )
-//   .get()
-//   .subscribe(querySnapshot => {
-//     querySnapshot.forEach(result => {
-//       this.loadingData = false;
-//       console.log(
-//         "restaurant data is:",
-//         `${result.id} => ${result.data()}`,
-//         result.data()
-//       );
-
-//       this.restaurantDetails.push({
-//         name: result.data().name,
-//         date: {
-//           day: result.data().date.day,
-//           month: result.data().date.month,
-//           year: result.data().date.year
-//         },
-//         location: result.data().location,
-//         rating: result.data().rating,
-//         image: result.data().image
-//       });
-//       console.log("location based Restaurants:", this.restaurantDetails);
-//       this.loadingData = true;
-//     });
-//   });
-// this.toastr.success("Location Based Restaurants Loaded!");
-// console.log("Location📍 Based Restaurnts:", this.restaurantDetails);
 
 //.....................................................................

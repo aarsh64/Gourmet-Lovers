@@ -1,8 +1,3 @@
-<!-- <div>
-  <a routerLink="/restaurantDetails" routerLinkActive="active"></a>
-</div>
- -->
-
 <!-- .........................Navigation Bar......................................... -->
 <div class="activityContainer" *ngIf="afAuth.user | async as user">
   <div class="navigationBar">
@@ -17,8 +12,7 @@
             <agm-marker  [latitude]="lat" [longitude]="lng"></agm-marker>
           </agm-map>
         </div>
-    <div>
-       
+    <div>    
             <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
               <button class="btn btn-danger mr-2" id="dropdownManual" ngbDropdownAnchor (focus)="myDrop.open()"><b>For Better Search</b></button>
               <div ngbDropdownMenu aria-labelledby="dropdownManual">
@@ -31,8 +25,7 @@
                 title="Based on Dates/Years" (click)="recentlyAdded()">Recently Added ⏲</button>
                 <button ngbDropdownItem (click)="alphabeticalOrder()">☕ A>>Z ☕</button>
               </div>
-            </div>
-          
+            </div>     
       <a style="font-size: 15px" class="navbar-brand" data-toggle="tooltip" data-placement="bottom"
         title="Just a click away from logout." routerLink="#" routerLinkActive="active"
         (click)="logout()"><b>Logout</b></a>
@@ -42,10 +35,8 @@
 </div>
 <br>
 <!-- ........................................................................................... -->
-
 <!--..................... Print stored restaurants................... -->
 <div *ngIf="loadingData; else loadingLoop">
-
 <div class="gridContainer">
                   <div class="restaurantGrid">
                   <div class="list-group-item list-group-item-light" *ngFor="let x of restaurantDetails; let i = index;trackBy:index"
@@ -67,9 +58,7 @@
                     <br>
                     <span><b>Location:</b></span> {{x.location}}
                   </div>
-
   <!--                    To Add new Restaurant                 -->
-
 <div class="addRestaurant">
   <div class="modalButton">
    <ng-template style="z-index:1000;" #content let-modal>
@@ -135,63 +124,19 @@
 title="Press to add new Restaurant!" (click)="open(content)">Add Restaurant</button>
 </div>
 </div>
-                </div> 
-               
-  <!-- ............................................................................................  -->
-
-
-
+                </div>               
 </div>
 </div>
 </div>
 <!-- ..................................................................................... -->
-
 <!-- ---------------------- Loader Component ----------------------------- -->
-
 <ng-template #loadingLoop>
   <div class="loader"></div>
 </ng-template>
-
 <!-- ....................While data is submiting............................. -->
 <ng-template #loadingLoop2>
   <div class="loader2"></div>
 </ng-template>
-
-
-
 <!-- -------------------------------------END OF THE CODE------------------------------------- -->
 
 
-<!--.......................................EXTRA...........................................-->
-<!-- Add to favourites
-<ng-template #content>
-        <div class="input-group">
-          <button (click)="dp.toggle()"></button>
-          <button class="btn btn-outline-secondary calendar"  type="button"></button> -->
-<!-- </div>
-        <form  nonvalidate>
-           <div class="modal-header">
-            <h4 class="modal-title" id="modal-basic-title">Sure Add to Favourites?</h4>
-            <button type="button" class="close" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="input-group">
-                <input style="width: 40%;margin-top:25px; float:left;" id="t1" class="form-control"
-                   type="text" #ac [(ngModel)]="selectedX.name" placeholder="name" required />
-              </div>
-          </div>
-          <div class="card-header"></div>
-        <div *ngIf="selectedX">
-          <div class="input-group">
-            <input style="width: 40%;margin-top:25px; float:left;" id="t1" class="form-control"
-              formControlName="updateName" type="text" #ac [(ngModel)]="selectedX.name" placeholder="name" required />
-          </div>
-        </div>
-    </form>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline-success" 
-              (click)="favourites(selectedX)">Yes</button> -->
-<!-- <button type="button" class="btn btn-outline-danger" (click)="delItems(selectedX,objectIndex)" data-toggle="tooltip"
-              data-placement="bottom" title="Will move activity to Done-Activities.">Done</button> -->
-<!-- </div>
-</ng-template> -->
