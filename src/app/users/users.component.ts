@@ -4,6 +4,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { LoginService } from 'src/app/users/users.service';
 
 @Component({
   selector: "app-users",
@@ -18,7 +19,8 @@ export class UsersComponent implements OnInit {
     public afAuth: AngularFireAuth,
     public db: AngularFirestore,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private loginService:LoginService
   ) {}
 
   ngOnInit() {
@@ -31,7 +33,7 @@ export class UsersComponent implements OnInit {
       ])
     });
   }
-  login() {
+  loginFunction() {
     this.loaduser = true;
     this.afAuth.auth
       .signInWithEmailAndPassword(
@@ -46,11 +48,19 @@ export class UsersComponent implements OnInit {
         },
         error => {
           this.toastr.error(error.message);
+          this.router.navigate(["/login"]);
+          this.loaduser=false;
         }
       );
+      this.loginService.login(this.userForm.value).subscribe({
+        error: (e) => {
+          alert(e);
+         }
+      });
     this.userForm.reset();
+
   }
-  signUp() {
+  getReady() {
     this.loaduser = true;
     this.db
       .collection("users")
@@ -61,6 +71,7 @@ export class UsersComponent implements OnInit {
       .then(success => {})
       .catch(err => {
         this.toastr.error(err.message);
+        this.router.navigate(["/login"]);
         this.loaduser = false;
       });
     return this.afAuth.auth

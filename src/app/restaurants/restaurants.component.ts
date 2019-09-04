@@ -18,10 +18,13 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { ToastrService } from "ngx-toastr";
-import { Observable, BehaviorSubject } from "rxjs";
+import { Observable, BehaviorSubject, Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import * as geofirex from "geofirex";
 import * as firebaseApp from "firebase/app";
+import { RestaurantService } from './restaurantStore/restaurants.service';
+import { RestaurantsQuery } from './restaurantStore/restaurants.query';
+import { Restaurants } from './restaurantStore/restaurants.model';
 
 @Component({
   selector: "app-restaurants",
@@ -72,7 +75,9 @@ export class RestaurantsComponent implements OnInit {
   Location: any; //..........to get the loacation.......
   imageName: any; //........To store the downloadURL...
   //...................................
-
+public books$ :Observable<Restaurants[]>;
+private subcription: Subscription;
+  restaurants$: Observable<Restaurants[]>;
   constructor(
     public afAuth: AngularFireAuth,
     config: NgbRatingConfig,
@@ -80,7 +85,9 @@ export class RestaurantsComponent implements OnInit {
     private storage: AngularFireStorage,
     private toastr: ToastrService,
     public router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private service:RestaurantService,
+     private query:RestaurantsQuery
   ) {
     config.max = 5; //To make rating star max to 5.
     config.readonly = false;
@@ -106,8 +113,12 @@ export class RestaurantsComponent implements OnInit {
 
   ngOnInit() {
     this.loadingData = false;
-    //...........................Google-Maps-API..........................................
-
+    this.subcription = this.service.syncCollection().subscribe();
+    
+    this.restaurants$ = this.query.selectAll();
+     this.restaurants$.subscribe(x =>console.log(x));
+     
+ //...........................Google-Maps-API..........................................
     //set google maps defaults
     this.zoom = 4;
     this.latitude = 39.8282;

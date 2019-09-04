@@ -9,7 +9,7 @@
     </div>  
      <ng-template #login>
    <div class="container">
-        <form [formGroup]="userForm" class="text-center border border-light p-5" class="container" autocomplete="on">
+        <form [formGroup]="userForm" class="text-center border border-light p-5" class="container" >
           <h2 class="card text-white bg-danger mb-2">Login Board</h2>
           <div class="form-group">
             <label>Email-address:</label> 
@@ -20,16 +20,12 @@
             <input type="password" class="form-control" formControlName="password" required />
           </div>
           <button data-toggle="tooltip" data-placement="bottom" 
-           title="Yeah! Hurry Up! Just a click away." type="signup" style="margin-right: 20px;" class="btn btn-danger" (click)="signUp()" [disabled]="
+           title="Yeah! Hurry Up! Just a click away." type="signup" style="margin-right: 20px;" class="btn btn-danger" (click)="getReady()" [disabled]="
             !(  this.userForm.controls.email.valid && this.userForm.controls.password.valid )">
             SignUp
           </button>
-          <button data-toggle="tooltip" data-placement="bottom" 
-           title="Already Signed Up?" style="margin-right: 20px;" class="btn btn-danger" (click)="login()" [disabled]="
-            !( 
-              this.userForm.controls.email.valid &&
-              this.userForm.controls.password.valid
-            )" >
+          <button  style="margin-right: 20px;" class="btn btn-danger" [disabled]="
+          !(  this.userForm.controls.email.valid && this.userForm.controls.password.valid )" (click)="loginFunction()">
             Login
         </button>
         </form>

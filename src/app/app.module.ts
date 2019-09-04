@@ -16,6 +16,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete"; //For auto-complete 
 import { AuthGuard } from './auth.guard';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { AkitaNgRouterStoreModule } from '@datorama/akita-ng-router-store';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { AuthGuard } from './auth.guard';
     AgmCoreModule.forRoot({
       apiKey: "AIzaSyCEqAIFrdKSkWDM3BOkgQ8vgODNp8G2Oig",
       libraries: ["places"]
-    })
+    }),
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
+    AkitaNgRouterStoreModule.forRoot()
   ],
   providers: [{provide: StorageBucket, useValue: 'restaurantapp-dde4e.appspot.com'},AuthGuard],
   bootstrap: [AppComponent]
