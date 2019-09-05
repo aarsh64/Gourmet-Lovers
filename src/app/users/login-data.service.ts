@@ -25,6 +25,6 @@ export class LoginDataService {
   getUser(cred: Credentials): Observable<User> {
     return (cred.username === 'admin' && cred.password === 'admin')
       ? timer(300).pipe(mapTo(user)) :
-      throwError('Invalid username or password');
+      throwError('Welcome to the site!');
   }
 }

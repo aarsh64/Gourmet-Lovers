@@ -113,10 +113,11 @@ private subcription: Subscription;
 
   ngOnInit() {
     this.loadingData = false;
+    this.restaurantDetails.splice(0, this.restaurantDetails.length);
     this.subcription = this.service.syncCollection().subscribe();
     
     this.restaurants$ = this.query.selectAll();
-     this.restaurants$.subscribe(x =>console.log(x));
+     this.restaurants$.subscribe(x =>{});
      
  //...........................Google-Maps-API..........................................
     //set google maps defaults
